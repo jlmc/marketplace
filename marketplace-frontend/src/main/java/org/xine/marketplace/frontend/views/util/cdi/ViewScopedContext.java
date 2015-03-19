@@ -36,15 +36,15 @@ import javax.faces.event.SystemEventListener;
  * <tt>
  * <b>
  * NOTES:
- *      TO MAKE THIS CLASS WORK WAS CDI SERVICE YOU HAVE TO FOLLOW THE FOLLOWING STEPS:
+ *      TO MAKE THIS CLASS WORK WAS CDI SERVICE YOU HAVE TO DO THE FOLLOWING STEPS:
  * </b>
  *      <ol>
  *          <li>create the folder: \src\main\resources\META-INF\services</li>
  *          <li>create in that folder the file: javax.enterprise.inject.spi.Extension</li>
  *          <li>write in that file: org.xine.marketplace.frontend.views.util.cdi.ViewContextExtension</li>
  *      </ol>
- *
- *
+ * 
+ * 
  * </tt>
  * <hr/>
  * <p>
@@ -76,7 +76,7 @@ public class ViewScopedContext implements Context, SystemEventListener {
         assertActive();
         if (!this.isJsfSubscribed) {
             FacesContext.getCurrentInstance().getApplication()
-            .subscribeToEvent(PreDestroyViewMapEvent.class, this);
+                    .subscribeToEvent(PreDestroyViewMapEvent.class, this);
             this.isJsfSubscribed = true;
         }
         final T instance = (T) getComponentInstanceMap().get(component);
