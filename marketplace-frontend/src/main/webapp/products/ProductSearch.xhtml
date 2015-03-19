@@ -1,0 +1,82 @@
+
+<ui:composition template="/WEB-INF/template/BaseLayout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">Search Product</ui:define>
+
+
+	<ui:define name="contentBody">
+		<h:form id="frmSearchOrders">
+
+
+			<h1>Search Product</h1>
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Search" id="search" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="New" outcome="/products/ProductRegistration"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="mark, field">
+
+				<p:outputLabel value="SKU" for="sku"/>
+	    		<p:inputText id="sku" size="20" />
+	    		
+	    		<p:outputLabel value="Nome" for="nome"/>
+	    		<p:inputText id="nome" size="60" />
+			</p:panelGrid>
+
+
+			<p:dataTable id="ordersTable" emptyMessage="No Orders found."
+				rows="20" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom" style="margin-top: 20px">
+
+
+				<p:column headerText="SKU" style="text-align: center; width: 100px">
+					<h:outputLabel value="1234" />
+				</p:column>
+				<p:column headerText="Name">
+					<h:outputText value="4567" />
+				</p:column>
+				<p:column headerText="Category" style="width: 250px">
+					<h:outputText value="Doces - Balas e chicletes" />
+				</p:column>
+				<p:column headerText="Unit value"
+					style="text-align: right; width: 120px">
+					<h:outputText value="R$ 1,20" />
+				</p:column>
+				<p:column headerText="stock"
+					style="text-align: center; width: 100px">
+					<h:outputText value="98" />
+				</p:column>
+				<p:column style="width: 100px; text-align: center">
+					<p:button icon="ui-icon-pencil" title="Editar" />
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confimeDelete').show(); return false;" />
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog header="Exclusão de produto" 
+	    		message="Tem certeza que deseja excluir o produto #{productSearchBean.selectedProduct.sku}?"
+	    		widgetVar="confimeDelete"	id="confimeDeleteDialog">
+	    		<p:button value="Não" onclick="PF('confimeDelete').hide(); return false;" />
+	    		<p:commandButton value="Sim" oncomplete="PF('confimeDelete').hide(); return false;"
+	    			action="#{pesquisaProdutosBean.delete}" process="@this"
+	    			update=":frmSearchOrders:ordersTable" />
+	    	</p:confirmDialog>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+

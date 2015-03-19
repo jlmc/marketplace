@@ -1,0 +1,69 @@
+
+<ui:composition template="/WEB-INF/template/BaseLayout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">Search Clients</ui:define>
+
+
+	<ui:define name="contentBody">
+		<h:form >
+
+
+			<h1>Search Clients</h1>
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Search" id="search" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="New" outcome="/clients/ClientRegistration" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px">
+
+				<p:outputLabel value="Number" for="number" />
+				<p:inputText id="number" size="20"  />
+
+				<p:outputLabel value="Name" for="name" />
+				<p:inputText id="name" size="60"  />
+			</p:panelGrid>
+
+
+			<p:dataTable id="clientsTable" emptyMessage="No clients found."
+				rows="20" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom" style="margin-top: 20px">
+
+
+				<p:column headerText="Number" style="text-align: center; width: 100px">
+					<h:outputLabel value="1234" />
+				</p:column>
+				<p:column headerText="Name">
+					<h:outputText value="Abcd Efg" />
+				</p:column>
+				<p:column headerText="Type" style="width: 250px">
+					<h:outputText value="Type A" />
+				</p:column>
+				
+				
+				<p:column style="width: 100px; text-align: center">
+					<p:button icon="ui-icon-pencil" title="Editar" />
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						 />
+				</p:column>
+			</p:dataTable>
+
+			
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+

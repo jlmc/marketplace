@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+	
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+
+	<h:form>
+		<p:button value="basico I" onclick="PF('myDialog').show(); return false;"/>
+		<p:button value="basico I Hide" onclick="PF('myDialog').hide(); return false;"/>
+		<p:button value="Modal II" onclick="PF('myModal').show(); return false;"/>
+		<p:button value="myModal I Hide" onclick="PF('myModal').hide(); return false;"/>
+	
+		<p:button value="Dialog Min Max " onclick="PF('myDialogM').show(); return false;"/>
+	
+		<p:dialog header="My Dialog" 
+				  widgetVar="myDialog" 
+				  draggable="true" 
+				  resizable="false" 
+				  showEffect="shake"
+				  hideEffect="explode">
+			Ola Mundo
+		
+		</p:dialog>
+		<p:dialog header="My Dialog MIN MAX" 
+				  widgetVar="myDialogM" 
+				  draggable="true" 
+				  resizable="false" 
+				  minimizable="true" 
+				  maximizable="true">
+			Ola Mundo MIN MAX
+		
+		</p:dialog>
+		
+		<p:dialog header="My Modal" widgetVar="myModal" draggable="false" resizable="false" modal="true">
+			Ola modal
+		
+		</p:dialog>
+	</h:form>
+
+</h:body>
+</html>
