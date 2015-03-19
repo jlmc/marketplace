@@ -55,7 +55,7 @@ import javax.faces.event.SystemEventListener;
  * </p>
  * @author Steve Taylor
  */
-@SuppressWarnings({"static-method", "unchecked", "unused", "rawtypes" })
+@SuppressWarnings({"static-method", "unchecked", "rawtypes" })
 public class ViewScopedContext implements Context, SystemEventListener {
 
     /** The Constant COMPONENT_MAP_NAME. */
