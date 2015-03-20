@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<script>
+		/**
+		 * fecha dialog se não falhao na validação
+		 */
+		function handler(args) {
+			if (!args.validationFailed) {
+				PF('myDialog').hide();
+			}
+		}
+	</script>
+
+	<h:form id="formulario">
+
+		<p:growl autoUpdate="true" for="sucessAlert" showDetail="true" />
+
+		<p:button value="basico I"
+			onclick="PF('myDialog').show(); return false;" />
+
+
+		<p:dialog header="My Dialog" widgetVar="myDialog" draggable="true"
+			resizable="false" modal="true">
+			<p:messages autoUpdate="true" severity="error, fatal" />
+			<p:panelGrid columns="2" id="panelAdd">
+
+
+				<p:outputLabel value="SKU" for="sku" />
+				<p:inputText id="sku" required="true"
+					requiredMessage="SKU é obrigatorio"
+					value="#{productBean.product.sku}" />
+
+				<p:outputLabel value="Noma" for="name" />
+				<p:inputText id="name" value="#{productBean.product.name}" />
+
+
+				<f:facet name="footer">
+					<p:commandButton value="ADD" action="#{productBean.add}"
+						update="panelAdd, productsTable" process="@this panelAdd"
+						oncomplete="handler(args)" />
+
+				</f:facet>
+
+			</p:panelGrid>
+
+		</p:dialog>
+
+		<p:separator />
+
+
+		<p:dataTable id="productsTable" emptyMessage="não existem products"
+			value="#{productBean.products}" var="product">
+			<p:column headerText="SKU">
+				<h:outputText value="#{product.sku}"></h:outputText>
+			</p:column>
+			<p:column headerText="Nome">
+				<h:outputText value="#{product.name}"></h:outputText>
+			</p:column>
+			<p:column width="40">
+				<p:commandButton icon="ui-icon-trash" title="Excluir"
+					oncomplete="PF('confirmacaoExclusao').show()" process="@this"
+					update=":formulario:confirmacaoExclusaoDialog">
+					<f:setPropertyActionListener
+						target="#{productBean.selectedProduct}"
+						value="#{product}" />
+				</p:commandButton>
+
+
+			
+			</p:column>
+		</p:dataTable>
+
+
+
+		<p:confirmDialog header="Exclusão de produto"
+			message="Tem certeza que deseja excluir o produto #{productBean.selectedProduct.sku}?"
+			widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog">
+			<p:button value="Não"
+				onclick="PF('confirmacaoExclusao').hide(); return false;" />
+			<p:commandButton value="Sim"
+				oncomplete="PF('confirmacaoExclusao').hide();"
+				action="#{productBean.delete}" process="@this"
+				update=":formulario:productsTable" />
+		</p:confirmDialog>
+
+
+
+	</h:form>
+
+</h:body>
+</html>

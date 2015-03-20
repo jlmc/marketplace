@@ -10,6 +10,9 @@ public class Product implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The id. */
+    private Long id;
+
     /** The sku. */
     private String sku;
 
@@ -22,6 +25,13 @@ public class Product implements Serializable {
     public Product() {
     }
 
+    /**
+     * Instantiates a new product.
+     * @param sku
+     *            the sku
+     * @param name
+     *            the name
+     */
     public Product(final String sku, final String name) {
         super();
         this.sku = sku;
@@ -60,6 +70,61 @@ public class Product implements Serializable {
      */
     public void setName(final String name) {
         this.name = name;
+    }
+
+    /**
+     * Gets the id.
+     * @return the id
+     */
+    public Long getId() {
+        return this.id;
+    }
+
+    /**
+     * Sets the id.
+     * @param id
+     *            the new id
+     */
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Product other = (Product) obj;
+        if (this.id == null) {
+            if (other.id != null) {
+                return false;
+            }
+        } else if (!this.id.equals(other.id)) {
+            return false;
+        }
+        return true;
     }
 
 }
