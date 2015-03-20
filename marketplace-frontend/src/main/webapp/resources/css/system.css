@@ -80,3 +80,26 @@ h1 {
 .ui-selectmanycheckbox td label {
 	padding-right: 10px;
 }
+
+
+/*
+* this is system-menu
+*/
+
+.system-menu{
+	border: 0px !important;
+	padding: 0px !important;
+	background: none !important;
+}
+
+.system-menu .ui-menu-parent > a .ui-menuitem-text, .menu-sistema > .ui-menu-list > .ui-menuitem > a > .ui-menuitem-text {
+color: #ffffff !important;
+}
+
+.system-menu .ui-icon-triangle-1-s {
+background: url(#{resource['images:arrow_down.png']}) no-repeat;
+}
+
+/*
+* end of system menu
+*/

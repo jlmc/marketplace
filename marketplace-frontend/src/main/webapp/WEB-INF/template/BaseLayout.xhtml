@@ -7,8 +7,8 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:p="http://primefaces.org/ui">
-	
-	
+
+
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -17,25 +17,57 @@
 	</title>
 
 	<h:outputStylesheet name="system.css" library="css" />
-	<h:outputScript library="js" name="jquery.maskMoney.js"/>
+	<h:outputScript library="js" name="jquery.maskMoney.js" />
 
 </h:head>
 <h:body>
-	
-	<p:ajaxStatus styleClass="ajaxstatus" onsuccess="configurationCurrency()">
+
+	<p:ajaxStatus styleClass="ajaxstatus"
+		onsuccess="configurationCurrency()">
 		<f:facet name="start">
-			<h:graphicImage library="images" name="loading.gif"/>
+			<h:graphicImage library="images" name="loading.gif" />
 		</f:facet>
 		<f:facet name="complete">
-			<h:outputText value=""/>
+			<h:outputText value="" />
 		</f:facet>
 	</p:ajaxStatus>
-	
-	
+
+
 	<header>
-		<div>
-			<h:graphicImage library="images" name="logo-xine.png" />
+		<div style="float: left;">
+			<h:link outcome="/Home">
+				<h:graphicImage library="images" name="logo-xine.png" />
+			</h:link>
 		</div>
+		<div style="float: right; margin-right: 110px;">
+			<span
+				style="float: left; height: 30px; line-height: 30px; margin-right: 60px;">
+				Hello Username! 
+			</span>
+
+			<h:form style="display: inline-block">
+				<p:menubar styleClass="system-menu">
+					<p:submenu label="Registers">
+						<p:menuitem value="Clients" 
+									outcome="/clients/ClientRegistration" />
+						<p:menuitem value="Users"
+									outcome="/users/UserRegistration" />
+						<p:separator />
+						<p:menuitem value="Category" />
+						<p:menuitem value="Products" 
+									outcome="/products/ProductRegistration" />
+					</p:submenu>
+					<p:submenu label="Orders">
+						<p:menuitem value="Create" 
+									outcome="/orders/OrderRegistration" />
+						<p:menuitem value="Search Orders" 
+									outcome="/orders/OrdersSearch" />
+					</p:submenu>
+					<p:menuitem value="Logout" outcome=""/>
+				</p:menubar>
+			</h:form>
+		</div>
+		<div style="clear: both;" />
 	</header>
 
 
@@ -49,18 +81,20 @@
 		Master Sales Orders System with JSF, CDI, JPA and Prime Faces - <a
 			href="http://bit.ly/Y8saFl" target="_blank">https://github.com/jlmc</a>
 	</footer>
-	
-	
+
+
 	<script>
-		function configurationCurrency(){
-			$(".currency").maskMoney({decimal:",", thousands:".", allowZero:true});
+		function configurationCurrency() {
+			$(".currency").maskMoney({
+				decimal : ",",
+				thousands : ".",
+				allowZero : true
+			});
 		}
-		
-		$(document).ready(function(){
+
+		$(document).ready(function() {
 			configurationCurrency();
 		});
-		
-		
 	</script>
 
 </h:body>
