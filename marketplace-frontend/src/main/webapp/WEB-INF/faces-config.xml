@@ -11,5 +11,9 @@
 			<var>msgs</var>
 		</resource-bundle>
 	</application>
+	
+	<factory>
+		<exception-handler-factory>org.xine.marketplace.frontend.views.util.jsf.JsfExceptionHandlerFactory</exception-handler-factory>
+	</factory>
 
 </faces-config>

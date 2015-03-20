@@ -42,7 +42,7 @@
 		<div style="float: right; margin-right: 110px;">
 			<span
 				style="float: left; height: 30px; line-height: 30px; margin-right: 60px;">
-				Hello Username! 
+				Hello #{securityBean.username}! 
 			</span>
 
 			<h:form style="display: inline-block">
@@ -63,7 +63,7 @@
 						<p:menuitem value="Search Orders" 
 									outcome="/orders/OrdersSearch" />
 					</p:submenu>
-					<p:menuitem value="Logout" outcome=""/>
+					<p:menuitem value="Logout" />
 				</p:menubar>
 			</h:form>
 		</div>
