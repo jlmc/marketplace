@@ -9,7 +9,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.xine.marketplace.frontend.model.Order;
+import org.xine.marketplace.model.entities.Order;
+
 
 @Named
 @ViewScoped

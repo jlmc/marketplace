@@ -1,11 +1,8 @@
-package org.xine.marketplace.frontend.model;
+package org.xine.marketplace.model.entities;
 
 import java.io.Serializable;
 
-/**
- * The Class Order.
- */
-public class Order implements Serializable {
+public class Order implements Serializable{
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;

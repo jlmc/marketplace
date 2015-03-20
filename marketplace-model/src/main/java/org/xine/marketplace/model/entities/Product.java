@@ -1,6 +1,8 @@
-package org.xine.marketplace.frontend.model;
+package org.xine.marketplace.model.entities;
 
 import java.io.Serializable;
+
+
 
 /**
  * The Class Product.

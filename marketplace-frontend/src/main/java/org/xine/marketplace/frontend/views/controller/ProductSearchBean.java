@@ -9,7 +9,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-import org.xine.marketplace.frontend.model.Product;
+import org.xine.marketplace.model.entities.Product;
+
 
 /**
  * The Class SearchProductBean.

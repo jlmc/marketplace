@@ -65,6 +65,11 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<!-- org.xine marketplace dependencies -->
+		<dependency>
+			<groupId>org.xine</groupId>
+			<artifactId>marketplace-model</artifactId>
+		</dependency>
 
 	</dependencies>
 

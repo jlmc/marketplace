@@ -1,6 +1,5 @@
 package org.xine.marketplace.frontend.views.exer;
 
-import org.xine.marketplace.frontend.model.Product;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,6 +11,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+
+import org.xine.marketplace.model.entities.Product;
 
 @Named
 @ViewScoped
