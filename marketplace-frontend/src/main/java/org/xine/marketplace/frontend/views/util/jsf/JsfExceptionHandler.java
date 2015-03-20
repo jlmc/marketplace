@@ -12,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xine.marketplace.business.BusinessException;
 
 /**
@@ -19,7 +21,8 @@ import org.xine.marketplace.business.BusinessException;
  */
 public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 
-
+	private static final Log LOG = LogFactory.getLog(JsfExceptionHandler.class);
+	
 	/** The wrapped. */
 	private ExceptionHandler wrapped;
 
@@ -69,6 +72,7 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper{
 					FacesUtil.addErrorMessage(businessException.getMessage());
 				}else{
 					remove = true;
+					LOG.error("SYSTEM ERROR: "+ exceptionThrows.getMessage(), exceptionThrows );
 					redirect("/Error.xhtml");
 				}
 				//TODO:: we goes to here others exeptions types that we want to treat
