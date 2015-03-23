@@ -32,7 +32,7 @@ import javax.faces.bean.ViewScoped;
  *      <ol>
  *          <li>create the folder: \src\main\resources\META-INF\services</li>
  *          <li>create in that folder the file: javax.enterprise.inject.spi.Extension</li>
- *          <li>write in that file: org.xine.marketplace.frontend.views.util.cdi.ViewContextExtension</li>
+ *          <li>write in that file: {@code org.xine.marketplace.frontend.views.util.cdi.ViewContextExtension}</li>
  *      </ol>
  * 
  * 

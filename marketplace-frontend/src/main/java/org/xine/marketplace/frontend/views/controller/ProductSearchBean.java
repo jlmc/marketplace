@@ -1,5 +1,6 @@
 package org.xine.marketplace.frontend.views.controller;
 
+import org.xine.marketplace.model.entities.Product;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,9 +9,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-
-import org.xine.marketplace.model.entities.Product;
-
 
 /**
  * The Class SearchProductBean.
@@ -59,6 +57,7 @@ public class ProductSearchBean implements Serializable {
     /**
      * Delete.
      */
+    @SuppressWarnings("static-method")
     public void delete() {
         System.out.println("delete something");
     }

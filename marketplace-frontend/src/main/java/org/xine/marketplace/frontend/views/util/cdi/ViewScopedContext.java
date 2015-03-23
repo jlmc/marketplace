@@ -211,6 +211,7 @@ public class ViewScopedContext implements Context, SystemEventListener {
      * @return the component instance map
      */
 
+    @SuppressWarnings("unused")
     private Map<Contextual<?>, Object> getComponentInstanceMap() {
         final Map<String, Object> viewMap = getViewMap();
         Map<Contextual<?>, Object> map = (ConcurrentHashMap<Contextual<?>, Object>) viewMap
@@ -226,6 +227,7 @@ public class ViewScopedContext implements Context, SystemEventListener {
      * Gets the creational instance map.
      * @return the creational instance map
      */
+    @SuppressWarnings("unused")
     private Map<Contextual<?>, CreationalContext<?>> getCreationalInstanceMap() {
         final Map<String, Object> viewMap = getViewMap();
         Map<Contextual<?>, CreationalContext<?>> map = (Map<Contextual<?>, CreationalContext<?>>) viewMap
