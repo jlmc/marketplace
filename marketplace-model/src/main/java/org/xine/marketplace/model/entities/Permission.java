@@ -1,38 +1,38 @@
 package org.xine.marketplace.model.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 /**
- * The Class Client.
+ * The Class Permission.
  */
 @Entity
-public class Client {
+public class Permission implements Serializable{
 	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+
 	/** The id. */
-	private Long id;
+	private  Long id;
 	
 	/** The name. */
 	private String name;
 	
-	/** The email. */
-	private String email;
+	/** The desc. */
+	private String desc;
 	
-	/** The client type. */
-	private ClientType clientType;
-	
-	/** The addresses. */
-	private Set<Address> addresses;
+	/** The users. */
+	private Set<User> users;
 
+	
 	/**
 	 * Gets the id.
 	 *
@@ -58,6 +58,7 @@ public class Client {
 	 *
 	 * @return the name
 	 */
+	@Column(name="name", length=100, nullable=false, unique=true)
 	public String getName() {
 		return name;
 	}
@@ -72,60 +73,42 @@ public class Client {
 	}
 
 	/**
-	 * Gets the email.
+	 * Gets the desc.
 	 *
-	 * @return the email
+	 * @return the desc
 	 */
-	public String getEmail() {
-		return email;
+	public String getDesc() {
+		return desc;
 	}
 
 	/**
-	 * Sets the email.
+	 * Sets the desc.
 	 *
-	 * @param email the new email
+	 * @param desc the new desc
 	 */
-	public void setEmail(String email) {
-		this.email = email;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
-
-	/**
-	 * Gets the client type.
-	 *
-	 * @return the client type
-	 */
-	@Enumerated(EnumType.STRING)
-	public ClientType getClientType() {
-		return clientType;
-	}
-
-	/**
-	 * Sets the client type.
-	 *
-	 * @param clientType the new client type
-	 */
-	public void setClientType(ClientType clientType) {
-		this.clientType = clientType;
-	}
-
-	/**
-	 * Gets the addresses.
-	 *
-	 * @return the addresses
-	 */
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "client")
-	public Set<Address> getAddresses() {
-		return addresses;
+	
+	
+	 /**
+ 	 * Gets the users.
+ 	 *
+ 	 * @return the users
+ 	 */
+ 	@ManyToMany(mappedBy="permissions")
+	public Set<User> getUsers() {
+		return users;
 	}
 
 	/**
-	 * Sets the addresses.
+	 * Sets the users.
 	 *
-	 * @param addresses the new addresses
+	 * @param users the new users
 	 */
-	public void setAddresses(Set<Address> addresses) {
-		this.addresses = addresses;
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 	/* (non-Javadoc)
@@ -147,7 +130,7 @@ public class Client {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Client other = (Client) obj;
+		Permission other = (Permission) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -155,7 +138,6 @@ public class Client {
 			return false;
 		return true;
 	}
-	
 	
 	
 	

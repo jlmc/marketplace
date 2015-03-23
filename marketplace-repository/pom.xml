@@ -11,7 +11,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<hibernate.version>4.3.8.Final</hibernate.version>
 		<mysql-connector.version>5.1.25</mysql-connector.version>
 	</properties>
 
@@ -25,7 +24,6 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
 			<scope>compile</scope>
 		</dependency>
 
