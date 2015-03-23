@@ -147,7 +147,6 @@ public class JsfExceptionHandler extends ExceptionHandlerWrapper {
             // at this time the response is complete.
             // we want to prevent onother processing of JSF life cycle, so we goes
             // the faceContext as responseComplete
-
             facesContext.responseComplete();
         } catch (final IOException e) {
             throw new FacesException(e);

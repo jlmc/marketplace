@@ -36,7 +36,7 @@ public class JsfExceptionHandlerFactory extends ExceptionHandlerFactory {
     /**
      * Instantiates a new jsf exception handler factory.
      * @param parent
-     *            the parent
+     *            the parent - the default {@code ExceptionHandlerFactory} of JSF implementation
      */
     public JsfExceptionHandlerFactory(final ExceptionHandlerFactory parent) {
         this.parent = parent;
