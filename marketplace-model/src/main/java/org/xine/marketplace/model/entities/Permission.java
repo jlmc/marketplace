@@ -1,6 +1,7 @@
 package org.xine.marketplace.model.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class Permission implements Serializable{
 	private String desc;
 	
 	/** The users. */
-	private Set<User> users;
+	private Set<User> users = new HashSet<>();
 
 	
 	/**

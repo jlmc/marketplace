@@ -1,5 +1,6 @@
 package org.xine.marketplace.model.entities;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ public class Client {
 	private ClientType clientType;
 	
 	/** The addresses. */
-	private Set<Address> addresses;
+	private Set<Address> addresses = new HashSet<>();
 
 	/**
 	 * Gets the id.

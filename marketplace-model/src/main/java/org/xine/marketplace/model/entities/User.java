@@ -1,6 +1,7 @@
 package org.xine.marketplace.model.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,7 +17,7 @@ import javax.persistence.JoinColumn;
  * The Class User.
  */
 @Entity
-public class User implements Serializable{
+public class User implements Serializable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -34,9 +35,7 @@ public class User implements Serializable{
 	private String email;
 
 	/** The permissions. */
-	private Set<Permission> permissions;
-
-
+	private Set<Permission> permissions = new HashSet<>();
 
 	/**
 	 * Gets the id.
@@ -44,7 +43,7 @@ public class User implements Serializable{
 	 * @return the id
 	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -52,7 +51,8 @@ public class User implements Serializable{
 	/**
 	 * Sets the id.
 	 *
-	 * @param id the new id
+	 * @param id
+	 *            the new id
 	 */
 	public void setId(Long id) {
 		this.id = id;
@@ -70,7 +70,8 @@ public class User implements Serializable{
 	/**
 	 * Sets the username.
 	 *
-	 * @param username the new username
+	 * @param username
+	 *            the new username
 	 */
 	public void setUsername(String username) {
 		this.username = username;
@@ -88,7 +89,8 @@ public class User implements Serializable{
 	/**
 	 * Sets the password.
 	 *
-	 * @param password the new password
+	 * @param password
+	 *            the new password
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -106,22 +108,20 @@ public class User implements Serializable{
 	/**
 	 * Sets the email.
 	 *
-	 * @param email the new email
+	 * @param email
+	 *            the new email
 	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	/**
 	 * Gets the permissions.
 	 *
 	 * @return the permissions
 	 */
-	@ManyToMany(cascade = {CascadeType.ALL})
-	@JoinTable(name="user_permission",
-	joinColumns={@JoinColumn(name="user_id")},
-	inverseJoinColumns={@JoinColumn(name="permission_id")})
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "user_permission", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "permission_id") })
 	public Set<Permission> getPermissions() {
 		return permissions;
 	}
@@ -129,13 +129,11 @@ public class User implements Serializable{
 	/**
 	 * Sets the permissions.
 	 *
-	 * @param permissions the new permissions
+	 * @param permissions
+	 *            the new permissions
 	 */
 	public void setPermissions(Set<Permission> permissions) {
 		this.permissions = permissions;
 	}
-
-
-
 
 }
