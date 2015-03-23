@@ -5,7 +5,7 @@ package org.xine.marketplace.model.entities;
  */
 public enum PaymentMethod {
 	
-	/** The cash. */
+	/** The cash. with money */
 	CASH, 
 	
 	/** The credit card. */
