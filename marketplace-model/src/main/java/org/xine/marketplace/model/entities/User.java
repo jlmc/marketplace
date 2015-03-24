@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -60,6 +61,7 @@ public class User implements Serializable {
      * Gets the username.
      * @return the username
      */
+    @Column(length=32, unique=true, nullable=false)
     public String getUsername() {
         return this.username;
     }
@@ -77,6 +79,7 @@ public class User implements Serializable {
      * Gets the password.
      * @return the password
      */
+    @Column(length=32, nullable=false)
     public String getPassword() {
         return this.password;
     }
@@ -94,6 +97,7 @@ public class User implements Serializable {
      * Gets the email.
      * @return the email
      */
+    @Column(length=128, unique=true)
     public String getEmail() {
         return this.email;
     }
