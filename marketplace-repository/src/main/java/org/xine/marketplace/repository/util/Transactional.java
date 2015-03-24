@@ -9,8 +9,12 @@ import javax.interceptor.InterceptorBinding;
 
 /**
  * The Interface Transactional.
- * existe um inteceptador desta anotação, das chamadas dos metodos anotados com esta anotação.
- * {@code TransactionInterceptor#invoke(javax.interceptor.InvocationContext)}
+ * <p>
+ * Annotation to mark the methods that implements a critical works or just some persistence work.
+ * There is an interceptor of this note, the calls of methods annotated with this annotation.
+ * </p>
+ * @see TransactionInterceptor
+ * @author joao costa
  */
 @InterceptorBinding
 @Retention(RetentionPolicy.RUNTIME)
