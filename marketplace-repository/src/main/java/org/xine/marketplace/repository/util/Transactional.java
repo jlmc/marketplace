@@ -14,7 +14,7 @@ import javax.interceptor.InterceptorBinding;
  * There is an interceptor of this note, the calls of methods annotated with this annotation.
  * </p>
  * @see TransactionInterceptor
- * @author joao costa
+ * @author jcosta
  */
 @InterceptorBinding
 @Retention(RetentionPolicy.RUNTIME)

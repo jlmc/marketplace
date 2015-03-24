@@ -40,6 +40,10 @@ import javax.persistence.EntityTransaction;
  *
  * } </i>
  * </p>
+ * 
+ * @see Transactional
+ * @author jcosta
+ * 
  */
 @Interceptor
 @Transactional

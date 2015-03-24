@@ -19,6 +19,7 @@ import javax.persistence.Persistence;
  * <p>
  * This Class is a CDI ApplicationScoped Bean.
  * </p>
+ * @author jcosta
  */
 @ApplicationScoped
 public class EntityManagerProducer implements Serializable {
