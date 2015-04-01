@@ -97,6 +97,7 @@ public class UsersRepositoryTest {
         assertNotNull(u);
     }
 
+
     /**
      * Creates the user test.
      */
