@@ -39,6 +39,27 @@ public class User implements Serializable {
     private Set<Permission> permissions = new HashSet<>();
 
     /**
+     * Instantiates a new user.
+     */
+    public User() {
+    }
+
+    /**
+     * Instantiates a new user.
+     * @param username
+     *            the username
+     * @param password
+     *            the password
+     * @param email
+     *            the email
+     */
+    public User(final String username, final String password, final String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    /**
      * Gets the id.
      * @return the id
      */
@@ -61,7 +82,7 @@ public class User implements Serializable {
      * Gets the username.
      * @return the username
      */
-    @Column(length=32, unique=true, nullable=false)
+    @Column(length = 32, unique = true, nullable = false)
     public String getUsername() {
         return this.username;
     }
@@ -79,7 +100,7 @@ public class User implements Serializable {
      * Gets the password.
      * @return the password
      */
-    @Column(length=32, nullable=false)
+    @Column(length = 32, nullable = false)
     public String getPassword() {
         return this.password;
     }
@@ -97,7 +118,7 @@ public class User implements Serializable {
      * Gets the email.
      * @return the email
      */
-    @Column(length=128, unique=true)
+    @Column(length = 128, unique = true)
     public String getEmail() {
         return this.email;
     }

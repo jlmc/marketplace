@@ -53,7 +53,6 @@ public class EntityManagerProducer implements Serializable {
      * @param manager
      *            the manager
      */
-    @SuppressWarnings("static-method")
     public void close(@Disposes final EntityManager manager) {
         manager.close();
     }
