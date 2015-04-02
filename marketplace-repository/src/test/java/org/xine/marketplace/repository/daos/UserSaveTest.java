@@ -49,7 +49,7 @@ public class UserSaveTest {
     }
 
     @Test
-    // @Ignore
+    @Ignore
     public void test3RemovingTheUser() {
         final User user = new User();
         user.setId(9L);

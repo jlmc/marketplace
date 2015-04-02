@@ -97,22 +97,25 @@ public class UsersRepositoryTest {
         assertNotNull(u);
     }
 
-
     /**
      * Creates the user test.
      */
     @Test
     public void createUserTest() {
-        final User user = new User("novoUser", "password", "novoUser@Email");
+        User user = new User("novoUser", "password", "novoUser@Email");
         this.entityManager.getTransaction().begin();
-        this.usersRepository.saveUser(user);
+        user = this.usersRepository.saveUser(user);
 
         this.entityManager.flush();
 
         final User u = this.usersRepository.getUserbyUsernameJPQL("novoUser");
         final int s = this.usersRepository.getListOfUser().size();
 
+        this.entityManager.getTransaction().rollback();
+
         assertEquals(5, s);
+        assertNotNull(u);
+
     }
 
 }

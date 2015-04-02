@@ -37,6 +37,7 @@ public class UsersRepository {
      * Gets the list of user jpql.
      * @return the list of user jpql
      */
+    @SuppressWarnings("unchecked")
     public List<User> getListOfUserJPQL() {
         return this.manager.createQuery("FROM User").getResultList();
     }
@@ -89,11 +90,10 @@ public class UsersRepository {
      */
     public User saveUser(final User user) {
         // this.manager.merge(user);
-        this.manager.merge(user);
+        return this.manager.merge(user);
 
-        return user;
+        // return user;
     }
-
 
     /**
      * Delet user.

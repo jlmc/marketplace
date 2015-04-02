@@ -13,8 +13,8 @@ import javax.persistence.Persistence;
 /**
  * The Class EntityManagerProducer.
  * <p>
- * Application Entity Manager Producer, for each request a new EntityManager instance is created, at
- * the end of the request the entityManager is close.
+ * Application Entity Manager Producer, for each request a new EntityManager instance is created,
+ * at the end of the request the entityManager is close.
  * </p>
  * <p>
  * This Class is a CDI ApplicationScoped Bean.
@@ -53,6 +53,7 @@ public class EntityManagerProducer implements Serializable {
      * @param manager
      *            the manager
      */
+    @SuppressWarnings("static-method")
     public void close(@Disposes final EntityManager manager) {
         manager.close();
     }
