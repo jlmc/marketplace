@@ -5,6 +5,7 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0px;
 	font-weight: normal;
+	min-width: 700px;
 }
 
 header {
@@ -14,6 +15,9 @@ header {
 	background-color: #545454;
 	color: #fff;
 	box-shadow: 0px 2px 2px #ccc;
+	
+	min-width: 700px;
+	
 }
 
 header>div {
