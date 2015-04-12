@@ -5,9 +5,22 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 /**
  * The Class Category.
  */
+@Entity
+@Table(name = "category")
 public class Category implements Serializable {
 
     /** The Constant serialVersionUID. */
@@ -16,8 +29,8 @@ public class Category implements Serializable {
     /** The id. */
     private Long id;
 
-    /** The desc. */
-    private String desc;
+    /** The description. */
+    private String description;
 
     /** The master category. */
     private Category masterCategory;
@@ -29,6 +42,8 @@ public class Category implements Serializable {
      * Gets the id.
      * @return the id
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return this.id;
     }
@@ -43,26 +58,29 @@ public class Category implements Serializable {
     }
 
     /**
-     * Gets the desc.
-     * @return the desc
+     * Gets the description.
+     * @return the description
      */
-    public String getDesc() {
-        return this.desc;
+    @Column(nullable = false, length = 60)
+    public String getDescription() {
+        return this.description;
     }
 
     /**
-     * Sets the desc.
-     * @param desc
-     *            the new desc
+     * Sets the description.
+     * @param description
+     *            the new description
      */
-    public void setDesc(final String desc) {
-        this.desc = desc;
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     /**
      * Gets the master category.
      * @return the master category
      */
+    @ManyToOne
+    @JoinColumn(name = "master_category_id")
     public Category getMasterCategory() {
         return this.masterCategory;
     }
@@ -80,6 +98,7 @@ public class Category implements Serializable {
      * Gets the sub categories.
      * @return the sub categories
      */
+    @OneToMany(mappedBy = "masterCategory", cascade = CascadeType.ALL)
     public Set<Category> getSubCategories() {
         return this.subCategories;
     }

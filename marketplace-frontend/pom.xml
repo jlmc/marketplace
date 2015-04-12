@@ -24,6 +24,7 @@
         <!-- <scope>provided</scope> -->
         <!-- </dependency> -->
         <!-- Weld (implementação do CDI) -->
+        <!-- Weld (implementação do CDI) because we are using tomcat -->
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet</artifactId>
@@ -38,10 +39,10 @@
             <version>1.2.2.Final</version>
             <scope>compile</scope>
         </dependency>
-        
+
         <!-- / END OF CDI -->
 
-        <!-- Mojarra (implementacao do JSF) -->
+        <!-- Mojarra ( JSF 2 implementation reference) -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.faces</artifactId>
@@ -49,15 +50,6 @@
             <version>2.2.10</version>
             <scope>compile</scope>
         </dependency>
-
-
-        <!-- Mojarra ( JSF 2 implementation reference) -->
-        <!-- <dependency> -->
-        <!-- <groupId>org.glassfish</groupId> -->
-        <!-- <artifactId>javax.faces</artifactId> -->
-        <!-- <version>2.2.10</version> -->
-        <!-- <scope>compile</scope> -->
-        <!-- </dependency> -->
 
         <!-- PrimeFaces (Compoments library) -->
         <dependency>
@@ -67,21 +59,6 @@
             <version>5.1</version>
         </dependency>
 
-        <!-- CDI specification version -->
-        <!-- <dependency> -->
-        <!-- <groupId>javax.enterprise</groupId> -->
-        <!-- <artifactId>cdi-api</artifactId> -->
-        <!-- <version>1.2</version> -->
-        <!-- <scope>provided</scope> -->
-        <!-- </dependency> -->
-
-        <!-- Weld (implementação do CDI) because we are using tomcat -->
-        <!-- <dependency> -->
-        <!-- <groupId>org.jboss.weld.servlet</groupId> -->
-        <!-- <artifactId>weld-servlet</artifactId> -->
-        <!-- <version>2.2.9.Final</version> -->
-        <!-- <scope>compile</scope> -->
-        <!-- </dependency> -->
 
 
         <!-- Logging API -->
@@ -104,6 +81,12 @@
             <groupId>org.xine</groupId>
             <artifactId>marketplace-model</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.xine</groupId>
+            <artifactId>marketplace-business</artifactId>
+        </dependency>
+        
+        
 
     </dependencies>
 

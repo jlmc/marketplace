@@ -4,9 +4,20 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * The Class Product.
  */
+@Entity
+@Table(name = "Product")
 public class Product implements Serializable {
 
     /** The Constant serialVersionUID. */
@@ -53,6 +64,7 @@ public class Product implements Serializable {
      * Gets the sku.
      * @return the sku
      */
+    @Column(nullable = false, length = 20, unique = true)
     public String getSku() {
         return this.sku;
     }
@@ -70,6 +82,7 @@ public class Product implements Serializable {
      * Gets the name.
      * @return the name
      */
+    @Column(nullable = false, length = 80)
     public String getName() {
         return this.name;
     }
@@ -87,6 +100,8 @@ public class Product implements Serializable {
      * Gets the id.
      * @return the id
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return this.id;
     }
@@ -104,6 +119,7 @@ public class Product implements Serializable {
      * Gets the unit value.
      * @return the unit value
      */
+    @Column(name = "Unit_Value", nullable = false, precision = 10, scale = 2)
     public BigDecimal getUnitValue() {
         return this.unitValue;
     }
@@ -121,6 +137,7 @@ public class Product implements Serializable {
      * Gets the stock qty.
      * @return the stock qty
      */
+    @Column(name = "Stock_Qty", nullable = false, length = 5)
     public Integer getStockQty() {
         return this.stockQty;
     }
@@ -138,6 +155,8 @@ public class Product implements Serializable {
      * Gets the category.
      * @return the category
      */
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
     public Category getCategory() {
         return this.category;
     }
