@@ -8,7 +8,7 @@
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
 	xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="title">New Order</ui:define>
+	<ui:define name="title">New Requisition</ui:define>
 
 
 	<ui:define name="contentBody">
@@ -16,21 +16,21 @@
 
 			<h1>Create Orders</h1>
 
-			<ui:include src="/WEB-INF/template/orders/OrdersButtons.xhtml" />
+			<ui:include src="/WEB-INF/template/requisitions/RequisitionButtons.xhtml" />
 
 
-			<ui:include src="/WEB-INF/template/orders/OrderCover.xhtml"></ui:include>
+			<ui:include src="/WEB-INF/template/requisitions/RequisitionCover.xhtml"></ui:include>
 
 
 			<p:tabView style="margin-top: 20px">
 				<p:tab title="Itens">
-					<ui:include src="/WEB-INF/template/orders/OrderItens.xhtml"></ui:include>
+					<ui:include src="/WEB-INF/template/requisitions/RequisitionItens.xhtml"></ui:include>
 				</p:tab>
 				<p:tab title="Delivery datos">
-					<ui:include src="/WEB-INF/template/orders/OrderDeliveryDatos.xhtml" />
+					<ui:include src="/WEB-INF/template/requisitions/RequisitionDeliveryDatos.xhtml" />
 				</p:tab>
 				<p:tab title="Comments">
-					<ui:include src="/WEB-INF/template/orders/OrderComments.xhtml" />
+					<ui:include src="/WEB-INF/template/requisitions/RequisitionComments.xhtml" />
 				</p:tab>
 			</p:tabView>
 
