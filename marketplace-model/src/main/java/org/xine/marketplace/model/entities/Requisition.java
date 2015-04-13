@@ -5,12 +5,15 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -50,9 +53,13 @@ public class Requisition implements Serializable {
     /** The total value. */
     private BigDecimal totalValue;
     
+    /** The status. */
     private RequisitionStatus status;
     
+    /** The payment method. */
     private PaymentMethod paymentMethod;
+    
+    private DeliveryAddress deliveryAddress;
     
     
     
@@ -151,6 +158,9 @@ public class Requisition implements Serializable {
      * Gets the seller.
      * @return the seller
      */
+    @NotNull
+	@ManyToOne
+	@JoinColumn(name = "seller_id", nullable = false)
     public User getSeller() {
         return this.seller;
     }
@@ -168,6 +178,9 @@ public class Requisition implements Serializable {
      * Gets the client.
      * @return the client
      */
+    @NotNull
+	@ManyToOne
+	@JoinColumn(name = "client_id", nullable = false)
     public Client getClient() {
         return this.client;
     }
@@ -222,6 +235,11 @@ public class Requisition implements Serializable {
 		this.totalValue = totalValue;
 	}
 
+	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 20)
@@ -229,10 +247,20 @@ public class Requisition implements Serializable {
 		return status;
 	}
 
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the new status
+	 */
 	public void setStatus(RequisitionStatus status) {
 		this.status = status;
 	}
 
+	/**
+	 * Gets the payment method.
+	 *
+	 * @return the payment method
+	 */
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "Payment_Method", nullable = false, length = 20)
@@ -240,8 +268,22 @@ public class Requisition implements Serializable {
 		return paymentMethod;
 	}
 
+	/**
+	 * Sets the payment method.
+	 *
+	 * @param paymentMethod the new payment method
+	 */
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+	@Embedded
+	public DeliveryAddress getDeliveryAddress() {
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(DeliveryAddress deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
 	}
 
 }
