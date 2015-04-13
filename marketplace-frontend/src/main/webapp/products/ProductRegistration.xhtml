@@ -13,18 +13,18 @@
 
 	<ui:define name="contentBody">
 
-		<h:form>
+		<h:form id="nprdform">
 
 
 			<h1>New Product</h1>
 
-			<p:messages autoUpdate="true" closable="true" />
+			<p:messages autoUpdate="true" closable="true"  />
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
 					<p:button value="New" outcome="/products/ProductRegistration" />
 					<p:commandButton value="Save" id="save"
-						action="#{productSaverBean.save}" />
+						action="#{productSaverBean.save}" update="nprdform:painel"/>
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Search" outcome="/products/ProductSearch" />
@@ -38,7 +38,7 @@
 
 				<p:outputLabel value="SKU" for="sku" />
 				<p:inputText id="sku" size="20" maxlength="20" 
-								value="#{productSaverBean.product.sku}"/>
+								value="#{productSaverBean.product.sku}" required="true"/>
 
 
 				<p:outputLabel value="Name" for="name" />
@@ -64,6 +64,8 @@
 				<p:inputText id="stock" size="10" maxlength="4"
 					value="#{productSaverBean.product.stockQty}" />
 
+
+				<p:commandButton action="#{productSaverBean.save}" process="@form" value="tes me" id="test_me"/>
 
 			</p:panelGrid>
 
