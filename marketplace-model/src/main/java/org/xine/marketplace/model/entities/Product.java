@@ -1,6 +1,7 @@
 package org.xine.marketplace.model.entities;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.xine.marketplace.model.validation.SKU;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -66,11 +67,15 @@ public class Product implements Serializable {
         this.name = name;
     }
 
+    
     /**
      * Gets the sku.
+     *
      * @return the sku
      */
-    @NotBlank
+    //@Pattern(regexp="([a-zA-Z]{2}\\d{4,18})?")
+    @NotNull
+    @SKU
     @Column(nullable = false, length = 20, unique = true)
     public String getSku() {
         return this.sku;
