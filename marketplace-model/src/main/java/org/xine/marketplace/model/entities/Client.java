@@ -104,6 +104,8 @@ public class Client {
      * Gets the client type.
      * @return the client type
      */
+    @NotNull
+    @Column(name="client_type", length = 32, nullable = false)
     @Enumerated(EnumType.STRING)
     public ClientType getClientType() {
         return this.clientType;

@@ -1,7 +1,7 @@
 package org.xine.marketplace.model.entities;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.xine.marketplace.model.validation.SKU;
+import org.xine.marketplace.validator.constraints.SKU;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

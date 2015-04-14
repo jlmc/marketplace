@@ -1,4 +1,5 @@
-package org.xine.marketplace.model.validation;
+package org.xine.marketplace.validator.constraints;
+
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,7 +27,7 @@ public @interface SKU {
 	 * @return the string
 	 */
 	@OverridesAttribute(constraint = Pattern.class, name="message")
-	String message() default "{org.xine.marketplace.constraints.SKU.message}";
+	String message() default "{org.xine.marketplace.validator.constraints.SKU.message}";
 
 	/**
 	 * Groups.

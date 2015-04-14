@@ -13,6 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+
+
 
 /**
  * The Class User.
@@ -82,6 +87,7 @@ public class User implements Serializable {
      * Gets the username.
      * @return the username
      */
+    @NotNull
     @Column(length = 32, unique = true, nullable = false)
     public String getUsername() {
         return this.username;
@@ -100,6 +106,7 @@ public class User implements Serializable {
      * Gets the password.
      * @return the password
      */
+    @NotNull
     @Column(length = 32, nullable = false)
     public String getPassword() {
         return this.password;
@@ -118,6 +125,8 @@ public class User implements Serializable {
      * Gets the email.
      * @return the email
      */
+    @Email
+    @NotNull
     @Column(length = 128, unique = true)
     public String getEmail() {
         return this.email;
