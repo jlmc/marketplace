@@ -1,11 +1,14 @@
 package org.xine.marketplace.frontend.views.controller;
 
+import org.xine.marketplace.business.services.ProductService;
 import org.xine.marketplace.model.entities.Product;
 
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Default;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -21,6 +24,11 @@ public class ProductSaverBean implements Serializable {
     /** The product. */
     private Product product;
 
+    /** The service. */
+    @Default
+    @Inject
+    private ProductService service;
+
     /**
      * Initialize.
      */
@@ -34,7 +42,9 @@ public class ProductSaverBean implements Serializable {
      */
     public void save() {
         System.out.println("save the product Action");
-        // TODO::missing implementation
+
+        this.service.save(this.product);
+
         this.product = new Product();
     }
 

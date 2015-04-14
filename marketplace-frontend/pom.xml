@@ -16,6 +16,39 @@
 
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet</artifactId>
+            <version>2.2.9.Final</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- Weld depende do Jandex -->
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jandex</artifactId>
+            <version>1.2.2.Final</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- API de Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- OmniFaces (utilitarios para JSF) -->
+        <dependency>
+            <groupId>org.omnifaces</groupId>
+            <artifactId>omnifaces</artifactId>
+            <version>1.5</version>
+            <scope>compile</scope>
+        </dependency>
+        
+
         <!-- CDI specification version -->
         <!-- <dependency> -->
         <!-- <groupId>javax.enterprise</groupId> -->
@@ -25,20 +58,22 @@
         <!-- </dependency> -->
         <!-- Weld (implementação do CDI) -->
         <!-- Weld (implementação do CDI) because we are using tomcat -->
-        <dependency>
-            <groupId>org.jboss.weld.servlet</groupId>
-            <artifactId>weld-servlet</artifactId>
-            <!-- <version>1.1.10.Final</version> -->
-            <version>2.2.9.Final</version>
-            <scope>compile</scope>
-        </dependency>
-        <!-- Weld depende do Jandex -->
-        <dependency>
-            <groupId>org.jboss</groupId>
-            <artifactId>jandex</artifactId>
-            <version>1.2.2.Final</version>
-            <scope>compile</scope>
-        </dependency>
+
+
+<!--         <dependency> -->
+<!--             <groupId>org.jboss.weld.servlet</groupId> -->
+<!--             <artifactId>weld-servlet</artifactId> -->
+<!--             <version>1.1.10.Final</version> -->
+<!--             <version>2.2.9.Final</version> -->
+<!--             <scope>compile</scope> -->
+<!--         </dependency> -->
+<!--         Weld depende do Jandex -->
+<!--         <dependency> -->
+<!--             <groupId>org.jboss</groupId> -->
+<!--             <artifactId>jandex</artifactId> -->
+<!--             <version>1.2.2.Final</version> -->
+<!--             <scope>compile</scope> -->
+<!--         </dependency> -->
 
         <!-- / END OF CDI -->
 
@@ -80,13 +115,16 @@
         <dependency>
             <groupId>org.xine</groupId>
             <artifactId>marketplace-model</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.xine</groupId>
             <artifactId>marketplace-business</artifactId>
+            <scope>compile</scope>
         </dependency>
-        
-        
+
+
+
 
     </dependencies>
 

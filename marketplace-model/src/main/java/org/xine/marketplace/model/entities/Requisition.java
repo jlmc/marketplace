@@ -49,30 +49,28 @@ public class Requisition implements Serializable {
 
     /** The rebate value. */
     private BigDecimal rebateValue;
-    
+
     /** The total value. */
     private BigDecimal totalValue;
-    
+
     /** The status. */
     private RequisitionStatus status;
-    
+
     /** The payment method. */
     private PaymentMethod paymentMethod;
-    
+
+    /** The delivery address. */
     private DeliveryAddress deliveryAddress;
-    
-    
-    
+
     /**
      * Instantiates a new requisition.
      */
-    public  Requisition() {
-	}
-   
+    public Requisition() {}
+
     /**
      * Instantiates a new requisition.
-     *
-     * @param id the id
+     * @param id
+     *            the id
      */
     public Requisition(final Long id) {
         this.id = id;
@@ -101,7 +99,7 @@ public class Requisition implements Serializable {
      * Gets the creation date.
      * @return the creation date
      */
-    @Column(name="creation_Date")
+    @Column(name = "creation_Date")
     @Temporal(TemporalType.TIMESTAMP)
     public Date getCreationDate() {
         return this.creationDate;
@@ -139,8 +137,8 @@ public class Requisition implements Serializable {
      * @return the delivery date
      */
     @NotNull
-	@Temporal(TemporalType.DATE)
-	@Column(name = "delivery_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    @Column(name = "delivery_date", nullable = false)
     public Date getDeliveryDate() {
         return this.deliveryDate;
     }
@@ -159,8 +157,8 @@ public class Requisition implements Serializable {
      * @return the seller
      */
     @NotNull
-	@ManyToOne
-	@JoinColumn(name = "seller_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "seller_id", nullable = false)
     public User getSeller() {
         return this.seller;
     }
@@ -179,8 +177,8 @@ public class Requisition implements Serializable {
      * @return the client
      */
     @NotNull
-	@ManyToOne
-	@JoinColumn(name = "client_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
     public Client getClient() {
         return this.client;
     }
@@ -194,96 +192,100 @@ public class Requisition implements Serializable {
         this.client = client;
     }
 
-    
     /**
      * Gets the rebate value.
-     *
      * @return the rebate value
      */
     @NotNull
-	@Column(name = "rebate_value", nullable = false, precision = 10, scale = 2)
-	public BigDecimal getRebateValue() {
-		return rebateValue;
-	}
+    @Column(name = "rebate_value", nullable = false, precision = 10, scale = 2)
+    public BigDecimal getRebateValue() {
+        return this.rebateValue;
+    }
 
-	/**
-	 * Sets the rebate value.
-	 *
-	 * @param rebateValue the new rebate value
-	 */
-	public void setRebateValue(BigDecimal rebateValue) {
-		this.rebateValue = rebateValue;
-	}
+    /**
+     * Sets the rebate value.
+     * @param rebateValue
+     *            the new rebate value
+     */
+    public void setRebateValue(final BigDecimal rebateValue) {
+        this.rebateValue = rebateValue;
+    }
 
-	/**
-	 * Gets the total value.
-	 *
-	 * @return the total value
-	 */
-	@NotNull
-	@Column(name = "total_value", nullable = false, precision = 10, scale = 2)
-	public BigDecimal getTotalValue() {
-		return totalValue;
-	}
+    /**
+     * Gets the total value.
+     * @return the total value
+     */
+    @NotNull
+    @Column(name = "total_value", nullable = false, precision = 10, scale = 2)
+    public BigDecimal getTotalValue() {
+        return this.totalValue;
+    }
 
-	/**
-	 * Sets the total value.
-	 *
-	 * @param totalValue the new total value
-	 */
-	public void setTotalValue(BigDecimal totalValue) {
-		this.totalValue = totalValue;
-	}
+    /**
+     * Sets the total value.
+     * @param totalValue
+     *            the new total value
+     */
+    public void setTotalValue(final BigDecimal totalValue) {
+        this.totalValue = totalValue;
+    }
 
-	/**
-	 * Gets the status.
-	 *
-	 * @return the status
-	 */
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, length = 20)
-	public RequisitionStatus getStatus() {
-		return status;
-	}
+    /**
+     * Gets the status.
+     * @return the status
+     */
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    public RequisitionStatus getStatus() {
+        return this.status;
+    }
 
-	/**
-	 * Sets the status.
-	 *
-	 * @param status the new status
-	 */
-	public void setStatus(RequisitionStatus status) {
-		this.status = status;
-	}
+    /**
+     * Sets the status.
+     * @param status
+     *            the new status
+     */
+    public void setStatus(final RequisitionStatus status) {
+        this.status = status;
+    }
 
-	/**
-	 * Gets the payment method.
-	 *
-	 * @return the payment method
-	 */
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	@Column(name = "Payment_Method", nullable = false, length = 20)
-	public PaymentMethod getPaymentMethod() {
-		return paymentMethod;
-	}
+    /**
+     * Gets the payment method.
+     * @return the payment method
+     */
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "Payment_Method", nullable = false, length = 20)
+    public PaymentMethod getPaymentMethod() {
+        return this.paymentMethod;
+    }
 
-	/**
-	 * Sets the payment method.
-	 *
-	 * @param paymentMethod the new payment method
-	 */
-	public void setPaymentMethod(PaymentMethod paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
+    /**
+     * Sets the payment method.
+     * @param paymentMethod
+     *            the new payment method
+     */
+    public void setPaymentMethod(final PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
 
-	@Embedded
-	public DeliveryAddress getDeliveryAddress() {
-		return deliveryAddress;
-	}
+    /**
+     * Gets the delivery address.
+     * @return the delivery address
+     */
+    @Embedded
+    public DeliveryAddress getDeliveryAddress() {
+        return this.deliveryAddress;
+    }
 
-	public void setDeliveryAddress(DeliveryAddress deliveryAddress) {
-		this.deliveryAddress = deliveryAddress;
-	}
+    /**
+     * Sets the delivery address.
+     * @param deliveryAddress
+     *            the new delivery address
+     */
+    public void setDeliveryAddress(final DeliveryAddress deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
 
 }
