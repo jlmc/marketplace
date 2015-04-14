@@ -19,12 +19,26 @@ import javax.validation.constraints.Pattern;
 @Constraint(validatedBy = {}) 
 @Pattern(regexp="([a-zA-Z]{2}\\d{4,18})?")
 public @interface SKU {
- //@Pattern(regexp="([a-zA-Z]{2}\\d{4,18})?")
-// com.algaworks.constraints.SKU.message = deve ser informado no formato correto (exemplo: XX9999)	
+	//@Pattern(regexp="([a-zA-Z]{2}\\d{4,18})?")
+	/**
+	 * Message.
+	 *
+	 * @return the string
+	 */
 	@OverridesAttribute(constraint = Pattern.class, name="message")
 	String message() default "{org.xine.marketplace.constraints.SKU.message}";
-	
+
+	/**
+	 * Groups.
+	 *
+	 * @return the class[]
+	 */
 	Class<?>[] groups() default {};
-	
+
+	/**
+	 * Payload.
+	 *
+	 * @return the class<? extends payload>[]
+	 */
 	Class<? extends Payload>[] payload() default {};
 }
