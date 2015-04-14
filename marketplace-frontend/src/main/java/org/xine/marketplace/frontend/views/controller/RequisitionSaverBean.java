@@ -32,4 +32,12 @@ public class RequisitionSaverBean implements Serializable{
 	public void save(){
 		
 	}
+
+	public Requisition getRequisition() {
+		return requisition;
+	}
+
+	public void setRequisition(Requisition requisition) {
+		this.requisition = requisition;
+	}
 }

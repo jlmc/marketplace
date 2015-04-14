@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,11 +13,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 
 /**
  * The Class Client.
  */
 @Entity
+@Table(name="client")
 public class Client {
 
     /** The id. */
@@ -57,6 +64,9 @@ public class Client {
      * Gets the name.
      * @return the name
      */
+    @NotNull
+    @Size(max=100)
+    @Column(name="name", length=100, nullable=false)
     public String getName() {
         return this.name;
     }
@@ -74,6 +84,9 @@ public class Client {
      * Gets the email.
      * @return the email
      */
+    @Email
+    @NotNull
+    @Column(name="email", length=100, nullable=false)
     public String getEmail() {
         return this.email;
     }

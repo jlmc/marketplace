@@ -6,11 +6,18 @@
 
 
 	<application>
+		<message-bundle>org.xine.marketplace.frontend.Messages</message-bundle>
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+		</locale-config>
+		
 		<resource-bundle>
-			<base-name>locale.language</base-name>
+			<base-name>org.xine.marketplace.frontend.locale.language</base-name>
 			<var>msgs</var>
 		</resource-bundle>
 	</application>
+
+
 	
 	<factory>
 		<exception-handler-factory>org.xine.marketplace.frontend.views.util.jsf.JsfExceptionHandlerFactory</exception-handler-factory>
