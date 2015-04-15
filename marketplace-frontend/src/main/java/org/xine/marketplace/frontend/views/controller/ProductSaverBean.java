@@ -1,9 +1,11 @@
 package org.xine.marketplace.frontend.views.controller;
 
 import org.xine.marketplace.business.services.ProductService;
+import org.xine.marketplace.model.entities.Category;
 import org.xine.marketplace.model.entities.Product;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Default;
@@ -23,6 +25,10 @@ public class ProductSaverBean implements Serializable {
 
     /** The product. */
     private Product product;
+    
+    private List<Category> categories;
+    
+    
 
     /** The service. */
     @Default
@@ -55,5 +61,11 @@ public class ProductSaverBean implements Serializable {
     public Product getProduct() {
         return this.product;
     }
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+
 
 }
