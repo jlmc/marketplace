@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+	
+	<category id="1" description="CATEGORIA1" />
+    <Product id="1" sku="sk1234" name="product1" Unit_Value="10" Stock_Qty="100" category_id="1"/>
+ 
+</dataset>
+
