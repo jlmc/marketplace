@@ -1,9 +1,10 @@
-package org.xine.marketplace.repository.daos;
+package org.xine.marketplace.repository.integration;
 
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xine.marketplace.model.entities.Permission;
 import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.repository.daos.UsersRepository;
 import org.xine.marketplace.repository.util.JPAUtil;
 
 import javax.persistence.EntityManager;

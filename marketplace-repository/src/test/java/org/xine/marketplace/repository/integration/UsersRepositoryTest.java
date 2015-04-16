@@ -1,4 +1,4 @@
-package org.xine.marketplace.repository.daos;
+package org.xine.marketplace.repository.integration;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.repository.daos.UsersRepository;
 import org.xine.marketplace.repository.util.Constants;
 
 import com.jintegrity.core.JIntegrity;

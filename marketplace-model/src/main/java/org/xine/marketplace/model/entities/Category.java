@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -79,8 +80,8 @@ public class Category implements Serializable {
      * Gets the master category.
      * @return the master category
      */
-    @ManyToOne
-    @JoinColumn(name = "master_category_id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "masterCategory")
     public Category getMasterCategory() {
         return this.masterCategory;
     }

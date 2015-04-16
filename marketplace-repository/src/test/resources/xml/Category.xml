@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<dataset>
+	
+	
+	
+	<category id="1" description="computers" />
+	<category id="2" description="gadgets" />
+	<category id="3" description="software" />
+	<category id="4" description="others"/>
+
+	<category id="5" description="desktop" mastercategory="1" />
+	<category id="6" description="laptop" mastercategory="1" />
+	<category id="7" description="printer" mastercategory="1" />
+	<category id="8" description="tablet" mastercategory="1" />
+
+	<category id="9" description="so" mastercategory="3" />
+	<category id="10" description="office application" mastercategory="3" />
+	<category id="11" description="driver" mastercategory="3" />
+	<category id="12" description="house application" mastercategory="3" />
+
+
+ 
+</dataset>
