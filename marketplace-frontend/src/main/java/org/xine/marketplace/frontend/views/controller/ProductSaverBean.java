@@ -58,7 +58,9 @@ public class ProductSaverBean implements Serializable {
      * Inits the.
      */
     public void init(){
-    	//nothing
+    	if(FacesUtil.isNotPostback()){
+    		// do the operation here
+    	}
     }
     
     /**
