@@ -22,109 +22,104 @@ import org.xine.marketplace.repository.filters.ProductFilter;
  */
 public class ProductsRepository {
 
-	/** The manager. */
-	@Inject
-	private EntityManager manager;
+    /** The manager. */
+    @Inject
+    private EntityManager manager;
 
-	/**
-	 * Sets the manager.
-	 *
-	 * @param manager
-	 *            the new manager
-	 */
-	public void setManager(EntityManager manager) {
-		this.manager = manager;
-	}
+    /**
+     * Sets the manager.
+     * @param manager
+     *            the new manager
+     */
+    public void setManager(final EntityManager manager) {
+        this.manager = manager;
+    }
 
-	/**
-	 * Gets the Product.
-	 *
-	 * @param id
-	 *            the id
-	 * @return the product
-	 */
-	public Product get(Long id) {
-		return this.manager.find(Product.class, id);
-	}
+    /**
+     * Gets the Product.
+     * @param id
+     *            the id
+     * @return the product
+     */
+    public Product get(final Long id) {
+        return this.manager.find(Product.class, id);
+    }
 
-	/**
-	 * Save.
-	 *
-	 * @param product
-	 *            the p
-	 * @return the product
-	 */
-	public Product save(Product product) {
-		return this.manager.merge(product);
-	}
+    /**
+     * Save.
+     * @param product
+     *            the p
+     * @return the product
+     */
+    public Product save(final Product product) {
+        return this.manager.merge(product);
+    }
 
-	/**
-	 * Search.
-	 *
-	 * @param filter
-	 *            the filter
-	 * @return the list
-	 */
-	public List<Product> search(ProductFilter filter) {
+    /**
+     * Search.
+     * @param filter
+     *            the filter
+     * @return the list
+     */
+    public List<Product> search(final ProductFilter filter) {
 
-		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
-		Root<Product> root = criteriaQuery.from(Product.class);
+        final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+        final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
+        final Root<Product> root = criteriaQuery.from(Product.class);
 
-		@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
-		final Join<Product, Category> joiner = (Join) root.fetch("category");
+        @SuppressWarnings({"unchecked", "rawtypes", "unused" })
+        final Join<Product, Category> joiner = (Join) root.fetch("category");
 
-		criteriaQuery.select(root);
+        criteriaQuery.select(root);
 
-		final List<Predicate> predicates = new ArrayList<>();
+        final List<Predicate> predicates = new ArrayList<>();
 
-		if (haveName(filter)) {
-			Expression<String> name = builder.parameter(String.class, "NAME");
-			predicates.add(builder.equal(root.get("name"), name));
-		}
+        if (haveName(filter)) {
+            final Expression<String> name = builder.parameter(String.class, "NAME");
+            predicates.add(builder.equal(root.get("name"), name));
+        }
 
-		if (haveSKU(filter)) {
-			Expression<String> sku = builder.parameter(String.class, "SKU");
-			predicates.add(builder.equal(root.get("sku"), sku));
-		}
+        if (haveSKU(filter)) {
+            final Expression<String> sku = builder.parameter(String.class, "SKU");
+            predicates.add(builder.equal(root.get("sku"), sku));
+        }
 
-		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
+        final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
 
-		TypedQuery<Product> query = manager.createQuery(criteriaQuery);
+        if (haveName(filter)) {
+            query.setParameter("NAME", filter.getName().trim());
+        }
+        if (haveSKU(filter)) {
+            query.setParameter("SKU", filter.getSku());
+        }
 
-		if (haveName(filter)) {
-			query.setParameter("NAME", filter.getName().trim());
-		}
-		if (haveSKU(filter)) {
-			query.setParameter("SKU", filter.getSku());
-		}
+        final List<Product> products = query.getResultList();
 
-		List<Product> products = query.getResultList();
+        return products;
+    }
 
-		return products;
-	}
+    /**
+     * Have sku.
+     * @param filter
+     *            the filter
+     * @return true, if the {@code ProductFilter#getSku()} is diferent of null and is not empty,
+     *         false otherwise.
+     */
+    private static boolean haveSKU(final ProductFilter filter) {
+        return filter != null && filter.getSku() != null && !filter.getSku().trim().isEmpty();
+    }
 
-	/**
-	 * Have sku.
-	 *
-	 * @param filter the filter
-	 * @return true, if the {@code ProductFilter#getSku()} is  diferent of null and is not empty, false otherwise.
-	 */
-	private static boolean haveSKU(ProductFilter filter) {
-		return filter != null && filter.getSku() != null
-				&& !filter.getSku().trim().isEmpty();
-	}
-
-	/**
-	 * Have name.
-	 *
-	 * @param filter the filter
-	 * @return true, if the {@code ProductFilter#getName()} is diferent of null and is not empty, false otherwise.
-	 */
-	private static boolean haveName(ProductFilter filter) {
-		return filter != null && filter.getName() != null
-				&& !filter.getName().trim().isEmpty();
-	}
+    /**
+     * Have name.
+     * @param filter
+     *            the filter
+     * @return true, if the {@code ProductFilter#getName()} is diferent of null and is not empty,
+     *         false otherwise.
+     */
+    private static boolean haveName(final ProductFilter filter) {
+        return filter != null && filter.getName() != null && !filter.getName().trim().isEmpty();
+    }
 
 }

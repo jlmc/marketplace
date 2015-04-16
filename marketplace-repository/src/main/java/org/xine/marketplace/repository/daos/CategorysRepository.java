@@ -18,75 +18,74 @@ import org.xine.marketplace.model.entities.Category;
  * The Class CategorysRepository.
  */
 public class CategorysRepository {
-	
-	/** The manager. */
-	@Inject
-	private EntityManager manager;
-	
-	/**
-	 * Sets the manager.
-	 *
-	 * @param manager the new manager
-	 */
-	public void setManager(EntityManager manager) {
-		this.manager = manager;
-	}
 
-	/**
-	 * Gets the master.
-	 *
-	 * @return the master
-	 */
-	public List<Category> getRootCategorys(){
-		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Category> cq = builder.createQuery(Category.class);
+    /** The manager. */
+    @Inject
+    private EntityManager manager;
 
-		Root<Category> categorysRoot = cq.from(Category.class);
-		cq.select(categorysRoot);
-		cq.where(builder.isNull(categorysRoot.get("masterCategory")));
+    /**
+     * Sets the manager.
+     * @param manager
+     *            the new manager
+     */
+    public void setManager(final EntityManager manager) {
+        this.manager = manager;
+    }
 
-		// EXECUTE -  get the query to execute
-		final TypedQuery<Category> query = manager.createQuery(cq);
-		final List<Category> categorys = query.getResultList();
-		
-		return categorys;
-	}
-	
-	/**
-	 * Gets the child category.
-	 *
-	 * @param father the father
-	 * @return the child category
-	 */
-	public List<Category> getChildCategorys(Category father){
-		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Category> cq = builder.createQuery(Category.class);
-		Root<Category> root = cq.from(Category.class);
+    /**
+     * Gets the master.
+     * @return the master
+     */
+    public List<Category> getRootCategorys() {
+        final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+        final CriteriaQuery<Category> cq = builder.createQuery(Category.class);
 
-		// final Join<Message, Ticket> ticket = (Join) message.fetch("ticket");
-		//Join<Category, Category> join = (Join) =
-		root.fetch("masterCategory");
-		cq.select(root);
+        final Root<Category> categorysRoot = cq.from(Category.class);
+        cq.select(categorysRoot);
+        cq.where(builder.isNull(categorysRoot.get("masterCategory")));
 
-		final List<Predicate> predicates = new ArrayList<>();
-		Expression<Category> master = builder.parameter(Category.class,"CATEGORY");
-		predicates.add(builder.equal(root.get("masterCategory"), master));
-		cq.where(predicates.toArray(new Predicate[0]));
-		TypedQuery<Category> query = manager.createQuery(cq);
+        // EXECUTE - get the query to execute
+        final TypedQuery<Category> query = this.manager.createQuery(cq);
+        final List<Category> categorys = query.getResultList();
 
-		query.setParameter("CATEGORY", father);
-		List<Category> subCategories = query.getResultList();
-		return subCategories;
-	}
+        return categorys;
+    }
 
-	/**
-	 * Gets the by id.
-	 *
-	 * @param id the id
-	 * @return the by id
-	 */
-	public Category getById(Long id) {
-		return this.manager.find(Category.class, id);
-	}
+    /**
+     * Gets the child category.
+     * @param father
+     *            the father
+     * @return the child category
+     */
+    public List<Category> getChildCategorys(final Category father) {
+        final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+        final CriteriaQuery<Category> cq = builder.createQuery(Category.class);
+        final Root<Category> root = cq.from(Category.class);
+
+        // final Join<Message, Ticket> ticket = (Join) message.fetch("ticket");
+        // Join<Category, Category> join = (Join) =
+        root.fetch("masterCategory");
+        cq.select(root);
+
+        final List<Predicate> predicates = new ArrayList<>();
+        final Expression<Category> master = builder.parameter(Category.class, "CATEGORY");
+        predicates.add(builder.equal(root.get("masterCategory"), master));
+        cq.where(predicates.toArray(new Predicate[0]));
+        final TypedQuery<Category> query = this.manager.createQuery(cq);
+
+        query.setParameter("CATEGORY", father);
+        final List<Category> subCategories = query.getResultList();
+        return subCategories;
+    }
+
+    /**
+     * Gets the by id.
+     * @param id
+     *            the id
+     * @return the by id
+     */
+    public Category getById(final Long id) {
+        return this.manager.find(Category.class, id);
+    }
 
 }

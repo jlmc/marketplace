@@ -16,54 +16,52 @@ import org.junit.Test;
 import org.xine.marketplace.model.entities.User;
 import org.xine.marketplace.repository.integration.helper.AbstractDbUnitJpaTest;
 
-
 /**
  * The Class UsersIntegrationTest.
  */
-public class UsersIntegrationTest extends AbstractDbUnitJpaTest{
+@SuppressWarnings("static-method")
+public class UsersIntegrationTest extends AbstractDbUnitJpaTest {
 
+    /**
+     * Inits the.
+     * @throws HibernateException
+     *             the hibernate exception
+     * @throws DatabaseUnitException
+     *             the database unit exception
+     */
+    @BeforeClass
+    public static void init() throws HibernateException, DatabaseUnitException {
+        AbstractDbUnitJpaTest.setDataSetpath("xml/User.xml");
+        initEntityManager();
+    }
 
-	/**
-	 * Inits the.
-	 *
-	 * @throws HibernateException
-	 *             the hibernate exception
-	 * @throws DatabaseUnitException
-	 *             the database unit exception
-	 */
-	@BeforeClass
-	public static void init() throws HibernateException, DatabaseUnitException {
-		AbstractDbUnitJpaTest.setDataSetpath("xml/User.xml");
-		initEntityManager();
-	}
+    /**
+     * select
+     * user0_.id as id1_2_,
+     * user0_.email as email2_2_,
+     * user0_.password as password3_2_,
+     * user0_.username as username4_2_
+     * from
+     * User user0_
+     * @return the all test
+     */
 
-	/**
-	 * select
-	 *         user0_.id as id1_2_,
-	 *         user0_.email as email2_2_,
-	 *         user0_.password as password3_2_,
-	 *         user0_.username as username4_2_ 
-	 *     from
-	 *         User user0_
-	 *
-	 * @return the all test
-	 */
-	@Test
-	public void getAllTest(){
-		// given
-		EntityManager manager = entityManager;
+    @Test
+    public void getAllTest() {
+        // given
+        final EntityManager manager = getEntityManager();
 
-		CriteriaBuilder builder = manager.getCriteriaBuilder();
+        final CriteriaBuilder builder = manager.getCriteriaBuilder();
 
-		CriteriaQuery<User> cq = builder.createQuery(User.class);
+        final CriteriaQuery<User> cq = builder.createQuery(User.class);
 
-		final Root<User> root = cq.from(User.class);
-		cq.select(root);
+        final Root<User> root = cq.from(User.class);
+        cq.select(root);
 
-		TypedQuery<User> query = manager.createQuery(cq);
+        final TypedQuery<User> query = manager.createQuery(cq);
 
-		List<User> users = query.getResultList();
+        final List<User> users = query.getResultList();
 
-		Assert.assertEquals("should have 4 registers", 4, users.size());
-	}
+        Assert.assertEquals("should have 4 registers", 4, users.size());
+    }
 }
