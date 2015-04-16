@@ -14,22 +14,22 @@
 	<ui:define name="contentBody">
 
 		<f:metadata>
-    		<f:viewParam name="dummy" />
-    		<f:event listener="#{productSaverBean.init}" type="preRenderView" />
-    	</f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{productSaverBean.init}" type="preRenderView" />
+		</f:metadata>
 
 		<h:form id="nprdform">
 
 
 			<h1>New Product</h1>
 
-			<p:messages autoUpdate="true" closable="true"  />
+			<p:messages autoUpdate="true" closable="true" />
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
 					<p:button value="New" outcome="/products/ProductRegistration" />
 					<p:commandButton value="Save" id="save"
-						action="#{productSaverBean.save}" update="nprdform:painel"/>
+						action="#{productSaverBean.save}" update="nprdform:painel" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Search" outcome="/products/ProductSearch" />
@@ -42,37 +42,47 @@
 
 
 				<p:outputLabel value="SKU" for="sku" />
-				<p:inputText id="sku" size="20" maxlength="20" 
-								value="#{productSaverBean.product.sku}" required="true"/>
+				<p:inputText id="sku" size="20" maxlength="20"
+					value="#{productSaverBean.product.sku}" required="true" />
 
 
 				<p:outputLabel value="Name" for="name" />
-				<p:inputText id="name" size="60" maxlength="80" />
+				<p:inputText id="name" size="60" maxlength="80"
+					value="#{productSaverBean.product.name}" />
 
 				<p:outputLabel value="Category" for="category" />
-				<p:selectOneMenu id="category" value="#{productSaverBean.categoryMaster}">
+				<p:selectOneMenu id="category"
+					value="#{productSaverBean.categoryMaster}">
 					<f:selectItem itemLabel="select the category" />
-					<f:selectItems value="#{productSaverBean.rootCategorys}" var="categoria"
-	    				itemValue="#{categoria}" itemLabel="#{categoria.description}" />
-	    			<p:ajax listener="#{productSaverBean.loadChildCategorys}" update="subcategory"/>
+					<f:selectItems value="#{productSaverBean.rootCategorys}"
+						var="categoria" itemValue="#{categoria}"
+						itemLabel="#{categoria.description}" />
+					<p:ajax listener="#{productSaverBean.loadChildCategorys}"
+						update="subcategory" />
 				</p:selectOneMenu>
 
 
 				<p:outputLabel value="Sub-Category" for="subcategory" />
-				<p:selectOneMenu id="subcategory" value="#{productSaverBean.product.category}">
+				<p:selectOneMenu id="subcategory"
+					value="#{productSaverBean.product.category}">
 					<f:selectItem itemLabel="select the sub-category" />
 					<f:selectItems value="#{productSaverBean.categories}" var="ct"
-	    				itemValue="#{ct}" itemLabel="#{ct.description}" />
+						itemValue="#{ct}" itemLabel="#{ct.description}" />
 				</p:selectOneMenu>
 
 				<p:outputLabel value="Unit value" for="unitValue" />
 				<p:inputText id="unitValue" size="10" maxlength="10"
-					styleClass="currency" />
+					value="#{productSaverBean.product.unitValue}" styleClass="currency" >
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />	
+				</p:inputText>
 
 
 				<p:outputLabel value="Stock" for="stock" />
 				<p:inputText id="stock" size="10" maxlength="4"
-					value="#{productSaverBean.product.stockQty}" />
+					value="#{productSaverBean.product.stockQty}" >
+					
+					<f:convertNumber maxFractionDigits="0" maxIntegerDigits="10"/>	
+				</p:inputText>
 
 
 

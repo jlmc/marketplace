@@ -5,6 +5,7 @@ import org.xine.marketplace.model.entities.Category;
 import org.xine.marketplace.model.entities.Product;
 import org.xine.marketplace.repository.daos.CategorysRepository;
 import org.xine.marketplace.repository.daos.ProductsRepository;
+import org.xine.marketplace.repository.filters.ProductFilter;
 import org.xine.marketplace.repository.util.Transactional;
 
 import java.io.Serializable;
@@ -19,63 +20,61 @@ import javax.inject.Inject;
 @Default
 public class ProductService implements Serializable {
 
-	/** The repository. */
-	@Inject
-	private ProductsRepository repository;
+    /** The repository. */
+    @Inject
+    private ProductsRepository repository;
 
-	/** The categorys repository. */
-	@Inject
-	private CategorysRepository categorysRepository;
+    /** The categorys repository. */
+    @Inject
+    private CategorysRepository categorysRepository;
 
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
 
+    /**
+     * Save.
+     * @param product
+     *            the product
+     * @return the product
+     * @throws BusinessException
+     *             the business exception
+     */
+    @Transactional
+    public Product save(final Product product) throws BusinessException {
+        final List<Product> products = this.repository.search(new ProductFilter(null, product
+                .getSku()));
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+        if (products != null && !products.isEmpty()) {
+            throw new BusinessException("Já existe um produto com o SKU informado.");
+        }
 
-	/**
-	 * Save.
-	 *
-	 * @param product the product
-	 * @return the product
-	 * @throws BusinessException the business exception
-	 */
-	@Transactional
-	public Product save(final Product product) throws BusinessException{
-		System.out.println("tetsing titititti A");
-		//try{
-		return this.repository.save(product);
-		//		}catch(Exception e){
-		//			System.out.println(e.toString());
-		//		}
-	}
+        return this.repository.save(product);
+    }
 
-	/**
-	 * Search.
-	 *
-	 * @return the list
-	 */
-	List<Product> search() {
-		return null;
-	}
+    /**
+     * Search.
+     * @return the list
+     */
+    List<Product> search() {
+        return null;
+    }
 
+    /**
+     * Gets the root categorys.
+     * @return the root categorys
+     */
+    public List<Category> getRootCategorys() {
+        return this.categorysRepository.getRootCategorys();
+    }
 
-	/**
-	 * Gets the root categorys.
-	 *
-	 * @return the root categorys
-	 */
-	public List<Category> getRootCategorys(){
-		return this.categorysRepository.getRootCategorys();
-	}
-
-	/**
-	 * Gets the childs categories.
-	 *
-	 * @param father the father
-	 * @return the childs categories
-	 */
-	public List<Category> getChildsCategories(Category father){
-		return this.categorysRepository.getChildCategorys(father);
-	}
+    /**
+     * Gets the childs categories.
+     * @param father
+     *            the father
+     * @return the childs categories
+     */
+    public List<Category> getChildsCategories(final Category father) {
+        return this.categorysRepository.getChildCategorys(father);
+    }
 
 }

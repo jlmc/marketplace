@@ -15,8 +15,8 @@ import javax.persistence.EntityTransaction;
  * Interceptor for methods marked with the annotation {@code Transactional}. The invoke method is
  * called before the scheduled method and at the end of this work. Before entering in the annotated
  * method a transaction is open, at the end of the annotated method work if there were no problem
- * {@code EntityTransaction#commit()} is executed, otherwise {@code EntityTransaction#rollback()} is
- * executed.
+ * {@code EntityTransaction#commit()} is executed, otherwise {@code EntityTransaction#rollback()}
+ * is executed.
  * </p>
  * <p>
  * Notes: Using this interceptor the transaction in handler at the application level. in other
@@ -40,10 +40,8 @@ import javax.persistence.EntityTransaction;
  *
  * } </i>
  * </p>
- * 
  * @see Transactional
  * @author jcosta
- * 
  */
 @Interceptor
 @Transactional

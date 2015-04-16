@@ -5,7 +5,7 @@ http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
 	bean-discovery-mode="all">
 	
 	
-	 <interceptors>
+	<interceptors>
         <class>org.xine.marketplace.repository.util.TransactionInterceptor</class>
     </interceptors>
 </beans>
