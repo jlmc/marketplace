@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xml>
 <dataset>
     <user id="1" username="userOne" password="test" email="emailOne@"/>
     <user id="2" username="userTwo" password="test" email="emailTwo@"/>

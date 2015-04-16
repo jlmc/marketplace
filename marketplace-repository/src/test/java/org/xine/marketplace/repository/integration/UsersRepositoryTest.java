@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.xine.marketplace.model.entities.User;
 import org.xine.marketplace.repository.daos.UsersRepository;
@@ -57,6 +58,7 @@ public class UsersRepositoryTest {
      * Test get list of user.
      */
     @Test
+    @Ignore
     public void testGetListOfUser() {
         final List<User> usersList = this.usersRepository.getListOfUser();
 
@@ -70,6 +72,7 @@ public class UsersRepositoryTest {
      * Test get list of user jpql.
      */
     @Test
+    @Ignore
     public void testGetListOfUserJPQL() {
         final List<User> usersList = this.usersRepository.getListOfUserJPQL();
 
@@ -83,7 +86,7 @@ public class UsersRepositoryTest {
      * Test get user.
      */
     @Test
-    // @Ignore
+    @Ignore
     public void testGetUser() {
         final User user = this.usersRepository.getUser(Long.valueOf(1L));
 
@@ -91,6 +94,7 @@ public class UsersRepositoryTest {
     }
 
     @Test
+    @Ignore
     public void getUserByUsername() {
         // final User u = this.usersRepository.getUserbyUsernameJPQL("userOne");
         final User u = this.usersRepository.getUserbyUsername("userOne");
@@ -102,6 +106,7 @@ public class UsersRepositoryTest {
      * Creates the user test.
      */
     @Test
+    @Ignore
     public void createUserTest() {
         User user = new User("novoUser", "password", "novoUser@Email");
         this.entityManager.getTransaction().begin();
