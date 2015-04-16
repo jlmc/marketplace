@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<category id="1" description="computers" />
+	<category id="2" description="others" />
+	<category id="5" description="desktop" mastercategory="1" />
+	<category id="6" description="Food" mastercategory="2" />
+	
+    <product id="201" sku="12ABCD" name="20ABC" unit_value="10" stock_qty="100" category_id="5"/>
+    <product id="202" sku="23BCDE" name="23BCDE" unit_value="20" stock_qty="50" category_id="5"/>
+    <product id="203" sku="23cdef" name="food-name" unit_value="20" stock_qty="1" category_id="6"/>
+ 	
+</dataset>
