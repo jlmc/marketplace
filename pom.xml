@@ -1,75 +1,79 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.xine</groupId>
-    <artifactId>marketplace</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <modules>
-        <module>marketplace-frontend</module>
-        <module>marketplace-model</module>
-        <module>marketplace-repository</module>
-        <module>marketplace-business</module>
-    </modules>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.xine</groupId>
+	<artifactId>marketplace</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>marketplace-frontend</module>
+		<module>marketplace-model</module>
+		<module>marketplace-repository</module>
+		<module>marketplace-business</module>
+	</modules>
 
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>4.11</junit.version>
-        <cdi-api.version>1.2</cdi-api.version>
-        <hibernate.version>4.3.8.Final</hibernate.version>
-        <hibernate-validator.version>5.1.3.Final</hibernate-validator.version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<junit.version>4.11</junit.version>
+		<cdi-api.version>1.2</cdi-api.version>
+		<hibernate.version>4.3.8.Final</hibernate.version>
+		<hibernate-validator.version>5.1.3.Final</hibernate-validator.version>
 
 
-    </properties>
+	</properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- <dependency> -->
-            <!-- <groupId>javax.enterprise</groupId> -->
-            <!-- <artifactId>cdi-api</artifactId> -->
-            <!-- <version>${cdi-api.version}</version> -->
-            <!-- <scope>provided</scope> -->
-            <!-- </dependency> -->
-            <dependency>
-                <groupId>org.xine</groupId>
-                <artifactId>marketplace-model</artifactId>
-                <version>${project.version}</version>
-                <scope>compile</scope>
-            </dependency>
+	<dependencyManagement>
+		<dependencies>
+			<!-- <dependency> -->
+			<!-- <groupId>javax.enterprise</groupId> -->
+			<!-- <artifactId>cdi-api</artifactId> -->
+			<!-- <version>${cdi-api.version}</version> -->
+			<!-- <scope>provided</scope> -->
+			<!-- </dependency> -->
+			<dependency>
+				<groupId>org.xine</groupId>
+				<artifactId>marketplace-model</artifactId>
+				<version>${project.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.xine</groupId>
+				<artifactId>marketplace-business</artifactId>
+				<version>${project.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.xine</groupId>
+				<artifactId>marketplace-repository</artifactId>
+				<version>${project.version}</version>
+				<scope>compile</scope>
+			</dependency>
 
 
-            <dependency>
-                <groupId>org.xine</groupId>
-                <artifactId>marketplace-business</artifactId>
-                <version>${project.version}</version>
-                <scope>compile</scope>
-            </dependency>
 
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
 
+			<!-- Hibernate dependencies -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<!-- Hibernate validator dependencies -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate-validator.version}</version>
+				<scope>compile</scope>
+			</dependency>
 
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <!-- Hibernate dependencies -->
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate.version}</version>
-                <scope>compile</scope>
-            </dependency>
-            <!-- Hibernate validator dependencies -->
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator.version}</version>
-                <scope>compile</scope>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
+		</dependencies>
+	</dependencyManagement>
 </project>

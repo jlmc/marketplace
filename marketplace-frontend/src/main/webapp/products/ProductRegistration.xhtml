@@ -13,6 +13,11 @@
 
 	<ui:define name="contentBody">
 
+		<f:metadata>
+    		<f:viewParam name="dummy" />
+    		<f:event listener="#{productSaverBean.init}" type="preRenderView" />
+    	</f:metadata>
+
 		<h:form id="nprdform">
 
 
@@ -45,14 +50,19 @@
 				<p:inputText id="name" size="60" maxlength="80" />
 
 				<p:outputLabel value="Category" for="category" />
-				<p:selectOneMenu id="category">
+				<p:selectOneMenu id="category" value="#{productSaverBean.categoryMaster}">
 					<f:selectItem itemLabel="select the category" />
+					<f:selectItems value="#{productSaverBean.rootCategorys}" var="categoria"
+	    				itemValue="#{categoria}" itemLabel="#{categoria.description}" />
+	    			<p:ajax listener="#{productSaverBean.loadChildCategorys}" update="subcategory"/>
 				</p:selectOneMenu>
 
 
 				<p:outputLabel value="Sub-Category" for="subcategory" />
-				<p:selectOneMenu id="subcategory">
+				<p:selectOneMenu id="subcategory" value="#{productSaverBean.product.category}">
 					<f:selectItem itemLabel="select the sub-category" />
+					<f:selectItems value="#{productSaverBean.categories}" var="ct"
+	    				itemValue="#{ct}" itemLabel="#{ct.description}" />
 				</p:selectOneMenu>
 
 				<p:outputLabel value="Unit value" for="unitValue" />
