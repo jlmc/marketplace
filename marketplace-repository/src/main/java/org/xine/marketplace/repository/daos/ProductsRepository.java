@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -116,17 +118,22 @@ public class ProductsRepository {
 	 * @return the by sku
 	 */
 	public Product getBySKU(final String sku) {
-		final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
-		final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
-		final Root<Product> root = criteriaQuery.from(Product.class);
+		try{
+			final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+			final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
+			final Root<Product> root = criteriaQuery.from(Product.class);
 
-		criteriaQuery.select(root);
-		// criteriaQuery.where(builder.like(builder.upper(root.get("sku")), (sku.toUpperCase())));
-		criteriaQuery.where(builder.equal(builder.upper(root.get("sku")), (sku.toUpperCase())));
+			criteriaQuery.select(root);
+			// criteriaQuery.where(builder.like(builder.upper(root.get("sku")), (sku.toUpperCase())));
+			criteriaQuery.where(builder.equal(builder.upper(root.get("sku")), (sku.toUpperCase())));
 
-		final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
-		return query.getSingleResult();
-
+			final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
+			Product p = query.getSingleResult();
+			return p;
+		}catch(NoResultException | NonUniqueResultException   e){
+			return null;
+		}
+		
 	}
 
 	/**
@@ -161,7 +168,7 @@ public class ProductsRepository {
 		// in that way the category and master category don't are load
 		//return this.manager.find(Product.class, id);
 		//--------------------------------------------------
-		
+
 		final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
 		final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
 		final Root<Product> root = criteriaQuery.from(Product.class);
@@ -179,7 +186,7 @@ public class ProductsRepository {
 
 		return product;
 	}
-	
+
 	/**
 	 * Removes the product.
 	 * This method must be call inside a transaction.
@@ -192,9 +199,9 @@ public class ProductsRepository {
 			// the param product could't be attached (connected) in JPA Entity manager
 			// and so we get the product from the database
 			product = get(product.getId());
-		
+
 			this.manager.remove(product);
-			
+
 			/*
 			 * If we don't do flush
 			 * the product will be only marked to exclusion, 

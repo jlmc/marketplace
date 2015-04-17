@@ -1,6 +1,7 @@
 package org.xine.marketplace.frontend.views.controller;
 
 import org.xine.marketplace.business.services.ProductService;
+import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Product;
 import org.xine.marketplace.repository.filters.ProductFilter;
 
@@ -59,6 +60,14 @@ public class ProductSearchBean implements Serializable {
     @SuppressWarnings("static-method")
     public void delete() {
         System.out.println("delete something");
+        this.service.delete(this.selectedProduct);
+        
+        //if sucess remove product from the colection.
+        this.products.remove(this.selectedProduct);
+        
+        FacesUtil.addInfoMessage("Product "+ this.selectedProduct.getSku() +" was been removed.");
+        
+		
     }
 
     /**

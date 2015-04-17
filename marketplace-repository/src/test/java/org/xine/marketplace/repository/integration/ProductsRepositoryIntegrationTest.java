@@ -149,6 +149,18 @@ public class ProductsRepositoryIntegrationTest extends AbstractDbUnitJpaTest {
 		Assert.assertNotNull(products);
 		Assert.assertEquals("20ABC", products.getName());
 	}
+	
+	@Test
+	public void getBySKUNullTest() {
+		final ProductsRepository repository = new ProductsRepository();
+		repository.setManager(getEntityManager());
+		
+		final String sku = "as987384";
+		
+		Product products = repository.getBySKU(sku);
+		
+		Assert.assertNull(products);
+	}
 
 	/**
 	 * Gets the by sku test.

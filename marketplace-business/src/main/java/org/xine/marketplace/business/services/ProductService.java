@@ -21,6 +21,9 @@ import javax.inject.Inject;
 @Default
 public class ProductService implements Serializable {
 
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+	
 	/** The repository. */
 	@Inject
 	private ProductsRepository repository;
@@ -28,9 +31,6 @@ public class ProductService implements Serializable {
 	/** The categorys repository. */
 	@Inject
 	private CategorysRepository categorysRepository;
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Save.
@@ -57,7 +57,7 @@ public class ProductService implements Serializable {
 	}
 
 	@Transactional
-	private void delete(Product product){
+	public void delete(Product product){
 		try{
 			this.repository.remove(product);
 		}catch(RepositoryException e){

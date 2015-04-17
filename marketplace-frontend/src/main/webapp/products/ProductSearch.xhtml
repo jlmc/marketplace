@@ -16,6 +16,8 @@
 
 
 			<h1>Search Product</h1>
+			
+			<p:messages autoUpdate="true" closable="true" />
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
@@ -66,17 +68,22 @@
 					<p:button icon="ui-icon-pencil" title="Editar" outcome="/products/ProductRegistration">
 						<f:param name="product" value="#{product.id}"/>
 					</p:button>
-					<p:commandButton icon="ui-icon-trash" title="Excluir"
-						oncomplete="PF('confimeDelete').show(); return false;" />
+					<p:commandButton icon="ui-icon-trash" 
+						title="Excluir"
+						oncomplete="PF('confimeDelete').show(); return false;" 
+						update=":frmSearchOrders:confimeDeleteDialog"
+						process="@this">
+						<f:setPropertyActionListener value="#{product}" target="#{productSearchBean.selectedProduct}"/>	
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 
-			<p:confirmDialog header="Exclusão de produto" 
-	    		message="Tem certeza que deseja excluir o produto #{productSearchBean.selectedProduct.sku}?"
+			<p:confirmDialog header="Delete product" 
+	    		message="Are you sure you want to delete the product  #{productSearchBean.selectedProduct.sku} ?"
 	    		widgetVar="confimeDelete"	id="confimeDeleteDialog">
 	    		<p:button value="Não" onclick="PF('confimeDelete').hide(); return false;" />
 	    		<p:commandButton value="Sim" oncomplete="PF('confimeDelete').hide(); return false;"
-	    			action="#{pesquisaProdutosBean.delete}" process="@this"
+	    			action="#{productSearchBean.delete}" process="@this"
 	    			update=":frmSearchOrders:ordersTable" />
 	    	</p:confirmDialog>
 		</h:form>
