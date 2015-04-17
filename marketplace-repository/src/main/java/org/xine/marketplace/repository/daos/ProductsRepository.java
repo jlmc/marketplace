@@ -2,6 +2,7 @@ package org.xine.marketplace.repository.daos;
 
 import org.xine.marketplace.model.entities.Category;
 import org.xine.marketplace.model.entities.Product;
+import org.xine.marketplace.repository.exceptions.RepositoryException;
 import org.xine.marketplace.repository.filters.ProductFilter;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -176,6 +178,42 @@ public class ProductsRepository {
 		Product product = query.getSingleResult();
 
 		return product;
+	}
+	
+	/**
+	 * Removes the product.
+	 * This method must be call inside a transaction.
+	 * 
+	 * @param product the product to remove Operation
+	 * @throws RepositoryException 
+	 */
+	public void remove(Product product) throws RepositoryException{
+		try {
+			// the param product could't be attached (connected) in JPA Entity manager
+			// and so we get the product from the database
+			product = get(product.getId());
+		
+			this.manager.remove(product);
+			
+			/*
+			 * If we don't do flush
+			 * the product will be only marked to exclusion, 
+			 *
+			 *  
+			 *  This exclusion will only be effective when performing a commit, 
+			 *  or when you run the manual flush or an automatic flush, 
+			 *  in this case do the manual.
+			 *  
+			 *  Flush will run the SQL delete, 
+			 *  if the product is being used in some other table in the database a 
+			 *  PersistenceException will be throw. 
+			 *  (We whant co handler that exception over here, 
+			 *  and not lose it to something out of control)
+			 */
+			this.manager.flush();
+		} catch (PersistenceException e) {
+			throw new RepositoryException("Product can not be excluded.");
+		}
 	}
 
 }
