@@ -1,6 +1,8 @@
 package org.xine.marketplace.frontend.views.controller;
 
+import org.xine.marketplace.business.services.ProductService;
 import org.xine.marketplace.model.entities.Product;
+import org.xine.marketplace.repository.filters.ProductFilter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -20,11 +23,12 @@ public class ProductSearchBean implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    /** The sku. */
-    private String sku;
+    /** The service. */
+    @Inject
+    private ProductService service;
 
-    /** The name. */
-    private String name;
+    /** The filter. */
+    private ProductFilter filter;
 
     /** The product. */
     private List<Product> products;
@@ -33,25 +37,20 @@ public class ProductSearchBean implements Serializable {
     private Product selectedProduct;
 
     /**
-     * Inits the.
+     * Post construct.
      */
     @PostConstruct
-    private void init() {
+    private void postConstruct() {
         // Nothing
+        this.filter = new ProductFilter();
         this.products = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            this.products.add(new Product("SKU-" + i, "Name " + i));
-
-        }
     }
 
     /**
      * Search.
      */
     public void search() {
-        System.out.println("Search operation");
-        System.out.println(this.sku);
-
+        this.products = this.service.search(this.filter);
     }
 
     /**
@@ -60,40 +59,6 @@ public class ProductSearchBean implements Serializable {
     @SuppressWarnings("static-method")
     public void delete() {
         System.out.println("delete something");
-    }
-
-    /**
-     * Gets the sku.
-     * @return the sku
-     */
-    public String getSku() {
-        return this.sku;
-    }
-
-    /**
-     * Sets the sku.
-     * @param sku
-     *            the new sku
-     */
-    public void setSku(final String sku) {
-        this.sku = sku;
-    }
-
-    /**
-     * Gets the name.
-     * @return the name
-     */
-    public String getName() {
-        return this.name;
-    }
-
-    /**
-     * Sets the name.
-     * @param name
-     *            the new name
-     */
-    public void setName(final String name) {
-        this.name = name;
     }
 
     /**
@@ -128,6 +93,23 @@ public class ProductSearchBean implements Serializable {
      */
     public void setSelectedProduct(final Product selectedProduct) {
         this.selectedProduct = selectedProduct;
+    }
+
+    /**
+     * Gets the filter.
+     * @return the filter
+     */
+    public ProductFilter getFilter() {
+        return this.filter;
+    }
+
+    /**
+     * Sets the filter.
+     * @param filter
+     *            the new filter
+     */
+    public void setFilter(final ProductFilter filter) {
+        this.filter = filter;
     }
 
 }

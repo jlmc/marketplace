@@ -45,7 +45,7 @@ public class ProductService implements Serializable {
                 .getSku()));
 
         if (products != null && !products.isEmpty()) {
-            throw new BusinessException("Já existe um produto com o SKU informado.");
+            throw new BusinessException("Já existe um produto com o SKU " + product.getSku() + " .");
         }
 
         return this.repository.save(product);
@@ -55,8 +55,8 @@ public class ProductService implements Serializable {
      * Search.
      * @return the list
      */
-    List<Product> search() {
-        return null;
+    public List<Product> search(final ProductFilter filter) {
+        return this.repository.search(filter);
     }
 
     /**

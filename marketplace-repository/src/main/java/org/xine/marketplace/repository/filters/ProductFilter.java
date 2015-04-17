@@ -1,5 +1,7 @@
 package org.xine.marketplace.repository.filters;
 
+import org.xine.marketplace.validator.constraints.SKU;
+
 import java.io.Serializable;
 
 /**
@@ -31,7 +33,7 @@ public class ProductFilter implements Serializable {
     public ProductFilter(final String name, final String sku) {
         super();
         this.name = name;
-        this.sku = sku;
+        setSku(sku);
     }
 
     /**
@@ -55,6 +57,7 @@ public class ProductFilter implements Serializable {
      * Gets the sku.
      * @return the sku
      */
+    @SKU
     public String getSku() {
         return this.sku;
     }
@@ -65,7 +68,7 @@ public class ProductFilter implements Serializable {
      *            the new sku
      */
     public void setSku(final String sku) {
-        this.sku = sku;
+        this.sku = sku == null ? null : sku.toUpperCase();
     }
 
 }

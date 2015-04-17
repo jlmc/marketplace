@@ -7,6 +7,6 @@
 	
     <product id="201" sku="12ABCD" name="20ABC" unit_value="10" stock_qty="100" category_id="5"/>
     <product id="202" sku="23BCDE" name="23BCDE" unit_value="20" stock_qty="50" category_id="5"/>
-    <product id="203" sku="23cdef" name="food-name" unit_value="20" stock_qty="1" category_id="6"/>
+    <product id="203" sku="23CDEF" name="food-name" unit_value="20" stock_qty="1" category_id="6"/>
  	
 </dataset>

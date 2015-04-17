@@ -1,5 +1,9 @@
 package org.xine.marketplace.repository.daos;
 
+import org.xine.marketplace.model.entities.Category;
+import org.xine.marketplace.model.entities.Product;
+import org.xine.marketplace.repository.filters.ProductFilter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +14,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
-import org.xine.marketplace.model.entities.Category;
-import org.xine.marketplace.model.entities.Product;
-import org.xine.marketplace.repository.filters.ProductFilter;
 
 /**
  * The Class Products.
@@ -75,8 +76,9 @@ public class ProductsRepository {
         final List<Predicate> predicates = new ArrayList<>();
 
         if (haveName(filter)) {
+            // where name like '%texto%'
             final Expression<String> name = builder.parameter(String.class, "NAME");
-            predicates.add(builder.equal(root.get("name"), name));
+            predicates.add(builder.like(builder.upper(root.get("name")), name));
         }
 
         if (haveSKU(filter)) {
@@ -86,10 +88,15 @@ public class ProductsRepository {
 
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
+        // adding order
+        final List<Order> ordersBys = new ArrayList<>();
+        ordersBys.add(builder.asc(root.get("name")));
+        criteriaQuery.orderBy(ordersBys);
+
         final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
 
         if (haveName(filter)) {
-            query.setParameter("NAME", filter.getName().trim());
+            query.setParameter("NAME", "%" + filter.getName().toUpperCase().trim() + "%");
         }
         if (haveSKU(filter)) {
             query.setParameter("SKU", filter.getSku());
@@ -98,6 +105,26 @@ public class ProductsRepository {
         final List<Product> products = query.getResultList();
 
         return products;
+    }
+
+    /**
+     * Gets the by sku.
+     * @param sku
+     *            the sku
+     * @return the by sku
+     */
+    public List<Product> getBySKU(final String sku) {
+        final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+        final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
+        final Root<Product> root = criteriaQuery.from(Product.class);
+
+        criteriaQuery.select(root);
+        // criteriaQuery.where(builder.like(builder.upper(root.get("sku")), (sku.toUpperCase())));
+        criteriaQuery.where(builder.equal(builder.upper(root.get("sku")), (sku.toUpperCase())));
+
+        final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
+        return query.getResultList();
+
     }
 
     /**

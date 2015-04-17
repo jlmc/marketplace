@@ -9,6 +9,7 @@ import org.xine.marketplace.repository.util.JPAUtil;
 
 import javax.persistence.EntityManager;
 
+@SuppressWarnings({"static-method", "boxing" })
 public class UserSaveTest {
 
     @Test

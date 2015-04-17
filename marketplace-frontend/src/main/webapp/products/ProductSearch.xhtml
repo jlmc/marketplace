@@ -19,7 +19,8 @@
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
-					<p:commandButton value="Search" id="search" />
+					<p:commandButton value="Search" id="search"
+						action="#{productSearchBean.search}" update="@form" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="New" outcome="/products/ProductRegistration"/>
@@ -31,34 +32,35 @@
 				style="width: 100%; margin-top: 20px" columnClasses="mark, field">
 
 				<p:outputLabel value="SKU" for="sku"/>
-	    		<p:inputText id="sku" size="20" />
+	    		<p:inputText id="sku" size="20" value="#{productSearchBean.filter.sku}" />
 	    		
 	    		<p:outputLabel value="Nome" for="nome"/>
-	    		<p:inputText id="nome" size="60" />
+	    		<p:inputText id="nome" size="60"  value="#{productSearchBean.filter.name}"/>
 			</p:panelGrid>
 
 
-			<p:dataTable id="ordersTable" emptyMessage="No Orders found."
+			<p:dataTable id="ordersTable" value="#{productSearchBean.products}" var="product"
+				emptyMessage="No Orders found."
 				rows="20" paginator="true" paginatorAlwaysVisible="false"
 				paginatorPosition="bottom" style="margin-top: 20px">
 
 
 				<p:column headerText="SKU" style="text-align: center; width: 100px">
-					<h:outputLabel value="1234" />
+					<h:outputLabel value="#{product.sku}" />
 				</p:column>
 				<p:column headerText="Name">
-					<h:outputText value="4567" />
+					<h:outputText value="#{product.name}" />
 				</p:column>
 				<p:column headerText="Category" style="width: 250px">
 					<h:outputText value="Doces - Balas e chicletes" />
 				</p:column>
 				<p:column headerText="Unit value"
 					style="text-align: right; width: 120px">
-					<h:outputText value="R$ 1,20" />
+					<h:outputText value="#{product.unitValue}" />
 				</p:column>
 				<p:column headerText="stock"
 					style="text-align: center; width: 100px">
-					<h:outputText value="98" />
+					<h:outputText value="#{product.stockQty}" />
 				</p:column>
 				<p:column style="width: 100px; text-align: center">
 					<p:button icon="ui-icon-pencil" title="Editar" />

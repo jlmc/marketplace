@@ -1,7 +1,5 @@
 package org.xine.marketplace.repository.integration;
 
-import java.util.List;
-
 import org.dbunit.DatabaseUnitException;
 import org.hibernate.HibernateException;
 import org.junit.Assert;
@@ -12,7 +10,10 @@ import org.xine.marketplace.model.entities.Category;
 import org.xine.marketplace.model.entities.Product;
 import org.xine.marketplace.repository.daos.ProductsRepository;
 import org.xine.marketplace.repository.filters.ProductFilter;
+import org.xine.marketplace.repository.hdaos.HProducts;
 import org.xine.marketplace.repository.integration.helper.AbstractDbUnitJpaTest;
+
+import java.util.List;
 
 /**
  * The Class ProductsIntegrationTest.
@@ -48,6 +49,9 @@ public class ProductsRepositoryIntegrationTest extends AbstractDbUnitJpaTest {
         Assert.assertEquals("12ABCD", product.getSku());
     }
 
+    /**
+     * Search test_filter_is_empty.
+     */
     @Test
     public void searchTest_filter_is_empty() {
         final ProductsRepository repository = new ProductsRepository();
@@ -59,6 +63,9 @@ public class ProductsRepositoryIntegrationTest extends AbstractDbUnitJpaTest {
         Assert.assertEquals(3, products.size());
     }
 
+    /**
+     * Search test_filter_is_null.
+     */
     @Test
     public void searchTest_filter_is_null() {
         final ProductsRepository repository = new ProductsRepository();
@@ -70,6 +77,9 @@ public class ProductsRepositoryIntegrationTest extends AbstractDbUnitJpaTest {
         Assert.assertEquals(3, products.size());
     }
 
+    /**
+     * Search test_by_name.
+     */
     @Test
     public void searchTest_by_name() {
         final ProductsRepository repository = new ProductsRepository();
@@ -83,6 +93,9 @@ public class ProductsRepositoryIntegrationTest extends AbstractDbUnitJpaTest {
         Assert.assertEquals("20ABC", products.get(0).getName());
     }
 
+    /**
+     * Search test_by_ sku.
+     */
     @Test
     public void searchTest_by_SKU() {
         final ProductsRepository repository = new ProductsRepository();
@@ -96,23 +109,92 @@ public class ProductsRepositoryIntegrationTest extends AbstractDbUnitJpaTest {
         Assert.assertEquals("23BCDE", products.get(0).getSku());
     }
 
+    /**
+     * Search test_ b y_ sk u_ an d_ name.
+     */
     @Test
     public void searchTest_BY_SKU_AND_NAME() {
         final ProductsRepository repository = new ProductsRepository();
         repository.setManager(getEntityManager());
         final ProductFilter filter = new ProductFilter();
 
-        // sku="23cdef" name="food-name"
-        filter.setSku("23cdef");
+        // sku="23CDEF" name="food-name"
+        filter.setSku("23CDEF");
         filter.setName("food-name");
 
         final List<Product> products = repository.search(filter);
 
         Assert.assertEquals(1, products.size());
-        Assert.assertEquals("23cdef", products.get(0).getSku());
+        Assert.assertEquals("23CDEF", products.get(0).getSku());
         Assert.assertEquals("food-name", products.get(0).getName());
     }
 
+    /**
+     * Gets the by sku test.
+     * @return the by sku test
+     */
+    @Test
+    public void getBySKUTest() {
+        final ProductsRepository repository = new ProductsRepository();
+        repository.setManager(getEntityManager());
+
+        final String sku = "12ABCD";
+
+        final List<Product> products = repository.getBySKU(sku);
+
+        Assert.assertEquals(1, products.size());
+        Assert.assertEquals("20ABC", products.get(0).getName());
+
+    }
+
+    /**
+     * Gets the by sku test.
+     * @return the by sku test
+     */
+    @Test
+    // @Ignore
+    public void getHpro() {
+        final HProducts repository = new HProducts();
+        repository.setManager(getEntityManager());
+
+        // final String sku = "23CDEF";
+
+        final ProductFilter filter = new ProductFilter();
+        // sku="23CDEF" name="food-name"
+        filter.setSku("23CDEF");
+        filter.setName("food-name");
+
+        final List<Product> products = repository.search(filter);
+
+        Assert.assertEquals(1, products.size());
+        Assert.assertEquals("23CDEF", products.get(0).getSku());
+        Assert.assertEquals("food-name", products.get(0).getName());
+
+    }
+
+    /**
+     * Gets the by sku test.
+     * @return the by sku test
+     */
+    @Test
+    // @Ignore
+    public void getHBySKU() {
+        final HProducts repository = new HProducts();
+        repository.setManager(getEntityManager());
+
+        final String sku = "23CDEF";
+
+        final List<Product> products = repository.getBySKU(sku);
+
+        Assert.assertEquals(1, products.size());
+        Assert.assertEquals("23CDEF", products.get(0).getSku());
+        Assert.assertEquals("food-name", products.get(0).getName());
+
+    }
+
+    /**
+     * Save test.
+     */
     @Test
     @Ignore
     public void saveTest() {
