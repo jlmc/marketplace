@@ -41,10 +41,14 @@ public class ProductService implements Serializable {
      */
     @Transactional
     public Product save(final Product product) throws BusinessException {
-        final List<Product> products = this.repository.search(new ProductFilter(null, product
-                .getSku()));
-
-        if (products != null && !products.isEmpty()) {
+        
+        Product alreadyExistingProduct = this.repository.getBySKU(product.getSku());
+        /**
+         * BUSINESS RULE 1:: if the exists already a product with the same SKU in the system, 
+         * and it is not the same product ( with the same id )
+         * then can't save or update the product 
+         */
+        if (alreadyExistingProduct != null &&  !alreadyExistingProduct.equals(product)) {
             throw new BusinessException("Já existe um produto com o SKU " + product.getSku() + " .");
         }
 

@@ -22,7 +22,7 @@ import javax.inject.Named;
 @ViewScoped
 public class ProductSaverBean implements Serializable {
 
-    /** The Constant serialVersionUID. */
+	/** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
     /** The product. */
@@ -47,7 +47,11 @@ public class ProductSaverBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        clean();
+    	 System.out.println("\n-----------------------------------------------------------------------");
+    	 System.out.println("initialize @PostConstruct");
+    	 System.out.println("-----------------------------------------------------------------------");
+    	clean();
+        
         this.rootCategorys = this.service.getRootCategorys();
 
     }
@@ -57,9 +61,16 @@ public class ProductSaverBean implements Serializable {
      */
     @SuppressWarnings("static-method")
     public void init() {
-        // if (FacesUtil.isNotPostback()) {
-        // // do the operation here
-        // }
+         if (FacesUtil.isNotPostback()) {
+        	 System.out.println("\n-----------------------------------------------------------------------");
+        	 System.out.println("INIT");
+         // do the operation here
+        	 if (this.categoryMaster != null) {
+        		 System.out.println(">>>> LOAD CHILD CATEGORIES");
+        		 this.loadChildCategorys();
+ 			}
+        	 System.out.println("-----------------------------------------------------------------------");
+         }
     }
 
     /**
@@ -74,6 +85,9 @@ public class ProductSaverBean implements Serializable {
         clean();
     }
 
+    /**
+     * Clean.
+     */
     private void clean() {
         this.product = new Product();
         this.categoryMaster = null;
@@ -128,4 +142,34 @@ public class ProductSaverBean implements Serializable {
         return this.rootCategorys;
     }
 
+    
+    /**
+     * Sets the product.
+     *
+     * @param product the new product
+     */
+    public void setProduct(Product product) {
+		this.product = product;
+		
+		if(this.product != null){
+			//load the category
+			System.out.println("\n-------------------------------------------------------------");
+			System.out.println("setProduct load subcategorias e categorias");
+			System.out.println("--------------------------------------------------------------");
+			if(this.product.getCategory() != null){
+				this.categoryMaster = this.product.getCategory().getMasterCategory();
+				
+				
+			}
+		}
+	}
+    
+    /**
+     * Checks if is edits Mode the.
+     * is edite mode if the using product have already a ID defined 
+     * @return true, if is , false otherwise 
+     */
+    public boolean isEdit(){
+    	return this.product != null && this.product.getId() != null;
+    }
 }

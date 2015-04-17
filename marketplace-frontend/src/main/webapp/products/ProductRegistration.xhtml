@@ -6,22 +6,22 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
 
-	<ui:define name="title">New Product</ui:define>
-
+	<ui:define name="title">#{productSaverBean.edit ? 'Edit Product' : 'New Product'}</ui:define>
 
 	<ui:define name="contentBody">
 
 		<f:metadata>
-			<f:viewParam name="dummy" />
+			<o:viewParam name="product" value="#{productSaverBean.product}"/>
 			<f:event listener="#{productSaverBean.init}" type="preRenderView" />
 		</f:metadata>
 
 		<h:form id="nprdform">
 
 
-			<h1>New Product</h1>
+			<h1>#{productSaverBean.edit ? 'Edit Product' : 'New Product'}</h1>
 
 			<p:messages autoUpdate="true" closable="true" />
 

@@ -23,130 +23,159 @@ import javax.persistence.criteria.Root;
  */
 public class ProductsRepository {
 
-    /** The manager. */
-    @Inject
-    private EntityManager manager;
+	/** The manager. */
+	@Inject
+	private EntityManager manager;
 
-    /**
-     * Sets the manager.
-     * @param manager
-     *            the new manager
-     */
-    public void setManager(final EntityManager manager) {
-        this.manager = manager;
-    }
+	/**
+	 * Sets the manager.
+	 * @param manager
+	 *            the new manager
+	 */
+	public void setManager(final EntityManager manager) {
+		this.manager = manager;
+	}
 
-    /**
-     * Gets the Product.
-     * @param id
-     *            the id
-     * @return the product
-     */
-    public Product get(final Long id) {
-        return this.manager.find(Product.class, id);
-    }
+	/**
+	 * Gets the Product.
+	 * @param id
+	 *            the id
+	 * @return the product
+	 */
+	public Product get(final Long id) {
+		return this.manager.find(Product.class, id);
+	}
 
-    /**
-     * Save.
-     * @param product
-     *            the p
-     * @return the product
-     */
-    public Product save(final Product product) {
-        return this.manager.merge(product);
-    }
+	/**
+	 * Save.
+	 * @param product
+	 *            the p
+	 * @return the product
+	 */
+	public Product save(final Product product) {
+		return this.manager.merge(product);
+	}
 
-    /**
-     * Search.
-     * @param filter
-     *            the filter
-     * @return the list
-     */
-    public List<Product> search(final ProductFilter filter) {
+	/**
+	 * Search.
+	 * @param filter
+	 *            the filter
+	 * @return the list
+	 */
+	public List<Product> search(final ProductFilter filter) {
 
-        final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
-        final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
-        final Root<Product> root = criteriaQuery.from(Product.class);
+		final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+		final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
+		final Root<Product> root = criteriaQuery.from(Product.class);
 
-        @SuppressWarnings({"unchecked", "rawtypes", "unused" })
-        final Join<Product, Category> joiner = (Join) root.fetch("category");
+		@SuppressWarnings({"unchecked", "rawtypes", "unused" })
+		final Join<Product, Category> joiner = (Join) root.fetch("category");
 
-        criteriaQuery.select(root);
+		criteriaQuery.select(root);
 
-        final List<Predicate> predicates = new ArrayList<>();
+		final List<Predicate> predicates = new ArrayList<>();
 
-        if (haveName(filter)) {
-            // where name like '%texto%'
-            final Expression<String> name = builder.parameter(String.class, "NAME");
-            predicates.add(builder.like(builder.upper(root.get("name")), name));
-        }
+		if (haveName(filter)) {
+			// where name like '%texto%'
+			final Expression<String> name = builder.parameter(String.class, "NAME");
+			predicates.add(builder.like(builder.upper(root.get("name")), name));
+		}
 
-        if (haveSKU(filter)) {
-            final Expression<String> sku = builder.parameter(String.class, "SKU");
-            predicates.add(builder.equal(root.get("sku"), sku));
-        }
+		if (haveSKU(filter)) {
+			final Expression<String> sku = builder.parameter(String.class, "SKU");
+			predicates.add(builder.equal(root.get("sku"), sku));
+		}
 
-        criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
-        // adding order
-        final List<Order> ordersBys = new ArrayList<>();
-        ordersBys.add(builder.asc(root.get("name")));
-        criteriaQuery.orderBy(ordersBys);
+		// adding order
+		final List<Order> ordersBys = new ArrayList<>();
+		ordersBys.add(builder.asc(root.get("name")));
+		criteriaQuery.orderBy(ordersBys);
 
-        final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
+		final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
 
-        if (haveName(filter)) {
-            query.setParameter("NAME", "%" + filter.getName().toUpperCase().trim() + "%");
-        }
-        if (haveSKU(filter)) {
-            query.setParameter("SKU", filter.getSku());
-        }
+		if (haveName(filter)) {
+			query.setParameter("NAME", "%" + filter.getName().toUpperCase().trim() + "%");
+		}
+		if (haveSKU(filter)) {
+			query.setParameter("SKU", filter.getSku());
+		}
 
-        final List<Product> products = query.getResultList();
+		final List<Product> products = query.getResultList();
 
-        return products;
-    }
+		return products;
+	}
 
-    /**
-     * Gets the by sku.
-     * @param sku
-     *            the sku
-     * @return the by sku
-     */
-    public List<Product> getBySKU(final String sku) {
-        final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
-        final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
-        final Root<Product> root = criteriaQuery.from(Product.class);
+	/**
+	 * Gets the by sku.
+	 * @param sku
+	 *            the sku
+	 * @return the by sku
+	 */
+	public Product getBySKU(final String sku) {
+		final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+		final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
+		final Root<Product> root = criteriaQuery.from(Product.class);
 
-        criteriaQuery.select(root);
-        // criteriaQuery.where(builder.like(builder.upper(root.get("sku")), (sku.toUpperCase())));
-        criteriaQuery.where(builder.equal(builder.upper(root.get("sku")), (sku.toUpperCase())));
+		criteriaQuery.select(root);
+		// criteriaQuery.where(builder.like(builder.upper(root.get("sku")), (sku.toUpperCase())));
+		criteriaQuery.where(builder.equal(builder.upper(root.get("sku")), (sku.toUpperCase())));
 
-        final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
-        return query.getResultList();
+		final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
+		return query.getSingleResult();
 
-    }
+	}
 
-    /**
-     * Have sku.
-     * @param filter
-     *            the filter
-     * @return true, if the {@code ProductFilter#getSku()} is diferent of null and is not empty,
-     *         false otherwise.
-     */
-    private static boolean haveSKU(final ProductFilter filter) {
-        return filter != null && filter.getSku() != null && !filter.getSku().trim().isEmpty();
-    }
+	/**
+	 * Have sku.
+	 * @param filter
+	 *            the filter
+	 * @return true, if the {@code ProductFilter#getSku()} is diferent of null and is not empty,
+	 *         false otherwise.
+	 */
+	private static boolean haveSKU(final ProductFilter filter) {
+		return filter != null && filter.getSku() != null && !filter.getSku().trim().isEmpty();
+	}
 
-    /**
-     * Have name.
-     * @param filter
-     *            the filter
-     * @return true, if the {@code ProductFilter#getName()} is diferent of null and is not empty,
-     *         false otherwise.
-     */
-    private static boolean haveName(final ProductFilter filter) {
-        return filter != null && filter.getName() != null && !filter.getName().trim().isEmpty();
-    }
+	/**
+	 * Have name.
+	 * @param filter
+	 *            the filter
+	 * @return true, if the {@code ProductFilter#getName()} is diferent of null and is not empty,
+	 *         false otherwise.
+	 */
+	private static boolean haveName(final ProductFilter filter) {
+		return filter != null && filter.getName() != null && !filter.getName().trim().isEmpty();
+	}
+
+	/**
+	 * Gets Product the by id.
+	 * @param id the id
+	 * @return the by id
+	 */
+	public Product getById(Long id){
+		// can't not use the next line was implementation because 
+		// in that way the category and master category don't are load
+		//return this.manager.find(Product.class, id);
+		//--------------------------------------------------
+		
+		final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+		final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
+		final Root<Product> root = criteriaQuery.from(Product.class);
+		@SuppressWarnings({"unchecked", "rawtypes",  })
+		final Join<Product, Category> productsCategoryJoin = (Join) root.fetch("category");
+		@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
+		final Join<Category, Category> categorysJoin = (Join) productsCategoryJoin.fetch("masterCategory");
+
+		criteriaQuery.select(root);
+		// criteriaQuery.where(builder.like(builder.upper(root.get("sku")), (sku.toUpperCase())));
+		criteriaQuery.where(builder.equal(root.get("id"), id));
+
+		final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
+		Product product = query.getSingleResult();
+
+		return product;
+	}
 
 }

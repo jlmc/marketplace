@@ -50,6 +50,6 @@ public final class FacesUtil {
      * @return true, if is not postback
      */
     public static boolean isNotPostback() {
-        return !isNotPostback();
+        return !isPostback();
     }
 }

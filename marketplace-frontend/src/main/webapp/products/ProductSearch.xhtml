@@ -63,7 +63,9 @@
 					<h:outputText value="#{product.stockQty}" />
 				</p:column>
 				<p:column style="width: 100px; text-align: center">
-					<p:button icon="ui-icon-pencil" title="Editar" />
+					<p:button icon="ui-icon-pencil" title="Editar" outcome="/products/ProductRegistration">
+						<f:param name="product" value="#{product.id}"/>
+					</p:button>
 					<p:commandButton icon="ui-icon-trash" title="Excluir"
 						oncomplete="PF('confimeDelete').show(); return false;" />
 				</p:column>
