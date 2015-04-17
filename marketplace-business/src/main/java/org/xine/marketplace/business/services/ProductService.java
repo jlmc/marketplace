@@ -61,7 +61,7 @@ public class ProductService implements Serializable {
 		try{
 			this.repository.remove(product);
 		}catch(RepositoryException e){
-			//TODO:: handler this exeption
+			throw new BusinessException("O produto não pode ser removido, pois esta esta a ser utilizado.");
 		}
 	}
 
