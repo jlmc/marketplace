@@ -54,7 +54,7 @@
 					<h:outputText value="#{product.name}" />
 				</p:column>
 				<p:column headerText="Category" style="width: 250px">
-					<h:outputText value="Doces - Balas e chicletes" />
+					<h:outputText value="#{product.category.masterCategory.description} - #{product.category.description}" />
 				</p:column>
 				<p:column headerText="Unit value"
 					style="text-align: right; width: 120px">

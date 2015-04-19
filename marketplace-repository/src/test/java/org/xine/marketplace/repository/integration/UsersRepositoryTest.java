@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xine.marketplace.model.entities.User;
-import org.xine.marketplace.repository.daos.UsersRepository;
+import org.xine.marketplace.repository.daos.UsersRepositoryEx;
 import org.xine.marketplace.repository.util.Constants;
 
 import com.jintegrity.core.JIntegrity;
@@ -27,7 +27,7 @@ public class UsersRepositoryTest {
     private EntityManager entityManager;
 
     /** The users repository. */
-    private UsersRepository usersRepository;
+    private UsersRepositoryEx usersRepository;
 
     /** The helper. */
     JIntegrity helper = new JIntegrity();
@@ -42,7 +42,7 @@ public class UsersRepositoryTest {
 
         this.entityManager = JPAHelper.entityManagerFactory(Constants.PERSISTENCE_UNIT_NAME)
                 .createEntityManager();
-        this.usersRepository = new UsersRepository();
+        this.usersRepository = new UsersRepositoryEx();
         this.usersRepository.setManager(this.entityManager);
     }
 

@@ -1,5 +1,7 @@
 package org.xine.marketplace.model.entities;
 
+import org.xine.marketplace.validator.constraints.Email;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,10 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Email;
-
-
+import javax.validation.constraints.Size;
 
 /**
  * The Class User.
@@ -46,8 +45,7 @@ public class User implements Serializable {
     /**
      * Instantiates a new user.
      */
-    public User() {
-    }
+    public User() {}
 
     /**
      * Instantiates a new user.
@@ -88,6 +86,7 @@ public class User implements Serializable {
      * @return the username
      */
     @NotNull
+    @Size(min = 4, max = 32)
     @Column(length = 32, unique = true, nullable = false)
     public String getUsername() {
         return this.username;
@@ -107,6 +106,7 @@ public class User implements Serializable {
      * @return the password
      */
     @NotNull
+    @Size(max = 32, min = 4)
     @Column(length = 32, nullable = false)
     public String getPassword() {
         return this.password;
@@ -125,8 +125,9 @@ public class User implements Serializable {
      * Gets the email.
      * @return the email
      */
-    @Email
     @NotNull
+    @Size(min = 8, max = 80)
+    @Email
     @Column(length = 128, unique = true)
     public String getEmail() {
         return this.email;

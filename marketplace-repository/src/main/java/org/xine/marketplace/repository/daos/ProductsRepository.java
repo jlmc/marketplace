@@ -27,200 +27,203 @@ import javax.persistence.criteria.Root;
  */
 public class ProductsRepository {
 
-	/** The manager. */
-	@Inject
-	private EntityManager manager;
+    /** The manager. */
+    @Inject
+    private EntityManager manager;
 
-	/**
-	 * Sets the manager.
-	 * @param manager
-	 *            the new manager
-	 */
-	public void setManager(final EntityManager manager) {
-		this.manager = manager;
-	}
+    /**
+     * Sets the manager.
+     * @param manager
+     *            the new manager
+     */
+    public void setManager(final EntityManager manager) {
+        this.manager = manager;
+    }
 
-	/**
-	 * Gets the Product.
-	 * @param id
-	 *            the id
-	 * @return the product
-	 */
-	public Product get(final Long id) {
-		return this.manager.find(Product.class, id);
-	}
+    /**
+     * Gets the Product.
+     * @param id
+     *            the id
+     * @return the product
+     */
+    public Product get(final Long id) {
+        return this.manager.find(Product.class, id);
+    }
 
-	/**
-	 * Save.
-	 * @param product
-	 *            the p
-	 * @return the product
-	 */
-	public Product save(final Product product) {
-		return this.manager.merge(product);
-	}
+    /**
+     * Save.
+     * @param product
+     *            the p
+     * @return the product
+     */
+    public Product save(final Product product) {
+        return this.manager.merge(product);
+    }
 
-	/**
-	 * Search.
-	 * @param filter
-	 *            the filter
-	 * @return the list
-	 */
-	public List<Product> search(final ProductFilter filter) {
+    /**
+     * Search.
+     * @param filter
+     *            the filter
+     * @return the list
+     */
+    public List<Product> search(final ProductFilter filter) {
 
-		final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
-		final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
-		final Root<Product> root = criteriaQuery.from(Product.class);
+        final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+        final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
+        final Root<Product> root = criteriaQuery.from(Product.class);
 
-		@SuppressWarnings({"unchecked", "rawtypes", "unused" })
-		final Join<Product, Category> joiner = (Join) root.fetch("category");
+        @SuppressWarnings({"unchecked", "rawtypes" })
+        final Join<Product, Category> joiner = (Join) root.fetch("category");
 
-		criteriaQuery.select(root);
+        @SuppressWarnings({"unchecked", "rawtypes", "unused" })
+        final Join<Category, Category> catJoin = (Join) joiner.fetch("masterCategory");
 
-		final List<Predicate> predicates = new ArrayList<>();
+        criteriaQuery.select(root);
 
-		if (haveName(filter)) {
-			// where name like '%texto%'
-			final Expression<String> name = builder.parameter(String.class, "NAME");
-			predicates.add(builder.like(builder.upper(root.get("name")), name));
-		}
+        final List<Predicate> predicates = new ArrayList<>();
 
-		if (haveSKU(filter)) {
-			final Expression<String> sku = builder.parameter(String.class, "SKU");
-			predicates.add(builder.equal(root.get("sku"), sku));
-		}
+        if (haveName(filter)) {
+            // where name like '%texto%'
+            final Expression<String> name = builder.parameter(String.class, "NAME");
+            predicates.add(builder.like(builder.upper(root.get("name")), name));
+        }
 
-		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        if (haveSKU(filter)) {
+            final Expression<String> sku = builder.parameter(String.class, "SKU");
+            predicates.add(builder.equal(root.get("sku"), sku));
+        }
 
-		// adding order
-		final List<Order> ordersBys = new ArrayList<>();
-		ordersBys.add(builder.asc(root.get("name")));
-		criteriaQuery.orderBy(ordersBys);
+        criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
-		final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
+        // adding order
+        final List<Order> ordersBys = new ArrayList<>();
+        ordersBys.add(builder.asc(root.get("name")));
+        criteriaQuery.orderBy(ordersBys);
 
-		if (haveName(filter)) {
-			query.setParameter("NAME", "%" + filter.getName().toUpperCase().trim() + "%");
-		}
-		if (haveSKU(filter)) {
-			query.setParameter("SKU", filter.getSku());
-		}
+        final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
 
-		final List<Product> products = query.getResultList();
+        if (haveName(filter)) {
+            query.setParameter("NAME", "%" + filter.getName().toUpperCase().trim() + "%");
+        }
+        if (haveSKU(filter)) {
+            query.setParameter("SKU", filter.getSku());
+        }
 
-		return products;
-	}
+        final List<Product> products = query.getResultList();
 
-	/**
-	 * Gets the by sku.
-	 * @param sku
-	 *            the sku
-	 * @return the by sku
-	 */
-	public Product getBySKU(final String sku) {
-		try{
-			final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
-			final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
-			final Root<Product> root = criteriaQuery.from(Product.class);
+        return products;
+    }
 
-			criteriaQuery.select(root);
-			// criteriaQuery.where(builder.like(builder.upper(root.get("sku")), (sku.toUpperCase())));
-			criteriaQuery.where(builder.equal(builder.upper(root.get("sku")), (sku.toUpperCase())));
+    /**
+     * Gets the by sku.
+     * @param sku
+     *            the sku
+     * @return the by sku
+     */
+    public Product getBySKU(final String sku) {
+        try {
+            final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+            final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
+            final Root<Product> root = criteriaQuery.from(Product.class);
 
-			final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
-			Product p = query.getSingleResult();
-			return p;
-		}catch(NoResultException | NonUniqueResultException   e){
-			return null;
-		}
-		
-	}
+            criteriaQuery.select(root);
+            // criteriaQuery.where(builder.like(builder.upper(root.get("sku")),
+            // (sku.toUpperCase())));
+            criteriaQuery.where(builder.equal(builder.upper(root.get("sku")), (sku.toUpperCase())));
 
-	/**
-	 * Have sku.
-	 * @param filter
-	 *            the filter
-	 * @return true, if the {@code ProductFilter#getSku()} is diferent of null and is not empty,
-	 *         false otherwise.
-	 */
-	private static boolean haveSKU(final ProductFilter filter) {
-		return filter != null && filter.getSku() != null && !filter.getSku().trim().isEmpty();
-	}
+            final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
+            final Product p = query.getSingleResult();
+            return p;
+        } catch (NoResultException | NonUniqueResultException e) {
+            return null;
+        }
 
-	/**
-	 * Have name.
-	 * @param filter
-	 *            the filter
-	 * @return true, if the {@code ProductFilter#getName()} is diferent of null and is not empty,
-	 *         false otherwise.
-	 */
-	private static boolean haveName(final ProductFilter filter) {
-		return filter != null && filter.getName() != null && !filter.getName().trim().isEmpty();
-	}
+    }
 
-	/**
-	 * Gets Product the by id.
-	 * @param id the id
-	 * @return the by id
-	 */
-	public Product getById(Long id){
-		// can't not use the next line was implementation because 
-		// in that way the category and master category don't are load
-		//return this.manager.find(Product.class, id);
-		//--------------------------------------------------
+    /**
+     * Have sku.
+     * @param filter
+     *            the filter
+     * @return true, if the {@code ProductFilter#getSku()} is diferent of null and is not empty,
+     *         false otherwise.
+     */
+    private static boolean haveSKU(final ProductFilter filter) {
+        return filter != null && filter.getSku() != null && !filter.getSku().trim().isEmpty();
+    }
 
-		final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
-		final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
-		final Root<Product> root = criteriaQuery.from(Product.class);
-		@SuppressWarnings({"unchecked", "rawtypes",  })
-		final Join<Product, Category> productsCategoryJoin = (Join) root.fetch("category");
-		@SuppressWarnings({ "unused", "unchecked", "rawtypes" })
-		final Join<Category, Category> categorysJoin = (Join) productsCategoryJoin.fetch("masterCategory");
+    /**
+     * Have name.
+     * @param filter
+     *            the filter
+     * @return true, if the {@code ProductFilter#getName()} is diferent of null and is not empty,
+     *         false otherwise.
+     */
+    private static boolean haveName(final ProductFilter filter) {
+        return filter != null && filter.getName() != null && !filter.getName().trim().isEmpty();
+    }
 
-		criteriaQuery.select(root);
-		// criteriaQuery.where(builder.like(builder.upper(root.get("sku")), (sku.toUpperCase())));
-		criteriaQuery.where(builder.equal(root.get("id"), id));
+    /**
+     * Gets Product the by id.
+     * @param id
+     *            the id
+     * @return the by id
+     */
+    public Product getById(final Long id) {
+        // can't not use the next line was implementation because
+        // in that way the category and master category don't are load
+        // return this.manager.find(Product.class, id);
+        // --------------------------------------------------
 
-		final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
-		Product product = query.getSingleResult();
+        final CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+        final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
+        final Root<Product> root = criteriaQuery.from(Product.class);
+        @SuppressWarnings({"unchecked", "rawtypes", })
+        final Join<Product, Category> productsCategoryJoin = (Join) root.fetch("category");
+        @SuppressWarnings({"unused", "unchecked", "rawtypes" })
+        final Join<Category, Category> categorysJoin = (Join) productsCategoryJoin
+        .fetch("masterCategory");
 
-		return product;
-	}
+        criteriaQuery.select(root);
+        // criteriaQuery.where(builder.like(builder.upper(root.get("sku")), (sku.toUpperCase())));
+        criteriaQuery.where(builder.equal(root.get("id"), id));
 
-	/**
-	 * Removes the product.
-	 * This method must be call inside a transaction.
-	 * 
-	 * @param product the product to remove Operation
-	 * @throws RepositoryException 
-	 */
-	public void remove(Product product) throws RepositoryException{
-		try {
-			// the param product could't be attached (connected) in JPA Entity manager
-			// and so we get the product from the database
-			product = get(product.getId());
+        final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
+        final Product product = query.getSingleResult();
 
-			this.manager.remove(product);
+        return product;
+    }
 
-			/*
-			 * If we don't do flush
-			 * the product will be only marked to exclusion, 
-			 *
-			 *  
-			 *  This exclusion will only be effective when performing a commit, 
-			 *  or when you run the manual flush or an automatic flush, 
-			 *  in this case do the manual.
-			 *  
-			 *  Flush will run the SQL delete, 
-			 *  if the product is being used in some other table in the database a 
-			 *  PersistenceException will be throw. 
-			 *  (We whant co handler that exception over here, 
-			 *  and not lose it to something out of control)
-			 */
-			this.manager.flush();
-		} catch (PersistenceException e) {
-			throw new RepositoryException("Product can not be excluded.");
-		}
-	}
+    /**
+     * Removes the product.
+     * This method must be call inside a transaction.
+     * @param product
+     *            the product to remove Operation
+     * @throws RepositoryException
+     */
+    public void remove(final Product product) throws RepositoryException {
+        try {
+            // the param product could't be attached (connected) in JPA Entity manager
+            // and so we get the product from the database
+            final Product productTemp = get(product.getId());
+
+            this.manager.remove(productTemp);
+
+            /*
+             * If we don't do flush
+             * the product will be only marked to exclusion,
+             * This exclusion will only be effective when performing a commit,
+             * or when you run the manual flush or an automatic flush,
+             * in this case do the manual.
+             * Flush will run the SQL delete,
+             * if the product is being used in some other table in the database a
+             * PersistenceException will be throw.
+             * (We whant co handler that exception over here,
+             * and not lose it to something out of control)
+             */
+            this.manager.flush();
+        } catch (final PersistenceException e) {
+            throw new RepositoryException("Product can not be excluded.");
+        }
+    }
 
 }

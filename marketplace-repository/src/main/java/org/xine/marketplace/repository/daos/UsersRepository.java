@@ -1,110 +1,70 @@
 package org.xine.marketplace.repository.daos;
 
 import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.repository.exceptions.RepositoryException;
 
-import java.util.List;
+import java.io.Serializable;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.PersistenceException;
 
 /**
- * The Class UsersRespository.
+ * The Class UsersRepository.
  */
-public class UsersRepository {
+public class UsersRepository implements Serializable {
 
-    /** The manager. */
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
+
+    /** The entity manager. */
     @Inject
-    private EntityManager manager;
+    private EntityManager entityManager;
 
     /**
-     * Gets the list of user.
-     * @return the list of user
+     * Save or Update.
+     * @param user
+     *            the user
+     * @return the user
+     * @throws RepositoryException
+     *             the repository exception
      */
-    public List<User> getListOfUser() {
-        final CriteriaBuilder cb = this.manager.getCriteriaBuilder();
-        final CriteriaQuery<User> cq = cb.createQuery(User.class);
-        final Root<User> rootEntry = cq.from(User.class);
-        final CriteriaQuery<User> all = cq.select(rootEntry);
-        final TypedQuery<User> allQuery = this.manager.createQuery(all);
-        return allQuery.getResultList();
+    public User save(final User user) throws RepositoryException {
+        try {
+            return this.entityManager.merge(user);
+        } catch (final PersistenceException e) {
+            throw new RepositoryException("username or e-mail alredy in use.", e);
+        }
     }
 
     /**
-     * Gets the list of user jpql.
-     * @return the list of user jpql
+     * Delete.
+     * @param user
+     *            the user
+     * @throws RepositoryException
+     *             the repository exception
      */
-    @SuppressWarnings("unchecked")
-    public List<User> getListOfUserJPQL() {
-        return this.manager.createQuery("FROM User").getResultList();
+    public void delete(final User user) throws RepositoryException {
+        // TODO::missing implemetation
     }
 
     /**
-     * Gets the list of user jpql.
-     * @return the list of user jpql
-     */
-    public User getUserbyUsernameJPQL(final String username) {
-        return (User) this.manager.createQuery("FROM User WHERE username = :username")
-                .setParameter("username", username).getSingleResult();
-    }
-
-    public User getUserbyUsername(final String username) {
-        final CriteriaBuilder cb = this.manager.getCriteriaBuilder();
-
-        final CriteriaQuery<User> cq = cb.createQuery(User.class);
-        final Root<User> pet = cq.from(User.class);
-        cq.where(cb.equal(pet.get("username"), username));
-
-        return this.manager.createQuery(cq).getSingleResult();
-
-    }
-
-    /**
-     * Gets the user.
+     * Gets the by id.
      * @param id
      *            the id
-     * @return the user
+     * @return the by id
      */
-    public User getUser(final Long id) {
-
-        return this.manager.find(User.class, id);
+    public User getById(final Long id) {
+        return this.entityManager.find(User.class, id);
     }
 
     /**
-     * Sets the manager.
-     * @param manager
-     *            the new manager
+     * Sets the entity manager.
+     * @param entityManager
+     *            the new entity manager
      */
-    public void setManager(final EntityManager manager) {
-        this.manager = manager;
-    }
-
-    /**
-     * Save user.
-     * @param user
-     *            the user
-     * @return the user
-     */
-    public User saveUser(final User user) {
-        // this.manager.merge(user);
-        return this.manager.merge(user);
-
-        // return user;
-    }
-
-    /**
-     * Delet user.
-     * @param user
-     *            the user
-     */
-    public void deletUser(final User user) {
-        final User u = this.manager.merge(user);
-
-        this.manager.remove(u);
-
+    public void setEntityManager(final EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
 }

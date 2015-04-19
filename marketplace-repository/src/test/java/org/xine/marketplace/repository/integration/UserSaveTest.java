@@ -4,7 +4,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.xine.marketplace.model.entities.Permission;
 import org.xine.marketplace.model.entities.User;
-import org.xine.marketplace.repository.daos.UsersRepository;
+import org.xine.marketplace.repository.daos.UsersRepositoryEx;
 import org.xine.marketplace.repository.util.JPAUtil;
 
 import javax.persistence.EntityManager;
@@ -16,7 +16,7 @@ public class UserSaveTest {
     @Ignore
     public void test() {
         final EntityManager em = JPAUtil.createEntityManager();
-        final UsersRepository ur = new UsersRepository();
+        final UsersRepositoryEx ur = new UsersRepositoryEx();
         ur.setManager(em);
         em.getTransaction().begin();
 
@@ -34,7 +34,7 @@ public class UserSaveTest {
          * saving same object ading same object with him that object will be persiste to
          */
         final EntityManager em = JPAUtil.createEntityManager();
-        final UsersRepository ur = new UsersRepository();
+        final UsersRepositoryEx ur = new UsersRepositoryEx();
         ur.setManager(em);
         em.getTransaction().begin();
 
@@ -57,7 +57,7 @@ public class UserSaveTest {
         user.setId(9L);
 
         final EntityManager em = JPAUtil.createEntityManager();
-        final UsersRepository ur = new UsersRepository();
+        final UsersRepositoryEx ur = new UsersRepositoryEx();
         ur.setManager(em);
         em.getTransaction().begin();
 
