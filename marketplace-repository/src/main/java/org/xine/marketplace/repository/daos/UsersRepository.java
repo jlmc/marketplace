@@ -1,12 +1,10 @@
 package org.xine.marketplace.repository.daos;
 
 import org.xine.marketplace.model.entities.User;
-import org.xine.marketplace.repository.events.NoUniqueResultNotify;
 import org.xine.marketplace.repository.exceptions.RepositoryException;
 
 import java.io.Serializable;
 
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -20,7 +18,6 @@ import javax.persistence.criteria.Root;
 /**
  * The Class UsersRepository.
  */
-@NoUniqueResultNotify
 public class UsersRepository implements Serializable {
 
 	/** The Constant serialVersionUID. */
@@ -30,8 +27,7 @@ public class UsersRepository implements Serializable {
 	@Inject
 	private EntityManager entityManager;
 	
-	@Inject
-    private Event<NonUniqueResultException> nonUniqueResultExceptionEvent;
+	
 
 	/**
 	 * Save or Update.
@@ -101,8 +97,6 @@ public class UsersRepository implements Serializable {
 		}catch(NoResultException e){
 			return null;
 		}catch(NonUniqueResultException e){
-			// notify some thing that ther are more that one user with the same username
-			this.handleItem(e);
 			return null;
 		}
 	}
@@ -129,12 +123,11 @@ public class UsersRepository implements Serializable {
 		}catch(NoResultException e){
 			return null;
 		}
+		catch(NonUniqueResultException e){
+			return null;
+		}
 	}
 	
 	
-	public void handleItem(NonUniqueResultException item) {
-        System.out.println("Firing Event");
-        this.nonUniqueResultExceptionEvent.fire(item);
-    }
-
+	
 }

@@ -10,11 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * The Class Permission.
  */
 @Entity
+@Table(name="permission")
 public class Permission implements Serializable {
 
     /** The Constant serialVersionUID. */
