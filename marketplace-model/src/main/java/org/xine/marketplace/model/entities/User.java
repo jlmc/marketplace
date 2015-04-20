@@ -86,8 +86,8 @@ public class User implements Serializable {
      * @return the username
      */
     @NotNull
-    @Size(min = 4, max = 32)
-    @Column(length = 32, unique = true, nullable = false)
+    @Size(min = 4, max = 50)
+    @Column(length = 100, unique = false, nullable = false)
     public String getUsername() {
         return this.username;
     }

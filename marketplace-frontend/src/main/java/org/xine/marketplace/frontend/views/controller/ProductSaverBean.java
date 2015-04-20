@@ -47,11 +47,9 @@ public class ProductSaverBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        System.out
-                .println("\n-----------------------------------------------------------------------");
+        System.out.println("\n-----------------------------------------------");
         System.out.println("initialize @PostConstruct");
-        System.out
-                .println("-----------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------");
         clean();
 
         this.rootCategorys = this.service.getRootCategorys();
@@ -61,19 +59,20 @@ public class ProductSaverBean implements Serializable {
     /**
      * Inits the.
      */
-    @SuppressWarnings("static-method")
     public void init() {
         if (FacesUtil.isNotPostback()) {
-            System.out
-                    .println("\n-----------------------------------------------------------------------");
+            if (this.product == null) {
+                clean();
+            }
+
+            System.out.println("\n---------------------------------------");
             System.out.println("INIT");
             // do the operation here
             if (this.categoryMaster != null) {
                 System.out.println(">>>> LOAD CHILD CATEGORIES");
                 loadChildCategorys();
             }
-            System.out
-                    .println("-----------------------------------------------------------------------");
+            System.out.println("------------------------------------------");
         }
     }
 
@@ -86,7 +85,9 @@ public class ProductSaverBean implements Serializable {
 
         FacesUtil.addInfoMessage("Produto savo com sucesso");
 
-        clean();
+        if (!isEdit()) {
+            clean();
+        }
     }
 
     /**

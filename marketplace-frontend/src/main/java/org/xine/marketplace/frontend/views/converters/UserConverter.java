@@ -1,6 +1,6 @@
 package org.xine.marketplace.frontend.views.converters;
 
-import org.xine.marketplace.frontend.views.util.cdi.CDIServiceLocator;
+import org.apache.commons.lang.StringUtils;
 import org.xine.marketplace.model.entities.User;
 import org.xine.marketplace.repository.daos.UsersRepository;
 
@@ -8,6 +8,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 
 /**
  * The Class UserConverter.
@@ -16,15 +17,13 @@ import javax.faces.convert.FacesConverter;
 public class UserConverter implements Converter {
 
     /** The repository. */
-    private final UsersRepository repository;
+    @Inject
+    private UsersRepository repository;
 
-    /**
-     * Instantiates a new user converter.
-     */
-    public UserConverter() {
-        // using this because the CDI don't works in FacesConverter
-        this.repository = CDIServiceLocator.getBean(UsersRepository.class);
-    }
+    // public UserConverter() {
+    // // using this because the CDI don't works in FacesConverter
+    // this.repository = CDIServiceLocator.getBean(UsersRepository.class);
+    // }
 
     /**
      * Gets the as object.
@@ -41,7 +40,7 @@ public class UserConverter implements Converter {
             final String value) {
         User result = null;
 
-        if (value != null) {
+        if (value != null && StringUtils.isNotEmpty(value)) {
             final Long id = new Long(value);
             System.out.println("-----------------------------------------------------------------");
             System.out.println("UserConverter getAsObject");

@@ -1,5 +1,6 @@
 package org.xine.marketplace.frontend.views.controller;
 
+import org.xine.marketplace.model.entities.Requisition;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,9 +9,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-
-import org.xine.marketplace.model.entities.Requisition;
-
 
 /**
  * The Class RequisitionSearchBean.
@@ -47,24 +45,21 @@ public class RequisitionSearchBean implements Serializable {
 
     }
 
-	/**
-	 * Gets the requisitions.
-	 *
-	 * @return the requisitions
-	 */
-	public List<Requisition> getRequisitions() {
-		return requisitions;
-	}
+    /**
+     * Gets the requisitions.
+     * @return the requisitions
+     */
+    public List<Requisition> getRequisitions() {
+        return this.requisitions;
+    }
 
-	/**
-	 * Sets the requisitions.
-	 *
-	 * @param requisitions the new requisitions
-	 */
-	public void setRequisitions(List<Requisition> requisitions) {
-		this.requisitions = requisitions;
-	}
-
-  
+    /**
+     * Sets the requisitions.
+     * @param requisitions
+     *            the new requisitions
+     */
+    public void setRequisitions(final List<Requisition> requisitions) {
+        this.requisitions = requisitions;
+    }
 
 }

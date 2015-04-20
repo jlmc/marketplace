@@ -20,114 +20,83 @@ import javax.persistence.criteria.Root;
  */
 public class UsersRepository implements Serializable {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
 
-	/** The entity manager. */
-	@Inject
-	private EntityManager entityManager;
-	
-	
+    /** The entity manager. */
+    @Inject
+    private EntityManager entityManager;
 
-	/**
-	 * Save or Update.
-	 * @param user
-	 *            the user
-	 * @return the user
-	 * @throws RepositoryException
-	 *             the repository exception
-	 */
-	public User save(final User user) throws RepositoryException {
-		try {
-			return this.entityManager.merge(user);
-		} catch (final PersistenceException e) {
-			throw new RepositoryException("username or e-mail alredy in use.", e);
-		}
-	}
+    /**
+     * Save or Update.
+     * @param user
+     *            the user
+     * @return the user
+     * @throws RepositoryException
+     *             the repository exception
+     */
+    public User save(final User user) throws RepositoryException {
+        try {
+            return this.entityManager.merge(user);
+        } catch (final PersistenceException e) {
+            throw new RepositoryException("username or e-mail alredy in use.", e);
+        }
+    }
 
-	/**
-	 * Delete.
-	 * @param user
-	 *            the user
-	 * @throws RepositoryException
-	 *             the repository exception
-	 */
-	public void delete(final User user) throws RepositoryException {
-		// TODO::missing implemetation
-	}
+    /**
+     * Delete.
+     * @param user
+     *            the user
+     * @throws RepositoryException
+     *             the repository exception
+     */
+    public void delete(final User user) throws RepositoryException {
+        // TODO::missing implemetation
+    }
 
-	/**
-	 * Gets the by id.
-	 * @param id
-	 *            the id
-	 * @return the by id
-	 */
-	public User getById(final Long id) {
-		return this.entityManager.find(User.class, id);
-	}
+    /**
+     * Gets the by id.
+     * @param id
+     *            the id
+     * @return the by id
+     */
+    public User getById(final Long id) {
+        return this.entityManager.find(User.class, id);
+    }
 
-	/**
-	 * Sets the entity manager.
-	 * @param entityManager
-	 *            the new entity manager
-	 */
-	public void setEntityManager(final EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
+    /**
+     * Sets the entity manager.
+     * @param entityManager
+     *            the new entity manager
+     */
+    public void setEntityManager(final EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
-	/**
-	 * Gets the user by username.
-	 *
-	 * @param username the username
-	 * @return the user by username
-	 */
-	public User getUserByUsername(String username) {
-		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-		final CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
-		Root<User> root = criteriaQuery.from(User.class);
+    /**
+     * Gets the user by username.
+     * @param email
+     *            the email
+     * @return the user by username
+     */
+    public User getUserByEmail(final String email) {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+        final Root<User> root = criteriaQuery.from(User.class);
 
-		criteriaQuery.select(root);
-		criteriaQuery.where(builder.equal(builder.upper(root.get("username")), username.toUpperCase()));
+        criteriaQuery.select(root);
+        criteriaQuery.where(builder.equal(builder.upper(root.get("email")), email.toUpperCase()));
 
-		try{
-			TypedQuery<User> userQuery = this.entityManager.createQuery(criteriaQuery);
-			User user = userQuery.getSingleResult();
+        try {
+            final TypedQuery<User> userQuery = this.entityManager.createQuery(criteriaQuery);
+            final User user = userQuery.getSingleResult();
 
-			return user;
-		}catch(NoResultException e){
-			return null;
-		}catch(NonUniqueResultException e){
-			return null;
-		}
-	}
-	
-	/**
-	 * Gets the user by username.
-	 *
-	 * @param email the email
-	 * @return the user by username
-	 */
-	public User getUserByEmail(String email) {
-		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
-		final CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
-		Root<User> root = criteriaQuery.from(User.class);
+            return user;
+        } catch (final NoResultException e) {
+            return null;
+        } catch (final NonUniqueResultException e) {
+            return null;
+        }
+    }
 
-		criteriaQuery.select(root);
-		criteriaQuery.where(builder.equal(builder.upper(root.get("email")), email.toUpperCase()));
-
-		try{
-			TypedQuery<User> userQuery = this.entityManager.createQuery(criteriaQuery);
-			User user = userQuery.getSingleResult();
-
-			return user;
-		}catch(NoResultException e){
-			return null;
-		}
-		catch(NonUniqueResultException e){
-			return null;
-		}
-	}
-	
-	
-	
 }

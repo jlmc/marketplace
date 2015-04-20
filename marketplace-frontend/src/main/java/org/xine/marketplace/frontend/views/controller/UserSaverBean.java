@@ -2,9 +2,11 @@ package org.xine.marketplace.frontend.views.controller;
 
 import org.xine.marketplace.business.services.UserService;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
+import org.xine.marketplace.model.entities.Permission;
 import org.xine.marketplace.model.entities.User;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -25,8 +27,13 @@ public class UserSaverBean implements Serializable {
     @Inject
     private UserService service;
 
+    /******************/
+
     /** The user. */
     private User user;
+
+    /** The permissions. */
+    private List<Permission> permissions;
 
     /**
      * Initialize.
@@ -35,12 +42,11 @@ public class UserSaverBean implements Serializable {
     public void initialize() {
         // TODO:: may load the groups or permissions
         // nothing
-        System.out
-        .println("\n-----------------------------------------------------------------------");
+        System.out.println("\n-----------------------------------------------");
         System.out.println("initialize @PostConstruct");
-        System.out
-        .println("-----------------------------------------------------------------------");
-        clean();
+        System.out.println("-------------------------------------------------");
+
+        this.permissions = this.service.getPermissions();
     }
 
     /**
@@ -57,7 +63,6 @@ public class UserSaverBean implements Serializable {
      */
     private void clean() {
         this.user = new User();
-
     }
 
     /**
@@ -75,6 +80,14 @@ public class UserSaverBean implements Serializable {
      */
     public void setUser(final User user) {
         this.user = user;
+    }
+
+    /**
+     * Gets the permissions.
+     * @return the permissions
+     */
+    public List<Permission> getPermissions() {
+        return this.permissions;
     }
 
 }

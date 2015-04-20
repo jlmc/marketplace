@@ -57,17 +57,15 @@ public class ProductSearchBean implements Serializable {
     /**
      * Delete.
      */
-    @SuppressWarnings("static-method")
     public void delete() {
         System.out.println("delete something");
         this.service.delete(this.selectedProduct);
-        
-        //if sucess remove product from the colection.
+
+        // if sucess remove product from the colection.
         this.products.remove(this.selectedProduct);
-        
-        FacesUtil.addInfoMessage("Product "+ this.selectedProduct.getSku() +" was been removed.");
-        
-		
+
+        FacesUtil.addInfoMessage("Product " + this.selectedProduct.getSku() + " was been removed.");
+
     }
 
     /**

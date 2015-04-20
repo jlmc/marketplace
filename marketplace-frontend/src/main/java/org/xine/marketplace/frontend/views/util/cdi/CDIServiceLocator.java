@@ -12,44 +12,43 @@ import javax.naming.NamingException;
  * The Class CDIServiceLocator.
  */
 public class CDIServiceLocator {
-	
-	/**
-	 * Gets the bean manager.
-	 *
-	 * @return the bean manager
-	 */
-	private static BeanManager getBeanManager() {
-		try {
-			InitialContext initialContext = new InitialContext();
-			return (BeanManager) initialContext.lookup("java:comp/env/BeanManager");
-		} catch (NamingException e) {
-			throw new RuntimeException("Could not find BeanManager no JNDI.");
-		}
-	}
 
-	/**
-	 * Gets the bean.
-	 *
-	 * @param <T> the generic type
-	 * @param clazz the clazz
-	 * @return the bean
-	 */
-	@SuppressWarnings("unchecked")
-	public static <T> T getBean(Class<T> clazz) {
-		BeanManager bm = getBeanManager();
-		Set<Bean<?>> beans = (Set<Bean<?>>) bm.getBeans(clazz);
+    /**
+     * Gets the bean manager.
+     * @return the bean manager
+     */
+    private static BeanManager getBeanManager() {
+        try {
+            final InitialContext initialContext = new InitialContext();
+            return (BeanManager) initialContext.lookup("java:comp/env/BeanManager");
+        } catch (final NamingException e) {
+            throw new RuntimeException("Could not find BeanManager no JNDI.");
+        }
+    }
 
-		if (beans == null || beans.isEmpty()) {
-			return null;
-		}
+    /**
+     * Gets the bean.
+     * @param <T>
+     *            the generic type
+     * @param clazz
+     *            the clazz
+     * @return the bean
+     */
+    @SuppressWarnings({"unchecked" })
+    public static <T> T getBean(final Class<T> clazz) {
+        final BeanManager bm = getBeanManager();
+        final Set<Bean<?>> beans = bm.getBeans(clazz);
 
-		Bean<T> bean = (Bean<T>) beans.iterator().next();
+        if (beans == null || beans.isEmpty()) {
+            return null;
+        }
 
-		CreationalContext<T> ctx = bm.createCreationalContext(bean);
-		T o = (T) bm.getReference(bean, clazz, ctx);
+        final Bean<T> bean = (Bean<T>) beans.iterator().next();
 
-		return o;
-	}
+        final CreationalContext<T> ctx = bm.createCreationalContext(bean);
+        final T o = (T) bm.getReference(bean, clazz, ctx);
 
+        return o;
+    }
 
 }

@@ -64,11 +64,16 @@
 				<p:spacer />
 
 
-				<p:selectOneMenu id="console" style="width:125px">
-					<f:selectItem itemLabel="Admin" itemValue="Admin" />
-					<f:selectItem itemLabel="Client" itemValue="Client" />
-					<f:selectItem itemLabel="Seller" itemValue="Seller" />
+				<p:selectOneMenu id="console" style="width:125px"
+							value="#{userSaverBean.user.permissions}">
+							
+					<f:selectItem itemLabel="select the permission" />
+					<f:selectItems value="#{userSaverBean.permissions}" var="ct"
+						itemValue="#{ct}" itemLabel="#{ct.name}" />
+					
+					
 				</p:selectOneMenu>
+				
 
 				<p:button value="Add group" />
 
