@@ -28,6 +28,16 @@ public class UserService implements Serializable {
 
         try {
             // We can check if the username or email avariable.
+        	if( this.repository.getUserByUsername(user.getUsername()) != null){
+        		throw new BusinessException(
+        				String.format("Username '%s' Already in use.", 
+        						user.getUsername()));
+        	}
+        	if(this.repository.getUserByEmail(user.getEmail())!= null){
+        		throw new BusinessException(
+        				String.format("Email '%s'  Already in use.", 
+        						user.getEmail()));
+        	}
 
             return this.repository.save(user);
         } catch (final RepositoryException e) {
@@ -36,7 +46,8 @@ public class UserService implements Serializable {
 
     }
 
-    protected UsersRepository getRepository() {
+
+	protected UsersRepository getRepository() {
         return this.repository;
     }
 
