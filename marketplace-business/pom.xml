@@ -33,20 +33,27 @@
 			<version>0.2.1</version>
 			<scope>compile</scope>
 		</dependency>
-
-<!-- 		<dependency> -->
-<!-- 			<groupId>javax.mail</groupId> -->
-<!-- 			<artifactId>javax.mail-api</artifactId> -->
-<!-- 			<version>1.5.3</version> -->
-<!-- 			<scope>compile</scope> -->
-<!-- 		</dependency> -->
-		
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
 			<scope>compile</scope>
 		</dependency>
+		<!-- to use templates in emails -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- to format numbers in templates -->
+		<dependency>
+			<groupId>velocity-tools</groupId>
+			<artifactId>velocity-tools-generic</artifactId>
+			<version>1.1</version>
+			<scope>compile</scope>
+		</dependency>
+
 		<!-- / E-MAIL com\outjected\simple-email\0.2.1 -->
 
 

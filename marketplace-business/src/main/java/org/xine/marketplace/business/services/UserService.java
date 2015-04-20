@@ -1,5 +1,6 @@
 package org.xine.marketplace.business.services;
 
+import org.apache.velocity.tools.generic.NumberTool;
 import org.xine.marketplace.business.BusinessException;
 import org.xine.marketplace.business.util.mail.Mailer;
 import org.xine.marketplace.model.entities.User;
@@ -8,8 +9,10 @@ import org.xine.marketplace.repository.exceptions.RepositoryException;
 import org.xine.marketplace.repository.util.Transactional;
 
 import com.outjected.email.api.MailMessage;
+import com.outjected.email.impl.templating.velocity.VelocityTemplate;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -82,7 +85,11 @@ public class UserService implements Serializable {
 			MailMessage mailMessage = this.mailer.createMesage();
 			mailMessage.to(user.getEmail())
 						.subject("User creation sucess")
-						.bodyHtml("O user foi criado com sucesso")
+						//.bodyHtml("O user foi criado com sucesso")
+						.bodyHtml(new VelocityTemplate(this.getClass().getResourceAsStream("/emails/createdUser.template")))
+						.put("user", user)
+						.put("numberTool", new NumberTool())
+						.put("locale", new Locale("pt", "PT"))
 						.send();
 			
 			
