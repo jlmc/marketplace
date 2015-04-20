@@ -43,7 +43,7 @@ public class UserService implements Serializable {
 
 		try {
 
-			boolean isAdd = user.getId() != null;
+			boolean isAdd = user.getId() == null;
 
 			// We can check if the username or email avariable.
 			if( this.repository.getUserByUsername(user.getUsername()) != null){
