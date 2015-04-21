@@ -20,74 +20,99 @@ import javax.inject.Named;
 @ViewScoped
 public class UserSaverBean implements Serializable {
 
-    /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = 1L;
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
 
-    /** The service. */
-    @Inject
-    private UserService service;
 
-    /******************/
+	//-------------------------------------------------------------------------
+	//
+	//  business services
+	//
+	//-------------------------------------------------------------------------
 
-    /** The user. */
-    private User user;
 
-    /** The permissions. */
-    private List<Permission> permissions;
+	/** The service. */
+	@Inject
+	private UserService service;
 
-    /**
-     * Initialize.
-     */
-    @PostConstruct
-    public void initialize() {
-        // TODO:: may load the groups or permissions
-        // nothing
-        System.out.println("\n-----------------------------------------------");
-        System.out.println("initialize @PostConstruct");
-        System.out.println("-------------------------------------------------");
 
-        this.permissions = this.service.getPermissions();
-    }
+	//-------------------------------------------------------------------------
+	//
+	//  Model properties
+	//
+	//-------------------------------------------------------------------------
 
-    /**
-     * Save operation.
-     */
-    public void save() {
-        this.user = this.service.save(this.user);
-        FacesUtil.addInfoMessage("User created with sucess.");
-        clean();
-    }
 
-    /**
-     * Clean.
-     */
-    private void clean() {
-        this.user = new User();
-    }
+	/** The user. */
+	private User user;
 
-    /**
-     * Gets the user.
-     * @return the user
-     */
-    public User getUser() {
-        return this.user;
-    }
+	/** The permissions. */
+	private List<Permission> permissions;
 
-    /**
-     * Sets the user.
-     * @param user
-     *            the new user
-     */
-    public void setUser(final User user) {
-        this.user = user;
-    }
 
-    /**
-     * Gets the permissions.
-     * @return the permissions
-     */
-    public List<Permission> getPermissions() {
-        return this.permissions;
-    }
+	//-------------------------------------------------------------------------
+	//
+	//  Single operation
+	//
+	//-------------------------------------------------------------------------
+	/**
+	 * Initialize.
+	 * the single operations
+	 */
+	@PostConstruct
+	private void initialize() {
+		System.out.println("->initialize @PostConstruct");
+		this.permissions = this.service.getPermissions();
+		this.clean();
+	}
+
+	
+	/**
+	 * Clean.
+	 */
+	private void clean() {
+		this.user = new User();
+	}
+	
+	//--------------------------------------------------------------------------
+	//
+	//  Event handlers
+	//
+	//--------------------------------------------------------------------------
+	/**
+	 * Save operation.
+	 */
+	public void save() {
+		this.user = this.service.save(this.user);
+		FacesUtil.addInfoMessage("User created with sucess.");
+		clean();
+	}
+
+	
+
+	/**
+	 * Gets the user.
+	 * @return the user
+	 */
+	public User getUser() {
+		return this.user;
+	}
+
+	/**
+	 * Sets the user.
+	 * @param user
+	 *            the new user
+	 */
+	public void setUser(final User user) {
+		this.user = user;
+	}
+
+	/**
+	 * Gets the permissions.
+	 * @return the permissions
+	 */
+	public List<Permission> getPermissions() {
+		return this.permissions;
+	}
 
 }
