@@ -59,10 +59,10 @@ import javax.faces.event.SystemEventListener;
 public class ViewScopedContext implements Context, SystemEventListener {
 
     /** The Constant COMPONENT_MAP_NAME. */
-    private final static String COMPONENT_MAP_NAME = "org.jboss.seam.faces.viewscope.componentInstanceMap";
+    private static final String COMPONENT_MAP_NAME = "org.jboss.seam.faces.viewscope.componentInstanceMap";
 
     /** The Constant CREATIONAL_MAP_NAME. */
-    private final static String CREATIONAL_MAP_NAME = "org.jboss.seam.faces.viewscope.creationalInstanceMap";
+    private static final String CREATIONAL_MAP_NAME = "org.jboss.seam.faces.viewscope.creationalInstanceMap";
 
     /** The is jsf subscribed. */
     private boolean isJsfSubscribed = false;
@@ -211,7 +211,7 @@ public class ViewScopedContext implements Context, SystemEventListener {
      * @return the component instance map
      */
 
-    //@SuppressWarnings("unused")
+    // @SuppressWarnings("unused")
     private Map<Contextual<?>, Object> getComponentInstanceMap() {
         final Map<String, Object> viewMap = getViewMap();
         Map<Contextual<?>, Object> map = (ConcurrentHashMap<Contextual<?>, Object>) viewMap
@@ -227,7 +227,7 @@ public class ViewScopedContext implements Context, SystemEventListener {
      * Gets the creational instance map.
      * @return the creational instance map
      */
-   // @SuppressWarnings("unused")
+    // @SuppressWarnings("unused")
     private Map<Contextual<?>, CreationalContext<?>> getCreationalInstanceMap() {
         final Map<String, Object> viewMap = getViewMap();
         Map<Contextual<?>, CreationalContext<?>> map = (Map<Contextual<?>, CreationalContext<?>>) viewMap

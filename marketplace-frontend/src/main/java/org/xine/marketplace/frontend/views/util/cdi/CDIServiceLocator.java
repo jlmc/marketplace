@@ -11,7 +11,13 @@ import javax.naming.NamingException;
 /**
  * The Class CDIServiceLocator.
  */
-public class CDIServiceLocator {
+public final class CDIServiceLocator {
+
+    /**
+     * Instantiates a new CDI service locator.
+     */
+    private CDIServiceLocator() {
+    }
 
     /**
      * Gets the bean manager.

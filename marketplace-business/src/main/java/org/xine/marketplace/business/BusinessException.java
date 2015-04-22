@@ -19,8 +19,8 @@ public class BusinessException extends RuntimeException {
 
     /**
      * Instantiates a new business exception.
-     * @param string
-     *            the string
+     * @param msg
+     *            the msg
      * @param cause
      *            the cause
      */

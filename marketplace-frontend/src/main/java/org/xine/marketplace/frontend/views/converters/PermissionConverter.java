@@ -1,8 +1,5 @@
 package org.xine.marketplace.frontend.views.converters;
 
-import org.xine.marketplace.business.services.UserService;
-import org.xine.marketplace.model.entities.Permission;
-
 import java.util.Optional;
 
 import javax.faces.component.UIComponent;
@@ -10,6 +7,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+
+import org.xine.marketplace.business.services.UserService;
+import org.xine.marketplace.model.entities.Permission;
 
 /**
  * The Class PermissionConverter.
@@ -50,7 +50,7 @@ public class PermissionConverter implements Converter {
     public String getAsString(final FacesContext context, final UIComponent component,
             final Object value) {
         String result = "";
-        // i what to do the next comment code, but this time i gonne use Optional
+        // i what to do the next comment code, but this time i gone use Optional
         // if (value != null) {
         // final Permission p = (Permission) value;
         // result = p.getId() == null ? null : p.getId().toString();

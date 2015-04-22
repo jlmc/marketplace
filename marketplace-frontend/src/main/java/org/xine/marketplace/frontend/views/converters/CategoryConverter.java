@@ -1,14 +1,14 @@
 package org.xine.marketplace.frontend.views.converters;
 
-import org.apache.commons.lang.StringUtils;
-import org.xine.marketplace.frontend.views.util.cdi.CDIServiceLocator;
-import org.xine.marketplace.model.entities.Category;
-import org.xine.marketplace.repository.daos.CategorysRepository;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+
+import org.apache.commons.lang.StringUtils;
+import org.xine.marketplace.frontend.views.util.cdi.CDIServiceLocator;
+import org.xine.marketplace.model.entities.Category;
+import org.xine.marketplace.repository.daos.CategorysRepository;
 
 /**
  * The Class CategoryConverter.
@@ -16,8 +16,12 @@ import javax.faces.convert.FacesConverter;
 @FacesConverter(forClass = Category.class)
 public class CategoryConverter implements Converter {
 
+    /** The repository. */
     private final CategorysRepository repository;
 
+    /**
+     * Instantiates a new category converter.
+     */
     public CategoryConverter() {
         // using this because the CDI don't works in FacesConverter
         this.repository = CDIServiceLocator.getBean(CategorysRepository.class);

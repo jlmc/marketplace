@@ -1,14 +1,14 @@
 package org.xine.marketplace.frontend.views.converters;
 
-import org.apache.commons.lang.StringUtils;
-import org.xine.marketplace.model.entities.Product;
-import org.xine.marketplace.repository.daos.ProductsRepository;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
+
+import org.apache.commons.lang.StringUtils;
+import org.xine.marketplace.model.entities.Product;
+import org.xine.marketplace.repository.daos.ProductsRepository;
 
 /**
  * The Class CategoryConverter.
@@ -16,6 +16,7 @@ import javax.inject.Inject;
 @FacesConverter(forClass = Product.class)
 public class ProductConverter implements Converter {
 
+    /** The repository. */
     @Inject
     private ProductsRepository repository;
 
