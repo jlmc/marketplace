@@ -29,7 +29,7 @@
 					<p:button value="New" outcome="/users/UserRegistration" />
 					<p:commandButton value="Save" id="save"
 						action="#{userSaverBean.save}" update="@form" 
-						process="frm:name frm:email frm:password frm:confPassword frm:groupsTable" />
+						process="frm:name frm:email frm:password frm:confPassword frm:groupsTable @this" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Search" outcome="/users/UserSearch" />
