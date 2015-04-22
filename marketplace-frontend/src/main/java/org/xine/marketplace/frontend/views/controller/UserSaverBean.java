@@ -20,99 +20,131 @@ import javax.inject.Named;
 @ViewScoped
 public class UserSaverBean implements Serializable {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 1L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
 
+    // -------------------------------------------------------------------------
+    //
+    // business services
+    //
+    // -------------------------------------------------------------------------
 
-	//-------------------------------------------------------------------------
-	//
-	//  business services
-	//
-	//-------------------------------------------------------------------------
+    /** The service. */
+    @Inject
+    private UserService service;
 
+    // -------------------------------------------------------------------------
+    //
+    // Model properties
+    //
+    // -------------------------------------------------------------------------
 
-	/** The service. */
-	@Inject
-	private UserService service;
+    /** The user. */
+    private User user;
 
+    /** The all permissions. */
+    private List<Permission> allPermissions;
 
-	//-------------------------------------------------------------------------
-	//
-	//  Model properties
-	//
-	//-------------------------------------------------------------------------
+    /**
+     * The selected permission.
+     * The selected Permission to add to the user permissions.
+     */
+    private Permission selectedPermission;
 
+    // -------------------------------------------------------------------------
+    //
+    // Single operation
+    //
+    // -------------------------------------------------------------------------
+    /**
+     * Initialize.
+     * the single operations
+     */
+    @PostConstruct
+    private void initialize() {
+        System.out.println("->initialize @PostConstruct");
+        this.allPermissions = this.service.getPermissions();
+        clean();
+    }
 
-	/** The user. */
-	private User user;
+    /**
+     * Clean.
+     */
+    private void clean() {
+        this.user = new User();
+    }
 
-	/** The permissions. */
-	private List<Permission> permissions;
+    // --------------------------------------------------------------------------
+    //
+    // Event handlers
+    //
+    // --------------------------------------------------------------------------
+    /**
+     * Adds the permission.
+     */
+    public void addPermission() {
+        if (this.selectedPermission != null) {
+            this.user.getPermissions().add(this.selectedPermission);
+            this.selectedPermission = null;
+        }
+    }
 
+    /**
+     * Save operation.
+     */
+    public void save() {
+        this.user = this.service.save(this.user);
 
-	//-------------------------------------------------------------------------
-	//
-	//  Single operation
-	//
-	//-------------------------------------------------------------------------
-	/**
-	 * Initialize.
-	 * the single operations
-	 */
-	@PostConstruct
-	private void initialize() {
-		System.out.println("->initialize @PostConstruct");
-		this.permissions = this.service.getPermissions();
-		this.clean();
-	}
+        FacesUtil.addInfoMessage("User created with sucess.");
+        clean();
+    }
 
-	
-	/**
-	 * Clean.
-	 */
-	private void clean() {
-		this.user = new User();
-	}
-	
-	//--------------------------------------------------------------------------
-	//
-	//  Event handlers
-	//
-	//--------------------------------------------------------------------------
-	/**
-	 * Save operation.
-	 */
-	public void save() {
-		this.user = this.service.save(this.user);
-		FacesUtil.addInfoMessage("User created with sucess.");
-		clean();
-	}
+    // --------------------------------------------------------------------------
+    //
+    // Bean Properties - Getters and Setters
+    //
+    // --------------------------------------------------------------------------
 
-	
+    /**
+     * Gets the user.
+     * @return the user
+     */
+    public User getUser() {
+        return this.user;
+    }
 
-	/**
-	 * Gets the user.
-	 * @return the user
-	 */
-	public User getUser() {
-		return this.user;
-	}
+    /**
+     * Sets the user.
+     * @param user
+     *            the new user
+     */
+    public void setUser(final User user) {
+        this.user = user;
+    }
 
-	/**
-	 * Sets the user.
-	 * @param user
-	 *            the new user
-	 */
-	public void setUser(final User user) {
-		this.user = user;
-	}
+    /**
+     * Gets the all permissions.
+     * @return the all permissions
+     */
+    public List<Permission> getAllPermissions() {
+        return this.allPermissions;
+    }
 
-	/**
-	 * Gets the permissions.
-	 * @return the permissions
-	 */
-	public List<Permission> getPermissions() {
-		return this.permissions;
-	}
+    /**
+     * Gets the selected permission.
+     * @return the selected permission
+     */
+    public Permission getSelectedPermission() {
+        return this.selectedPermission;
+    }
+
+    /**
+     * Sets the selected permission.
+     * @param selectedPermission
+     *            the new selected permission
+     */
+    public void setSelectedPermission(final Permission selectedPermission) {
+        this.selectedPermission = selectedPermission;
+    }
 
 }

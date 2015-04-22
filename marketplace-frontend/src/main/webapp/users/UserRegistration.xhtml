@@ -15,7 +15,7 @@
 
 	<ui:define name="contentBody">
 
-		<h:form id="userForm">
+		<h:form id="frm">
 
 
 
@@ -28,7 +28,8 @@
 				<p:toolbarGroup>
 					<p:button value="New" outcome="/users/UserRegistration" />
 					<p:commandButton value="Save" id="save"
-						action="#{userSaverBean.save}" update="@form" />
+						action="#{userSaverBean.save}" update="@form" 
+						process="frm:name frm:email frm:password frm:confPassword frm:groupsTable" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Search" outcome="/users/UserSearch" />
@@ -42,19 +43,18 @@
 
 				<p:outputLabel value="Name" for="name" />
 				<p:inputText id="name" size="32" maxlength="32"
-					value="#{userSaverBean.user.username}"/>
+					value="#{userSaverBean.user.username}" />
 
 				<p:outputLabel value="E-mail" for="email" />
 				<p:inputText id="email" size="60" maxlength="80"
-					value="#{userSaverBean.user.email}"/>
+					value="#{userSaverBean.user.email}" />
 
 
 				<p:outputLabel value="Password" for="password" />
 				<p:password id="password" size="30" maxlength="30" required="true"
 					feedback="true" weakLabel="weak" goodLabel="good"
 					strongLabel="strong" promptLabel="password" inline="false"
-					match="confPassword" 
-					value="#{userSaverBean.user.password}"/>
+					match="confPassword" value="#{userSaverBean.user.password}" />
 
 				<p:outputLabel value="Password Confirmation" for="confPassword" />
 				<p:password id="confPassword" size="30" maxlength="30"
@@ -64,18 +64,23 @@
 				<p:spacer />
 
 
-				<p:selectOneMenu id="console" style="width:125px"
-							value="#{userSaverBean.user.permissions}">
-							
+				<p:selectOneMenu id="permissionSOM" style="width:125px"
+					value="#{userSaverBean.selectedPermission}">
 					<f:selectItem itemLabel="select the permission" />
-					<f:selectItems value="#{userSaverBean.permissions}" var="ct"
-						itemValue="#{ct}" itemLabel="#{ct.name}" />
-					
-					
-				</p:selectOneMenu>
-				
 
-				<p:button value="Add group" />
+					<f:selectItems value="#{userSaverBean.allPermissions}"
+						var="permission" itemValue="#{permission}"
+						itemLabel="#{permission.name}" />
+				</p:selectOneMenu>
+
+
+				<p:commandButton id="addGroupsButton" value="Add groups"
+					icon="ui-icon-plus" iconPos="left"
+					action="#{userSaverBean.addPermission}"
+					process="frm:permissionSOM @this" update="frm:groupsTable frm:permissionSOM" />
+
+
+
 
 			</p:panelGrid>
 
@@ -83,12 +88,19 @@
 
 
 
-				<p:dataTable id="groupsTable" emptyMessage="No groups Defined">
+				<p:dataTable id="groupsTable" emptyMessage="No groups Defined"
+					value="#{userSaverBean.user.permissions}" var="permission">
 					<p:column headerText="Group" width="100%">
-						<h:outputText value="Admin" />
+						<h:outputText value="#{permission.name}" />
 					</p:column>
-
+					<p:column headerText="Description" width="100%">
+						<h:outputText value="#{permission.description}" />
+					</p:column>
 					<p:column style="width: 100px; text-align: center">
+						<p:commandButton icon="ui-icon-trash" title="Excluir">
+							
+						</p:commandButton>
+
 					</p:column>
 				</p:dataTable>
 			</p:panelGrid>

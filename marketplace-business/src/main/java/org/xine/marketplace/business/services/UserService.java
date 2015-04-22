@@ -34,6 +34,7 @@ public class UserService implements Serializable {
     private UsersRepository repository;
 
     /** The permissions repository. */
+    @Inject
     private PermissionsRepository permissionsRepository;
 
     /** The mailer. */
@@ -106,6 +107,22 @@ public class UserService implements Serializable {
     public List<Permission> getPermissions() {
         return this.permissionsRepository.getPermissions();
     }
+
+    /**
+     * Gets the permission by id.
+     * @param id
+     *            the id
+     * @return the permission by id
+     */
+    public Permission getPermissionById(final Long id) {
+        return this.permissionsRepository.getPermissionById(id);
+    }
+
+    // -------------------------------------------------------------------------
+    //
+    // Getters and Setters operation
+    //
+    // -------------------------------------------------------------------------
 
     /**
      * Sets the repository.
