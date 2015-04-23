@@ -12,7 +12,7 @@
 
 
 	<ui:define name="contentBody">
-		<h:form >
+		<h:form id="searchUsersForm">
 
 
 			<h1>Search Users</h1>
@@ -55,14 +55,33 @@
 
 
 				<p:column style="width: 100px; text-align: center">
-					<p:button icon="ui-icon-pencil" title="Editar" />
-					<p:commandButton icon="ui-icon-trash" title="Excluir" />
+					<p:button icon="ui-icon-pencil" title="Editar" outcome="/users/UserRegistration" >
+						<f:param name="user" value="#{user.id}"/>
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir" 
+									 process="@this" update=":searchUsersForm:confimeDeleteDialog"
+									 oncomplete="PF('confimeDelete').show(); return false;">
+						<f:setPropertyActionListener value="#{user}" target="#{userSearchBean.selectedUser}"/>
+					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 
-
+			<p:confirmDialog header="Delete user" 
+	    		message="Are you sure you want to delete the User  #{userSearchBean.selectedUser.username} ?"
+	    		widgetVar="confimeDelete"	id="confimeDeleteDialog">
+	    		<p:button value="Não" onclick="PF('confimeDelete').hide(); return false;" />
+	    		<p:commandButton value="Sim" oncomplete="PF('confimeDelete').hide(); return false;"
+	    			action="#{userSearchBean.delete}" process="@this"
+	    			update=":searchUsersForm:usersTable" />
+	    	</p:confirmDialog>
+			
 		</h:form>
 	</ui:define>
 
 </ui:composition>
+
+
+
+
+
 

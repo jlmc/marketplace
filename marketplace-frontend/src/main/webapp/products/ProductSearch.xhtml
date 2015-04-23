@@ -84,7 +84,7 @@
 	    		<p:button value="Não" onclick="PF('confimeDelete').hide(); return false;" />
 	    		<p:commandButton value="Sim" oncomplete="PF('confimeDelete').hide(); return false;"
 	    			action="#{productSearchBean.delete}" process="@this"
-	    			update=":frmSearchOrders:ordersTable" />
+	    			update=":frmSearchOrders:ordersTable :frmSearchOrders:confimeDeleteDialog" />
 	    	</p:confirmDialog>
 		</h:form>
 	</ui:define>

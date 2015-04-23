@@ -24,9 +24,9 @@ public class ProductService implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    /** The repository. */
+    /** The products repository. */
     @Inject
-    private ProductsRepository repository;
+    private ProductsRepository productsRepository;
 
     /** The categorys repository. */
     @Inject
@@ -34,7 +34,7 @@ public class ProductService implements Serializable {
 
     /**
      * Save.
-     * 
+     *
      * @param product
      *            the product
      * @return the product
@@ -44,8 +44,8 @@ public class ProductService implements Serializable {
     @Transactional
     public Product save(final Product product) throws BusinessException {
 
-	final Product alreadyExistingProduct = this.repository.getBySKU(product
-		.getSku());
+	final Product alreadyExistingProduct = this.productsRepository
+		.getBySKU(product.getSku());
 	/**
 	 * BUSINESS RULE 1:: if the exists already a product with the same SKU
 	 * in the system, and it is not the same product ( with the same id )
@@ -57,13 +57,19 @@ public class ProductService implements Serializable {
 		    + product.getSku() + " .");
 	}
 
-	return this.repository.save(product);
+	return this.productsRepository.save(product);
     }
 
+    /**
+     * Delete.
+     *
+     * @param product
+     *            the product
+     */
     @Transactional
     public void delete(final Product product) {
 	try {
-	    this.repository.remove(product);
+	    this.productsRepository.remove(product);
 	} catch (final RepositoryException e) {
 	    throw new BusinessException(
 		    "O produto não pode ser removido, pois esta esta a ser utilizado.");
@@ -72,16 +78,18 @@ public class ProductService implements Serializable {
 
     /**
      * Search.
-     * 
+     *
+     * @param filter
+     *            the filter
      * @return the list
      */
     public List<Product> search(final ProductFilter filter) {
-	return this.repository.search(filter);
+	return this.productsRepository.search(filter);
     }
 
     /**
      * Gets the root categorys.
-     * 
+     *
      * @return the root categorys
      */
     public List<Category> getRootCategorys() {
@@ -90,13 +98,53 @@ public class ProductService implements Serializable {
 
     /**
      * Gets the childs categories.
-     * 
+     *
      * @param father
      *            the father
      * @return the childs categories
      */
     public List<Category> getChildsCategories(final Category father) {
 	return this.categorysRepository.getChildCategorys(father);
+    }
+
+    /**
+     * Gets the products repository.
+     *
+     * @return the products repository
+     */
+    protected ProductsRepository getProductsRepository() {
+	return this.productsRepository;
+    }
+
+    /**
+     * Sets the products repository.
+     *
+     * @param productsRepository
+     *            the new products repository
+     */
+    protected void setProductsRepository(
+	    final ProductsRepository productsRepository) {
+	this.productsRepository = productsRepository;
+    }
+
+    /**
+     * Gets the categorys repository.
+     *
+     * @return the categorys repository
+     */
+    protected CategorysRepository getCategorysRepository() {
+	return this.categorysRepository;
+    }
+
+    /**
+     * Sets the categorys repository.
+     *
+     * @param categorysRepository
+     *            the new categorys repository
+     */
+    protected void setCategorysRepository(
+	    final CategorysRepository categorysRepository) {
+	this.categorysRepository = categorysRepository;
     }
 
 }

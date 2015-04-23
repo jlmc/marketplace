@@ -1,7 +1,5 @@
 package org.xine.marketplace.frontend.views.converters;
 
-import java.util.Optional;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -23,42 +21,47 @@ public class PermissionConverter implements Converter {
 
     /*
      * (non-Javadoc)
-     * @see javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext,
-     * javax.faces.component.UIComponent, java.lang.String)
+     * 
+     * @see
+     * javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext
+     * , javax.faces.component.UIComponent, java.lang.String)
      */
     @Override
-    public Object getAsObject(final FacesContext context, final UIComponent component,
-            final String value) {
-        Permission result = null;
-        if (value != null && !value.trim().isEmpty()) {
-            final Long id = new Long(value);
-            result = this.service.getPermissionById(id);
-        }
-        // final Permission r = Optional.ofNullable(value).map(String::trim)
-        // .filter(t -> t.length() > 0).map(s -> new Long(s)).map(id -> {
-        // return this.service.getPermissionById(id);
-        // }).orElse(null);
-        return result;
+    public Object getAsObject(final FacesContext context,
+	    final UIComponent component, final String value) {
+	Permission result = null;
+	if (value != null && !value.trim().isEmpty()) {
+	    final Long id = new Long(value);
+	    result = this.service.getPermissionById(id);
+	}
+	// final Permission r = Optional.ofNullable(value).map(String::trim)
+	// .filter(t -> t.length() > 0).map(s -> new Long(s)).map(id -> {
+	// return this.service.getPermissionById(id);
+	// }).orElse(null);
+	return result;
     }
 
     /*
      * (non-Javadoc)
-     * @see javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext,
-     * javax.faces.component.UIComponent, java.lang.Object)
+     * 
+     * @see
+     * javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext
+     * , javax.faces.component.UIComponent, java.lang.Object)
      */
     @Override
-    public String getAsString(final FacesContext context, final UIComponent component,
-            final Object value) {
-        String result = "";
-        // i what to do the next comment code, but this time i gone use Optional
-        // if (value != null) {
-        // final Permission p = (Permission) value;
-        // result = p.getId() == null ? null : p.getId().toString();
-        // }
+    public String getAsString(final FacesContext context,
+	    final UIComponent component, final Object value) {
+	String result = "";
+	// i what to do the next comment code, but this time i gone use Optional
+	if (value != null) {
+	    final Permission p = (Permission) value;
+	    result = p.getId() == null ? null : p.getId().toString();
+	}
 
-        result = Optional.ofNullable(value).map(p -> ((Permission) p).getId())
-                .map(id -> id.toString()).orElse("");
+	// result = Optional.ofNullable(value).map(p -> ((Permission)
+	// p).getId())
+	// .map(id -> id.toString()).orElse("");
 
-        return result;
+	return result;
     }
 }
