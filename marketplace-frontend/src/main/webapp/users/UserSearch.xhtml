@@ -12,10 +12,12 @@
 
 
 	<ui:define name="contentBody">
-		<h:form>
+		<h:form >
 
 
 			<h1>Search Users</h1>
+			
+			<p:messages autoUpdate="true" closable="true" />
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
@@ -30,7 +32,7 @@
 			<p:panelGrid columns="2" id="painel"
 				style="width: 100%; margin-top: 20px" styleClass="mark, field">
 				<p:outputLabel value="Name" for="name" />
-				<p:inputText id="name" size="100" />
+				<p:inputText id="name" size="100" value="#{userSearchBean.filter.name}"/>
 			</p:panelGrid>
 
 

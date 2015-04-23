@@ -4,15 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xine.marketplace.model.entities.User;
 import org.xine.marketplace.repository.daos.UsersRepositoryEx;
-import org.xine.marketplace.repository.util.Constants;
-
-import com.jintegrity.core.JIntegrity;
-import com.jintegrity.helper.JPAHelper;
 
 import java.util.List;
 
@@ -29,22 +24,7 @@ public class UsersRepositoryTest {
     /** The users repository. */
     private UsersRepositoryEx usersRepository;
 
-    /** The helper. */
-    JIntegrity helper = new JIntegrity();
-
-    /**
-     * Before test.
-     */
-    @Before
-    public void beforeTest() {
-
-        this.helper.cleanAndInsert();
-
-        this.entityManager = JPAHelper.entityManagerFactory(Constants.PERSISTENCE_UNIT_NAME)
-                .createEntityManager();
-        this.usersRepository = new UsersRepositoryEx();
-        this.usersRepository.setManager(this.entityManager);
-    }
+    // JIntegrity helper = new JIntegrity();
 
     /**
      * After.

@@ -5,6 +5,7 @@ import org.xine.marketplace.business.BusinessException;
 import org.xine.marketplace.business.util.mail.Mailer;
 import org.xine.marketplace.model.entities.Permission;
 import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.model.filters.UserFilter;
 import org.xine.marketplace.repository.daos.PermissionsRepository;
 import org.xine.marketplace.repository.daos.UsersRepository;
 import org.xine.marketplace.repository.exceptions.RepositoryException;
@@ -73,7 +74,10 @@ public class UserService implements Serializable {
         } catch (final RepositoryException e) {
             throw new BusinessException("Could't not save the user.", e.getCause());
         }
+    }
 
+    public List<User> search(final UserFilter filter) {
+        return this.repository.search(filter);
     }
 
     /**
@@ -86,14 +90,14 @@ public class UserService implements Serializable {
 
             final MailMessage mailMessage = this.mailer.createMesage();
             mailMessage
-                    .to(user.getEmail())
-                    .subject("User creation sucess")
-                    // .bodyHtml("O user foi criado com sucesso")
-                    .bodyHtml(
-                            new VelocityTemplate(this.getClass().getResourceAsStream(
-                                    "/emails/createdUser.template"))).put("user", user)
-                    .put("numberTool", new NumberTool()).put("locale", new Locale("pt", "PT"))
-                    .send();
+            .to(user.getEmail())
+            .subject("User creation sucess")
+            // .bodyHtml("O user foi criado com sucesso")
+            .bodyHtml(
+                    new VelocityTemplate(this.getClass().getResourceAsStream(
+                            "/emails/createdUser.template"))).put("user", user)
+                            .put("numberTool", new NumberTool()).put("locale", new Locale("pt", "PT"))
+                            .send();
 
         } else {
             System.out.println("No email System configurated");

@@ -1,14 +1,16 @@
 package org.xine.marketplace.frontend.views.controller;
 
+import org.xine.marketplace.business.services.UserService;
+import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.model.filters.UserFilter;
+
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.xine.marketplace.business.services.UserService;
-import org.xine.marketplace.model.entities.User;
 
 /**
  * The Class UserSearchBean.
@@ -38,6 +40,20 @@ public class UserSearchBean implements Serializable {
     /** The users. */
     private List<User> users;
 
+    /** The filter users Criteria. */
+    private UserFilter filter;
+
+    // -------------------------------------------------------------------------
+    //
+    // Constructors and it Callbacks
+    //
+    // -------------------------------------------------------------------------
+
+    @PostConstruct
+    private void init() {
+        this.filter = new UserFilter();
+    }
+
     // -------------------------------------------------------------------------
     //
     // Getters and Setters properties
@@ -45,27 +61,56 @@ public class UserSearchBean implements Serializable {
     // -------------------------------------------------------------------------
     /**
      * Gets the users.
-     * 
      * @return the users
      */
     public List<User> getUsers() {
-	return this.users;
+        return this.users;
     }
 
     /**
      * Sets the users.
-     * 
      * @param users
      *            the new users
      */
     public void setUsers(final List<User> users) {
-	this.users = users;
+        this.users = users;
+    }
+
+    /**
+     * Gets the filter.
+     * @return the filter
+     */
+    public UserFilter getFilter() {
+        return this.filter;
+    }
+
+    /**
+     * Sets the filter.
+     * @param filter
+     *            the new filter
+     */
+    public void setFilter(final UserFilter filter) {
+        this.filter = filter;
     }
 
     // -------------------------------------------------------------------------
     //
-    // Methods
+    // Methods Handlers
     //
     // -------------------------------------------------------------------------
+
+    /**
+     * Search.
+     */
+    public void search() {
+        this.users = this.service.search(this.filter);
+    }
+
+    /**
+     * Delete.
+     */
+    public void delete() {
+        // TODO
+    }
 
 }

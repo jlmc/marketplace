@@ -1,9 +1,13 @@
 package org.xine.marketplace.repository.daos;
 
+import org.xine.marketplace.model.entities.Permission;
 import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.model.filters.UserFilter;
 import org.xine.marketplace.repository.exceptions.RepositoryException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -13,6 +17,11 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -97,6 +106,69 @@ public class UsersRepository implements Serializable {
         } catch (final NonUniqueResultException e) {
             return null;
         }
+    }
+
+    /**
+     * Search.
+     * @param filter
+     *            the filter
+     * @return the list
+     */
+    public List<User> search(final UserFilter filter) {
+        final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+
+        final Root<User> root = criteriaQuery.from(User.class);
+        final Join<User, Permission> userPermission = (Join) root.fetch("permissions",
+                JoinType.LEFT);
+        root.join("permissions", JoinType.LEFT);
+
+        // @SuppressWarnings({ "unchecked", "rawtypes" })
+        // final Join<Product, Category> joiner = (Join) root.fetch("category");
+
+        criteriaQuery.select(root).distinct(true);
+
+        // predicates
+
+        final List<Predicate> predicates = new ArrayList<>();
+
+        if (haveName(filter)) {
+            // where name like '%texto%'
+            final Expression<String> name = criteriaBuilder.parameter(String.class, "NAME");
+            predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("username")), name));
+        }
+
+        // if (haveSKU(filter)) {
+        // final Expression<String> sku = builder.parameter(String.class,
+        // "SKU");
+        // predicates.add(builder.equal(root.get("sku"), sku));
+        // }
+
+        criteriaQuery.where(predicates.toArray(new Predicate[0]));
+
+        // adding order
+        final List<Order> ordersBys = new ArrayList<>();
+        ordersBys.add(criteriaBuilder.asc(criteriaBuilder.upper(root.get("username"))));
+        criteriaQuery.orderBy(ordersBys);
+
+        final TypedQuery<User> tq = this.entityManager.createQuery(criteriaQuery);
+
+        if (haveName(filter)) {
+            tq.setParameter("NAME", "%" + filter.getName().toUpperCase().trim() + "%");
+        }
+
+        final List<User> users = tq.getResultList();
+        return users;
+    }
+
+    /**
+     * Have name.
+     * @param filter
+     *            the filter
+     * @return true, if successful
+     */
+    private static boolean haveName(final UserFilter filter) {
+        return filter != null && filter.getName() != null && !filter.getName().trim().isEmpty();
     }
 
 }

@@ -87,12 +87,12 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- jIntegrity -->
-		<dependency>
-			<groupId>com.jintegrity</groupId>
-			<artifactId>jintegrity</artifactId>
-			<version>0.1.2</version>
-			<scope>test</scope>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.jintegrity</groupId> -->
+<!-- 			<artifactId>jintegrity</artifactId> -->
+<!-- 			<version>0.1.2</version> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
 
 	</dependencies>
 

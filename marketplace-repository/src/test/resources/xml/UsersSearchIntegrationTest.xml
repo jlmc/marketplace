@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+    <permission id="1" name="Admin" description="a"/>
+    <permission id="2" name="Client" description="a"/>
+    <permission id="3" name="Seller" description="a"/>
+    <permission id="4" name="Guest" description="a"/>
+
+    <user id="1" username="abcde" password="test" email="emailOne@"/>
+    <user id="2" username="XXXAbcZZZZ" password="test" email="emailTwo@"/>
+    <user id="3" username="AbcYYYY" password="test" email="emailThree@"/>
+    <user id="4" username="userFour" password="test" email="emailFour@"/>
+    
+    
+    <user_permission user_id="1" permission_id="1"/>
+    <user_permission user_id="1" permission_id="2"/>
+    <user_permission user_id="1" permission_id="4"/>
+
+    <user_permission user_id="3" permission_id="4"/>
+    <user_permission user_id="2" permission_id="3"/>
+    
+    
+</dataset>

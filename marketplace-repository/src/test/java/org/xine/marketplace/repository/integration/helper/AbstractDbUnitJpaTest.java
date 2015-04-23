@@ -1,13 +1,5 @@
 package org.xine.marketplace.repository.integration.helper;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
@@ -20,6 +12,14 @@ import org.hibernate.HibernateException;
 import org.hibernate.internal.SessionImpl;
 import org.junit.AfterClass;
 import org.junit.Before;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  * The Class AbstractDbUnitJpaTest.
@@ -50,7 +50,8 @@ public abstract class AbstractDbUnitJpaTest {
      *             the database unit exception
      */
     // @BeforeClass
-    protected static void initEntityManager() throws HibernateException, DatabaseUnitException {
+    protected static void initEntityManager(final Boolean... flags) throws HibernateException,
+            DatabaseUnitException {
         entityManagerFactory = Persistence.createEntityManagerFactory("default");
         entityManager = entityManagerFactory.createEntityManager();
         connection = new DatabaseConnection(
