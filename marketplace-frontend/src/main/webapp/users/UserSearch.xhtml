@@ -21,7 +21,8 @@
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
-					<p:commandButton value="Search" id="search" />
+					<p:commandButton value="Search" id="search" 
+						action="#{userSearchBean.search}" update="@form" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="New" outcome="/users/UserRegistration" />
@@ -36,20 +37,20 @@
 			</p:panelGrid>
 
 
-			<p:dataTable id="usersTable" 
+			<p:dataTable id="usersTable" value="#{userSearchBean.users}" var="user"
 				emptyMessage="No users found." 
 				rows="20"
 				paginator="true" 
 				paginatorAlwaysVisible="false"
 				paginatorPosition="bottom" style="margin-top: 20px">
 
-				<p:column headerText="Name">
-					<h:outputText value="Abcd Efg" />
+				<p:column headerText="Name" style="text-align: left; width: 50%">
+					<h:outputText value="#{user.username}" />
 				</p:column>
 
 				<p:column headerText="E-mail"
-					style="text-align: center; width: 100px">
-					<h:outputLabel value="1234" />
+					 style="text-align: left; width: 50%">
+					<h:outputLabel value="#{user.email}" />
 				</p:column>
 
 
