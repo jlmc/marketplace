@@ -51,6 +51,9 @@ public class UserSaverBean implements Serializable {
      */
     private Permission selectedPermission;
 
+    /** The permission to remove. */
+    private Permission permissionToRemove;
+
     // -------------------------------------------------------------------------
     //
     // Single operation
@@ -68,6 +71,9 @@ public class UserSaverBean implements Serializable {
 	}
     }
 
+    /**
+     * Inits the.
+     */
     public void init() {
 	if (FacesUtil.isNotPostback()) {
 	    if (this.user == null) {
@@ -95,6 +101,15 @@ public class UserSaverBean implements Serializable {
 	if (this.selectedPermission != null) {
 	    this.user.getPermissions().add(this.selectedPermission);
 	    this.selectedPermission = null;
+	}
+    }
+
+    /**
+     * Removes the permission.
+     */
+    public void removePermission() {
+	if (this.permissionToRemove != null && this.user != null) {
+	    this.user.getPermissions().remove(this.permissionToRemove);
 	}
     }
 
@@ -132,10 +147,21 @@ public class UserSaverBean implements Serializable {
 	return this.allPermissions;
     }
 
+    /**
+     * Gets the user.
+     *
+     * @return the user
+     */
     public User getUser() {
 	return this.user;
     }
 
+    /**
+     * Sets the user.
+     *
+     * @param user
+     *            the new user
+     */
     public void setUser(final User user) {
 	this.user = user;
     }
@@ -157,6 +183,25 @@ public class UserSaverBean implements Serializable {
      */
     public void setSelectedPermission(final Permission selectedPermission) {
 	this.selectedPermission = selectedPermission;
+    }
+
+    /**
+     * Gets the permission to remove.
+     *
+     * @return the permission to remove
+     */
+    public Permission getPermissionToRemove() {
+	return this.permissionToRemove;
+    }
+
+    /**
+     * Sets the permission to remove.
+     *
+     * @param permissionToRemove
+     *            the new permission to remove
+     */
+    public void setPermissionToRemove(final Permission permissionToRemove) {
+	this.permissionToRemove = permissionToRemove;
     }
 
 }

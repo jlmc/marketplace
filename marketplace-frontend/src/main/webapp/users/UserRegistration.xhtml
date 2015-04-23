@@ -104,8 +104,13 @@
 						<h:outputText value="#{permission.description}" />
 					</p:column>
 					<p:column style="width: 100px; text-align: center">
-						<p:commandButton icon="ui-icon-trash" title="Excluir">
 
+
+						<p:commandButton icon="ui-icon-trash" title="Excluir"
+							update=":frm:groupsTable"
+							action="#{userSaverBean.removePermission}" process="@this">
+							<f:setPropertyActionListener value="#{permission}"
+								target="#{userSaverBean.permissionToRemove}" />
 						</p:commandButton>
 
 					</p:column>
