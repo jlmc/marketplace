@@ -1,4 +1,4 @@
-package org.xine.marketplace.frontend.views.controller;
+package org.xine.marketplace.frontend.views.controller.users;
 
 import java.io.Serializable;
 import java.util.List;

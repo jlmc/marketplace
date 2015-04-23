@@ -1,9 +1,4 @@
-package org.xine.marketplace.frontend.views.controller;
-
-import org.xine.marketplace.business.services.UserService;
-import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
-import org.xine.marketplace.model.entities.Permission;
-import org.xine.marketplace.model.entities.User;
+package org.xine.marketplace.frontend.views.controller.users;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,6 +7,11 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.xine.marketplace.business.services.UserService;
+import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
+import org.xine.marketplace.model.entities.Permission;
+import org.xine.marketplace.model.entities.User;
 
 /**
  * The Class UserSaverBean.
@@ -46,8 +46,8 @@ public class UserSaverBean implements Serializable {
     private List<Permission> allPermissions;
 
     /**
-     * The selected permission.
-     * The selected Permission to add to the user permissions.
+     * The selected permission. The selected Permission to add to the user
+     * permissions.
      */
     private Permission selectedPermission;
 
@@ -57,21 +57,30 @@ public class UserSaverBean implements Serializable {
     //
     // -------------------------------------------------------------------------
     /**
-     * Initialize.
-     * the single operations
+     * Initialize. the single operations
      */
     @PostConstruct
     private void initialize() {
-        System.out.println("->initialize @PostConstruct");
-        this.allPermissions = this.service.getPermissions();
-        clean();
+	System.out.println("->initialize @PostConstruct");
+	this.allPermissions = this.service.getPermissions();
+	if (this.user == null) {
+	    clean();
+	}
+    }
+
+    public void init() {
+	if (FacesUtil.isNotPostback()) {
+	    if (this.user == null) {
+		clean();
+	    }
+	}
     }
 
     /**
      * Clean.
      */
     private void clean() {
-        this.user = new User();
+	this.user = new User();
     }
 
     // --------------------------------------------------------------------------
@@ -83,20 +92,29 @@ public class UserSaverBean implements Serializable {
      * Adds the permission.
      */
     public void addPermission() {
-        if (this.selectedPermission != null) {
-            this.user.getPermissions().add(this.selectedPermission);
-            this.selectedPermission = null;
-        }
+	if (this.selectedPermission != null) {
+	    this.user.getPermissions().add(this.selectedPermission);
+	    this.selectedPermission = null;
+	}
     }
 
     /**
      * Save operation.
      */
     public void save() {
-        this.user = this.service.save(this.user);
+	this.user = this.service.save(this.user);
 
-        FacesUtil.addInfoMessage("User created with sucess.");
-        clean();
+	FacesUtil.addInfoMessage("User created with sucess.");
+	clean();
+    }
+
+    /**
+     * Checks if is edits the.
+     *
+     * @return true, if is edits the
+     */
+    public boolean isEdit() {
+	return this.user != null && this.user.getId() != null;
     }
 
     // --------------------------------------------------------------------------
@@ -106,45 +124,39 @@ public class UserSaverBean implements Serializable {
     // --------------------------------------------------------------------------
 
     /**
-     * Gets the user.
-     * @return the user
-     */
-    public User getUser() {
-        return this.user;
-    }
-
-    /**
-     * Sets the user.
-     * @param user
-     *            the new user
-     */
-    public void setUser(final User user) {
-        this.user = user;
-    }
-
-    /**
      * Gets the all permissions.
+     *
      * @return the all permissions
      */
     public List<Permission> getAllPermissions() {
-        return this.allPermissions;
+	return this.allPermissions;
+    }
+
+    public User getUser() {
+	return this.user;
+    }
+
+    public void setUser(final User user) {
+	this.user = user;
     }
 
     /**
      * Gets the selected permission.
+     *
      * @return the selected permission
      */
     public Permission getSelectedPermission() {
-        return this.selectedPermission;
+	return this.selectedPermission;
     }
 
     /**
      * Sets the selected permission.
+     *
      * @param selectedPermission
      *            the new selected permission
      */
     public void setSelectedPermission(final Permission selectedPermission) {
-        this.selectedPermission = selectedPermission;
+	this.selectedPermission = selectedPermission;
     }
 
 }

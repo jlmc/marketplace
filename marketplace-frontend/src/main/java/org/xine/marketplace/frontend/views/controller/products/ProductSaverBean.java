@@ -1,4 +1,4 @@
-package org.xine.marketplace.frontend.views.controller;
+package org.xine.marketplace.frontend.views.controller.products;
 
 import org.xine.marketplace.business.services.ProductService;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
