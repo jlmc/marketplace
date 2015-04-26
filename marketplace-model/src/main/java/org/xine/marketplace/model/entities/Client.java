@@ -1,5 +1,7 @@
 package org.xine.marketplace.model.entities;
 
+import org.xine.marketplace.validator.constraints.Email;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -17,13 +19,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
-
 /**
  * The Class Client.
  */
 @Entity
-@Table(name="client")
+@Table(name = "client")
 public class Client {
 
     /** The id. */
@@ -31,6 +31,9 @@ public class Client {
 
     /** The name. */
     private String name;
+
+    /** The cnjp. */
+    private String cnjp;
 
     /** The email. */
     private String email;
@@ -65,8 +68,8 @@ public class Client {
      * @return the name
      */
     @NotNull
-    @Size(max=100)
-    @Column(name="name", length=100, nullable=false)
+    @Size(max = 100)
+    @Column(name = "name", length = 100, nullable = false)
     public String getName() {
         return this.name;
     }
@@ -86,7 +89,7 @@ public class Client {
      */
     @Email
     @NotNull
-    @Column(name="email", length=100, nullable=false)
+    @Column(name = "email", length = 100, nullable = false)
     public String getEmail() {
         return this.email;
     }
@@ -105,7 +108,7 @@ public class Client {
      * @return the client type
      */
     @NotNull
-    @Column(name="client_type", length = 32, nullable = false)
+    @Column(name = "client_type", length = 32, nullable = false)
     @Enumerated(EnumType.STRING)
     public ClientType getClientType() {
         return this.clientType;
@@ -118,6 +121,25 @@ public class Client {
      */
     public void setClientType(final ClientType clientType) {
         this.clientType = clientType;
+    }
+
+    /**
+     * Gets the cnjp.
+     * @return the cnjp
+     */
+    @NotNull
+    @Column(name = "cnjp", length = 50)
+    public String getCnjp() {
+        return this.cnjp;
+    }
+
+    /**
+     * Sets the cnjp.
+     * @param cnjp
+     *            the new cnjp
+     */
+    public void setCnjp(final String cnjp) {
+        this.cnjp = cnjp;
     }
 
     /**

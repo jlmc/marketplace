@@ -57,7 +57,8 @@
 
 
 				<p:outputLabel value="Password" for="password" />
-				<p:password id="password" size="30" maxlength="30" required="true"
+				<p:password id="password" size="30" maxlength="30" required="true"  
+					redisplay="true"
 					feedback="true" weakLabel="weak" goodLabel="good"
 					strongLabel="strong" promptLabel="password" inline="false"
 					match="confPassword" value="#{userSaverBean.user.password}" />

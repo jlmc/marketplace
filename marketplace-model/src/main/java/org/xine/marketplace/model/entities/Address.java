@@ -3,6 +3,7 @@ package org.xine.marketplace.model.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -10,11 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * The Class Address.
  */
 @Entity
+@Table(name = "clientAddress")
 public class Address implements Serializable {
 
     /** The Constant serialVersionUID. */
@@ -64,6 +67,7 @@ public class Address implements Serializable {
      * Gets the street.
      * @return the street
      */
+    @Column(name = "street", length = 155, nullable = true)
     public String getStreet() {
         return this.street;
     }
@@ -81,6 +85,7 @@ public class Address implements Serializable {
      * Gets the number.
      * @return the number
      */
+    @Column(name = "doorNumber", nullable = true, length = 15)
     public String getNumber() {
         return this.number;
     }
@@ -98,6 +103,7 @@ public class Address implements Serializable {
      * Gets the zip code.
      * @return the zip code
      */
+    @Column(name = "zipCode", nullable = false, length = 15)
     public String getZipCode() {
         return this.zipCode;
     }
@@ -115,6 +121,7 @@ public class Address implements Serializable {
      * Gets the city.
      * @return the city
      */
+    @Column(name = "city", length = 50, nullable = false)
     public String getCity() {
         return this.city;
     }
@@ -132,6 +139,7 @@ public class Address implements Serializable {
      * Gets the country.
      * @return the country
      */
+    @Column(name = "country", length = 50, nullable = false)
     public String getCountry() {
         return this.country;
     }

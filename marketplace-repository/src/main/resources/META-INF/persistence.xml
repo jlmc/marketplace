@@ -9,6 +9,8 @@
 		<class>org.xine.marketplace.model.entities.Permission</class>
 		<class>org.xine.marketplace.model.entities.Product</class>
 		<class>org.xine.marketplace.model.entities.Category</class>
+		<class>org.xine.marketplace.model.entities.Client</class>
+		<class>org.xine.marketplace.model.entities.Address</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/marketplacerepository" />

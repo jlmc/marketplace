@@ -1,12 +1,5 @@
 package org.xine.marketplace.business.services;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
-
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
-
 import org.apache.velocity.tools.generic.NumberTool;
 import org.xine.marketplace.business.BusinessException;
 import org.xine.marketplace.business.util.mail.Mailer;
@@ -20,6 +13,13 @@ import org.xine.marketplace.repository.util.Transactional;
 
 import com.outjected.email.api.MailMessage;
 import com.outjected.email.impl.templating.velocity.VelocityTemplate;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Locale;
+
+import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 
 /**
  * The Class UserService.
@@ -44,7 +44,6 @@ public class UserService implements Serializable {
 
     /**
      * Save.
-     *
      * @param user
      *            the user
      * @return the user
@@ -54,102 +53,94 @@ public class UserService implements Serializable {
     @Transactional
     public User save(final User user) throws BusinessException {
 
-	try {
+        try {
 
-	    final boolean isAdd = user.getId() == null;
+            final boolean isAdd = user.getId() == null;
 
-	    // We can check if the email avariable.
-	    // BR: 2 the email must be unique
-	    if (this.userRepository.getUserByEmail(user.getEmail()) != null) {
-		throw new BusinessException(String.format(
-			"Email '%s'  Already in use.", user.getEmail()));
-	    }
+            // We can check if the email avariable.
+            // BR: 2 the email must be unique
+            if (this.userRepository.getUserByEmail(user.getEmail()) != null) {
+                throw new BusinessException(String.format("Email '%s'  Already in use.",
+                        user.getEmail()));
+            }
 
-	    final User createdUser = this.userRepository.save(user);
+            final User createdUser = this.userRepository.save(user);
 
-	    if (isAdd) {
-		// send Email to the User...
-		sendEmail(createdUser);
-	    }
-	    return createdUser;
-	} catch (final RepositoryException e) {
-	    throw new BusinessException("Could't not save the user.",
-		    e.getCause());
-	}
+            if (isAdd) {
+                // send Email to the User...
+                sendEmail(createdUser);
+            }
+            return createdUser;
+        } catch (final RepositoryException e) {
+            throw new BusinessException("Could't not save the user.", e.getCause());
+        }
     }
 
     /**
      * Delete.
-     *
      * @param user
      *            the user
      */
     @Transactional
     public void delete(final User user) {
-	try {
-	    this.userRepository.delete(user);
-	} catch (final RepositoryException e) {
-	    throw new BusinessException("Can't Delete the user with the Email "
-		    + user.getEmail());
-	}
+        try {
+            this.userRepository.delete(user);
+        } catch (final RepositoryException e) {
+            throw new BusinessException("Can't Delete the user with the Email " + user.getEmail());
+        }
 
     }
 
     /**
      * Search.
-     *
      * @param filter
      *            the filter
      * @return the list
      */
     public List<User> search(final UserFilter filter) {
-	return this.userRepository.search(filter);
+        return this.userRepository.search(filter);
     }
 
     /**
      * Send email.
-     *
      * @param user
      *            the user
      */
     private void sendEmail(final User user) {
-	if (this.mailer != null) {
+        if (this.mailer != null) {
 
-	    final MailMessage mailMessage = this.mailer.createMesage();
-	    mailMessage
-		    .to(user.getEmail())
-		    .subject("User creation sucess")
-		    // .bodyHtml("O user foi criado com sucesso")
-		    .bodyHtml(
-			    new VelocityTemplate(this.getClass()
-				    .getResourceAsStream(
-					    "/emails/createdUser.template")))
-		    .put("user", user).put("numberTool", new NumberTool())
-		    .put("locale", new Locale("pt", "PT")).send();
+            final MailMessage mailMessage = this.mailer.createMesage();
+            mailMessage
+                    .to(user.getEmail())
+                    .subject("User creation sucess")
+                    // .bodyHtml("O user foi criado com sucesso")
+                    .bodyHtml(
+                            new VelocityTemplate(this.getClass().getResourceAsStream(
+                                    "/emails/createdUser.template"))).put("user", user)
+                    .put("numberTool", new NumberTool()).put("locale", new Locale("pt", "PT"))
+                    .send();
 
-	} else {
-	    System.out.println("No email System configurated");
-	}
+        } else {
+            System.out.println("No email System configurated");
+        }
     }
 
     /**
      * Gets the permissions.
-     *
      * @return the permissions
      */
     public List<Permission> getPermissions() {
-	return this.permissionsRepository.getPermissions();
+        return this.permissionsRepository.getPermissions();
     }
 
     /**
      * Gets the permission by id.
-     *
      * @param id
      *            the id
      * @return the permission by id
      */
     public Permission getPermissionById(final Long id) {
-	return this.permissionsRepository.getPermissionById(id);
+        return this.permissionsRepository.getPermissionById(id);
     }
 
     // -------------------------------------------------------------------------
@@ -159,40 +150,35 @@ public class UserService implements Serializable {
     // -------------------------------------------------------------------------
     /**
      * Gets the user repository.
-     *
      * @return the user repository
      */
     protected UsersRepository getUserRepository() {
-	return this.userRepository;
+        return this.userRepository;
     }
 
     /**
      * Sets the user repository.
-     *
      * @param userRepository
      *            the new user repository
      */
     protected void setUserRepository(final UsersRepository userRepository) {
-	this.userRepository = userRepository;
+        this.userRepository = userRepository;
     }
 
     /**
      * Gets the permissions repository.
-     *
      * @return the permissions repository
      */
     protected PermissionsRepository getPermissionsRepository() {
-	return this.permissionsRepository;
+        return this.permissionsRepository;
     }
 
     /**
      * Sets the permissions repository.
-     *
      * @param permissionsRepository
      *            the new permissions repository
      */
-    protected void setPermissionsRepository(
-	    final PermissionsRepository permissionsRepository) {
-	this.permissionsRepository = permissionsRepository;
+    protected void setPermissionsRepository(final PermissionsRepository permissionsRepository) {
+        this.permissionsRepository = permissionsRepository;
     }
 }
