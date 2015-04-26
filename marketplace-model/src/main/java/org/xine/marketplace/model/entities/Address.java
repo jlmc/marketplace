@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * The Class Address.
  */
 @Entity
-@Table(name = "clientAddress")
+@Table(name = "client_address")
 public class Address implements Serializable {
 
     /** The Constant serialVersionUID. */
