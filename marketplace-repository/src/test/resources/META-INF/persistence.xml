@@ -7,9 +7,11 @@
  	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
 		<class>org.xine.marketplace.model.entities.User</class>
 		<class>org.xine.marketplace.model.entities.Permission</class>
-		<class>org.xine.marketplace.model.entities.Category</class>
 		<class>org.xine.marketplace.model.entities.Product</class>
-		
+		<class>org.xine.marketplace.model.entities.Category</class>
+		<class>org.xine.marketplace.model.entities.Client</class>
+		<class>org.xine.marketplace.model.entities.Address</class>
+        
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />

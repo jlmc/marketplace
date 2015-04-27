@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+    <client id="1" name="Client 1" email="client1@xine.org" client_type="PERSON" cnjp="1234"/>
+    <client id="2" name="Client 2" email="client2@xine.org" client_type="PERSON" cnjp="2345"/>
+    <client id="3" name="Client 3" email="client3@xine.org" client_type="FOUNDATION" cnjp="3456"/>
+    <client id="4" name="Client 4" email="client4@xine.org" client_type="FOUNDATION" cnjp="4567"/>
+  
+    
+    
+    <client_address id="1" client_id="1" street="abc" doorNumber="12" zipCode="3130" city="Lisboa" country="Portugal"/>
+    <client_address id="2" client_id="1" street="bcd" doorNumber="123" zipCode="5412" city="Outro" country="Portugal"/>
+</dataset>

@@ -11,8 +11,7 @@ public final class JPAUtil implements Constants {
     /**
      * Instantiates a new JPA util.
      */
-    private JPAUtil() {
-    }
+    private JPAUtil() {}
 
     /** The emf. */
     private static EntityManagerFactory emf = Persistence

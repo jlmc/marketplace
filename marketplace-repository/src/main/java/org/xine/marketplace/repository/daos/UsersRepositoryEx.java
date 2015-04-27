@@ -20,12 +20,6 @@ public class UsersRepositoryEx {
     @Inject
     private EntityManager manager;
 
-    
-    
-    
-    
-    
-    
     /**
      * Gets the list of user.
      * @return the list of user
