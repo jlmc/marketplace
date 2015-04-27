@@ -1,6 +1,10 @@
 package org.xine.marketplace.model.filters;
 
+import org.xine.marketplace.model.entities.ClientType;
+
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The Class ClientFilter.
@@ -15,6 +19,9 @@ public class ClientFilter implements Serializable {
 
     /** The name. */
     private String name;
+
+    /** The types. */
+    private Set<ClientType> types = new HashSet<>();
 
     /**
      * Instantiates a new client filter.
@@ -68,6 +75,23 @@ public class ClientFilter implements Serializable {
      */
     public void setName(final String name) {
         this.name = name;
+    }
+
+    /**
+     * Gets the types.
+     * @return the types
+     */
+    public Set<ClientType> getTypes() {
+        return this.types;
+    }
+
+    /**
+     * Sets the types.
+     * @param types
+     *            the new types
+     */
+    public void setTypes(final Set<ClientType> types) {
+        this.types = types;
     }
 
 }
