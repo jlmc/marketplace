@@ -12,14 +12,15 @@
 
 
 	<ui:define name="contentBody">
-		<h:form >
+		<h:form id>
 
 
 			<h1>Search Clients</h1>
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
-					<p:commandButton value="Search" id="search" />
+					<p:commandButton value="Search" id="search"
+						action="#{clientSearchBean.search}" update="@form" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="New" outcome="/clients/ClientRegistration" />
@@ -31,26 +32,26 @@
 				style="width: 100%; margin-top: 20px">
 
 				<p:outputLabel value="Number" for="number" />
-				<p:inputText id="number" size="20"  />
+				<p:inputText id="number" size="20" value="#{clientSearchBean.filter.code}" />
 
 				<p:outputLabel value="Name" for="name" />
-				<p:inputText id="name" size="60"  />
+				<p:inputText id="name" size="60"  value="#{clientSearchBean.filter.name}"/>
 			</p:panelGrid>
 
 
-			<p:dataTable id="clientsTable" emptyMessage="No clients found."
+			<p:dataTable id="clientsTable" value="#{clientSearchBean.clients}" var="c" emptyMessage="No clients found."
 				rows="20" paginator="true" paginatorAlwaysVisible="false"
 				paginatorPosition="bottom" style="margin-top: 20px">
 
 
 				<p:column headerText="Number" style="text-align: center; width: 100px">
-					<h:outputLabel value="1234" />
+					<h:outputLabel value="#{c.cnjp}" />
 				</p:column>
 				<p:column headerText="Name">
-					<h:outputText value="Abcd Efg" />
+					<h:outputText value="#{c.name}" />
 				</p:column>
 				<p:column headerText="Type" style="width: 250px">
-					<h:outputText value="Type A" />
+					<h:outputText value="#{c.clientType}" />
 				</p:column>
 				
 				
