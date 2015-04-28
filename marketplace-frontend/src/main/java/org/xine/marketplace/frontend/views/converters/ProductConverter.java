@@ -1,14 +1,14 @@
 package org.xine.marketplace.frontend.views.converters;
 
+import org.xine.marketplace.frontend.views.util.helpers.Strings;
+import org.xine.marketplace.model.entities.Product;
+import org.xine.marketplace.repository.daos.ProductsRepository;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
-
-import org.apache.commons.lang.StringUtils;
-import org.xine.marketplace.model.entities.Product;
-import org.xine.marketplace.repository.daos.ProductsRepository;
 
 /**
  * The Class CategoryConverter.
@@ -34,8 +34,7 @@ public class ProductConverter implements Converter {
     public Object getAsObject(final FacesContext context, final UIComponent component,
             final String value) {
         Product result = null;
-
-        if (value != null && StringUtils.isNotEmpty(value)) {
+        if (Strings.isNotNullOrBlank(value)) {
             final Long id = new Long(value);
             System.out.println("-----------------------------------------------------------------");
             System.out.println("ProductConverter getAsObject");

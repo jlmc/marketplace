@@ -174,6 +174,17 @@ public class ClientIntegrationTest extends AbstractDbUnitJpaTest {
 
     }
 
+    @Test
+    public void shearch_by_email() {
+        final ClientsRepository repository = new ClientsRepository();
+        repository.setEntityManager(getEntityManager());
+
+        final List<Client> cs = repository.shearch("4567", "client2@xine.org");
+        Assert.assertNotNull(cs);
+        Assert.assertEquals(2, cs.size());
+
+    }
+
     //
     // private String sku;
     //
@@ -201,10 +212,10 @@ public class ClientIntegrationTest extends AbstractDbUnitJpaTest {
         final Expression<BigDecimal> unt = builder.parameter(BigDecimal.class, "U");
         predicates.add(
 
-                builder.or(builder.equal(root.get("stockQty"), sku),
-                        builder.lessThanOrEqualTo(root.get("unitValue"), unt)
+        builder.or(builder.equal(root.get("stockQty"), sku),
+                builder.lessThanOrEqualTo(root.get("unitValue"), unt)
 
-                        ));
+        ));
 
         cq.where(predicates.toArray(new Predicate[0]));
 
@@ -215,6 +226,7 @@ public class ClientIntegrationTest extends AbstractDbUnitJpaTest {
         query.setParameter("QTY", Integer.valueOf(100));
         query.setParameter("U", new BigDecimal(50000));
 
+        @SuppressWarnings("unused")
         final List<Product> products = query.getResultList();
 
     }

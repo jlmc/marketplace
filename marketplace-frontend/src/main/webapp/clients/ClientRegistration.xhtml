@@ -38,9 +38,12 @@
 
 				<p:outputLabel value="Type" for="type" />
 
-				<p:selectOneRadio id="type">
-					<f:selectItem itemLabel="Physics" itemValue="P" />
-					<f:selectItem itemLabel="Legal" itemValue="L" />
+				<p:selectOneRadio id="type" value="#{clientSaverBean.client.clientType}">
+				
+				
+				<f:selectItems value="#{clientSaverBean.clientTypes}"
+						var="ty" itemValue="#{ty}"
+						itemLabel="#{ty}" />
 				</p:selectOneRadio>
 
 

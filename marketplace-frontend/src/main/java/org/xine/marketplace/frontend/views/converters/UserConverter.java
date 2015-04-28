@@ -1,6 +1,6 @@
 package org.xine.marketplace.frontend.views.converters;
 
-import org.apache.commons.lang.StringUtils;
+import org.xine.marketplace.frontend.views.util.helpers.Strings;
 import org.xine.marketplace.model.entities.User;
 import org.xine.marketplace.repository.daos.UsersRepository;
 
@@ -39,15 +39,13 @@ public class UserConverter implements Converter {
     public Object getAsObject(final FacesContext context, final UIComponent component,
             final String value) {
         User result = null;
-
-        if (value != null && StringUtils.isNotEmpty(value)) {
+        if (Strings.isNotNullOrBlank(value)) {
             final Long id = new Long(value);
             System.out.println("-----------------------------------------------------------------");
             System.out.println("UserConverter getAsObject");
             System.out.println("-----------------------------------------------------------------");
             result = this.repository.getById(id);
         }
-
         return result;
     }
 

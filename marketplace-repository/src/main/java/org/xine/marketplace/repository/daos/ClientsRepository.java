@@ -77,12 +77,12 @@ public class ClientsRepository implements Serializable {
     }
 
     /**
-     * Save client.
+     * Save.
      * @param client
      *            the client
      * @return the client
      */
-    public Client saveClient(final Client client) {
+    public Client save(final Client client) {
         return this.entityManager.merge(client);
     }
 
@@ -134,6 +134,46 @@ public class ClientsRepository implements Serializable {
                 query.setParameter("_Code", "%" + filter.getCode().trim().toUpperCase() + "%");
             }
 
+        }
+
+        return query.getResultList();
+    }
+
+    /**
+     * Shearch.
+     * @param filter
+     *            the filter
+     * @return the list
+     */
+    public List<Client> shearch(final String code, final String email) {
+
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Client> cQuery = builder.createQuery(Client.class);
+        final Root<Client> root = cQuery.from(Client.class);
+
+        cQuery.select(root);
+
+        final List<Predicate> predicates = new ArrayList<>();
+
+        final Expression<String> nameExpression = builder.parameter(String.class, "_Email");
+        final Expression<String> codeExpression = builder.parameter(String.class, "_Code");
+
+        if (!Strings.isNullOrBlank(email)) {
+            predicates.add(builder.like(builder.upper(root.get("email")), nameExpression));
+        }
+        if (!Strings.isNullOrBlank(code)) {
+            predicates.add(builder.like(builder.upper(root.get("cnjp")), codeExpression));
+        }
+
+        cQuery.where(builder.or(predicates.toArray(new Predicate[0])));
+
+        final TypedQuery<Client> query = this.entityManager.createQuery(cQuery);
+
+        if (!Strings.isNullOrBlank(email)) {
+            query.setParameter("_Email", email.trim().toUpperCase());
+        }
+        if (!Strings.isNullOrBlank(code)) {
+            query.setParameter("_Code", code.trim().toUpperCase());
         }
 
         return query.getResultList();

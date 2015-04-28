@@ -1,9 +1,7 @@
 package org.xine.marketplace.frontend.views.converters;
 
-import org.xine.marketplace.frontend.views.util.cdi.CDIServiceLocator;
 import org.xine.marketplace.frontend.views.util.helpers.Strings;
-import org.xine.marketplace.model.entities.Category;
-import org.xine.marketplace.repository.daos.CategorysRepository;
+import org.xine.marketplace.model.entities.ClientType;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -11,21 +9,10 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 /**
- * The Class CategoryConverter.
+ * The Class ClientTypeConverter.
  */
-@FacesConverter(forClass = Category.class)
-public class CategoryConverter implements Converter {
-
-    /** The repository. */
-    private final CategorysRepository repository;
-
-    /**
-     * Instantiates a new category converter.
-     */
-    public CategoryConverter() {
-        // using this because the CDI don't works in FacesConverter
-        this.repository = CDIServiceLocator.getBean(CategorysRepository.class);
-    }
+@FacesConverter(forClass = ClientType.class)
+public class ClientTypeConverter implements Converter {
 
     /*
      * (non-Javadoc)
@@ -35,11 +22,12 @@ public class CategoryConverter implements Converter {
     @Override
     public Object getAsObject(final FacesContext context, final UIComponent component,
             final String value) {
-        Category result = null;
-        if (Strings.isNotNullOrBlank(value)) {
-            final Long id = new Long(value);
-            result = this.repository.getById(id);
+        ClientType result = null;
+
+        if (value != null && Strings.isNotNullOrBlank(value)) {
+            result = ClientType.valueOf(value);
         }
+
         return result;
     }
 
@@ -52,11 +40,10 @@ public class CategoryConverter implements Converter {
     public String getAsString(final FacesContext context, final UIComponent component,
             final Object value) {
         if (value != null) {
-            final Category p = (Category) value;
-            // use the id
-            return p.getId() == null ? null : p.getId().toString();
+            final ClientType ct = (ClientType) value;
+            return ct.toString();
         }
         return "";
-
     }
+
 }

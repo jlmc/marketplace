@@ -68,7 +68,7 @@ public class Client {
      * @return the name
      */
     @NotNull
-    @Size(max = 100)
+    @Size(min = 1, max = 100)
     @Column(name = "name", length = 100, nullable = false)
     public String getName() {
         return this.name;
@@ -89,7 +89,8 @@ public class Client {
      */
     @Email
     @NotNull
-    @Column(name = "email", length = 100, nullable = false)
+    @Size(min = 1, max = 100)
+    @Column(name = "email", length = 100, nullable = false, unique = true)
     public String getEmail() {
         return this.email;
     }
@@ -128,7 +129,8 @@ public class Client {
      * @return the cnjp
      */
     @NotNull
-    @Column(name = "cnjp", length = 50)
+    @Size(min = 1, max = 50)
+    @Column(name = "cnjp", length = 50, nullable = false, unique = true)
     public String getCnjp() {
         return this.cnjp;
     }

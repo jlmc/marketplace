@@ -1,12 +1,15 @@
 package org.xine.marketplace.frontend.views.controller.clients;
 
+import org.xine.marketplace.business.services.ClientService;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.entities.ClientType;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -24,7 +27,8 @@ public class ClientSaverBean implements Serializable {
     // business services
     //
     // -------------------------------------------------------------------------
-
+    @Inject
+    private ClientService service;
     // -------------------------------------------------------------------------
     //
     // Model properties
@@ -53,6 +57,11 @@ public class ClientSaverBean implements Serializable {
         }
     }
 
+    @PostConstruct
+    private void init() {
+        clean();
+    }
+
     // --------------------------------------------------------------------------
     //
     // Event handlers
@@ -62,9 +71,9 @@ public class ClientSaverBean implements Serializable {
      * Save.
      */
     public void save() {
-        // TODO::
-
+        this.service.save(this.client);
         FacesUtil.addInfoMessage("Client saved.");
+        clean();
     }
 
     /**
