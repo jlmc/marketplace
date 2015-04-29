@@ -32,19 +32,23 @@
 				style="width: 100%; margin-top: 20px">
 
 				<p:outputLabel value="Number" for="number" />
-				<p:inputText id="number" size="20" value="#{clientSearchBean.filter.code}" />
+				<p:inputText id="number" size="20"
+					value="#{clientSearchBean.filter.code}" />
 
 				<p:outputLabel value="Name" for="name" />
-				<p:inputText id="name" size="60"  value="#{clientSearchBean.filter.name}"/>
+				<p:inputText id="name" size="60"
+					value="#{clientSearchBean.filter.name}" />
 			</p:panelGrid>
 
 
-			<p:dataTable id="clientsTable" value="#{clientSearchBean.clients}" var="c" emptyMessage="No clients found."
-				rows="20" paginator="true" paginatorAlwaysVisible="false"
-				paginatorPosition="bottom" style="margin-top: 20px">
+			<p:dataTable id="clientsTable" value="#{clientSearchBean.clients}"
+				var="c" emptyMessage="No clients found." rows="20" paginator="true"
+				paginatorAlwaysVisible="false" paginatorPosition="bottom"
+				style="margin-top: 20px">
 
 
-				<p:column headerText="Number" style="text-align: center; width: 100px">
+				<p:column headerText="Number"
+					style="text-align: center; width: 100px">
 					<h:outputLabel value="#{c.cnjp}" />
 				</p:column>
 				<p:column headerText="Name">
@@ -53,16 +57,34 @@
 				<p:column headerText="Type" style="width: 250px">
 					<h:outputText value="#{c.clientType}" />
 				</p:column>
-				
-				
+
+
 				<p:column style="width: 100px; text-align: center">
 					<p:button icon="ui-icon-pencil" title="Editar" />
+
 					<p:commandButton icon="ui-icon-trash" title="Excluir"
-						 />
+						oncomplete="PF('confimeDelete').show(); return false;"
+						update=":clientSearchForm:confimeDeleteDialog" process="@this">
+						<f:setPropertyActionListener value="c" target="#{clientSearchBean.clientToDelete}" />
+					</p:commandButton>
+
 				</p:column>
 			</p:dataTable>
 
-			
+
+
+			<p:confirmDialog header="Delete product"
+				message="Are you sure you want to delete the product  #{clientSearchBean.clientToDelete.name} ?"
+				widgetVar="confimeDelete" id="confimeDeleteDialog">
+				<p:button value="Não"
+					onclick="PF('confimeDelete').hide(); return false;" />
+				<p:commandButton value="Sim"
+					oncomplete="PF('confimeDelete').hide(); return false;"
+					action="#{clientSearchBean.delete}" process="@this"
+					update=":clientSearchForm:clientsTable :clientSearchForm:confimeDeleteDialog" />
+			</p:confirmDialog>
+
+
 		</h:form>
 	</ui:define>
 

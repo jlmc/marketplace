@@ -3,6 +3,7 @@ package org.xine.marketplace.repository.daos;
 import org.xine.marketplace.model.entities.Address;
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.filters.ClientFilter;
+import org.xine.marketplace.repository.exceptions.RepositoryException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -141,8 +143,10 @@ public class ClientsRepository implements Serializable {
 
     /**
      * Shearch.
-     * @param filter
-     *            the filter
+     * @param code
+     *            the code
+     * @param email
+     *            the email
      * @return the list
      */
     public List<Client> shearch(final String code, final String email) {
@@ -186,6 +190,38 @@ public class ClientsRepository implements Serializable {
      */
     public void setEntityManager(final EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    /**
+     * Delete.
+     * @param client
+     *            the client
+     * @throws RepositoryException
+     *             the repository exception
+     */
+    public void delete(final Client client) throws RepositoryException {
+        try {
+            // the param product could't be attached (connected) in JPA Entity
+            // manager
+            // and so we get the Client from the database
+            final Client clientTemp = this.getById(client.getId());
+
+            this.entityManager.remove(clientTemp);
+
+            /*
+             * If we don't do flush the product will be only marked to
+             * exclusion, This exclusion will only be effective when performing
+             * a commit, or when you run the manual flush or an automatic flush,
+             * in this case do the manual. Flush will run the SQL delete, if the
+             * product is being used in some other table in the database a
+             * PersistenceException will be throw. (We whant co handler that
+             * exception over here, and not lose it to something out of control)
+             */
+            this.entityManager.flush();
+        } catch (final PersistenceException e) {
+            throw new RepositoryException("Product can not be excluded.");
+        }
+
     }
 
 }
