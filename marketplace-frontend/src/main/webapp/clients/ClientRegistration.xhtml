@@ -23,18 +23,31 @@
 
 			<h1>#{clientSaverBean.edit ? 'Edit Client' : 'New Client'}</h1>
 
-			<p:messages autoUpdate="true" closable="true" />
+			<p:messages  id="client-form-msg" closable="true"  />
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
 					<p:button value="New" outcome="/clients/ClientRegistration" />
+					
 					<p:commandButton value="Save" id="save"
-						action="#{clientSaverBean.save}" update="@form" />
+						action="#{clientSaverBean.save}" update=":client-form:client-form-msg :client-form:painel" process=":client-form:painel" />
+						
+						
+						
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Search" outcome="/clients/ClientSearch" />
 				</p:toolbarGroup>
 			</p:toolbar>
+
+
+
+
+
+
+
+
+
 
 
 			<p:panelGrid id="painel" style="width: 100%; margin-top: 20px"
@@ -83,14 +96,6 @@
 				</p:row>
 
 
-
-
-
-
-
-
-
-
 				<p:row>
 					<p:column colspan="2">
 
@@ -128,16 +133,17 @@
 							</p:column>
 							<p:column width="68" style="text-align: right">
 								<p:commandButton icon="ui-icon-pencil" title="Excluir"
-									update=":client-form:ad-dialog" process="@this"
+									update=":ad-form:ad-dialog" process="@this"
 									oncomplete="PF('adDialog').show(); return false;">
 									<f:setPropertyActionListener value="#{a}"
 										target="#{clientSaverBean.editableAddress}" />
 								</p:commandButton>
 
-								<p:commandButton icon="ui-icon-trash" title="Excluir"
+								<p:commandButton icon="ui-icon-trash" title="Excluir" 
 									action="#{clientSaverBean.removeAddress}"
-									update=":client-form:ad-table :client-form:ad-dialog"
-									process="@this">
+									update=":client-form:ad-table :ad-form:ad-dialog"
+									process="@this"
+									>
 									<f:setPropertyActionListener value="#{a}"
 										target="#{clientSaverBean.editableAddress}" />
 								</p:commandButton>
@@ -147,12 +153,14 @@
 
 					</p:column>
 
-
 				</p:row>
 
 			</p:panelGrid>
-
-			<p:dialog id="ad-dialog" widgetVar="adDialog" modal="true" width="400"
+		</h:form>
+		
+		
+		<h:form id="ad-form">
+				<p:dialog id="ad-dialog" widgetVar="adDialog" modal="true" width="400"
 				closeOnEscape="true" resizable="false" header="Addreass">
 
 				<p:messages id="a-msgs" closable="true" />
@@ -183,16 +191,13 @@
 					<f:facet name="footer">
 						<p:commandButton value="save"
 							action="#{clientSaverBean.saveAddress}"
-							process=":client-form:ad-dialog"
-							update=":client-form:ad-dialog :client-form:ad-table" />
-
-
+							process=":ad-form:ad-dialog"
+							update=":ad-form:a-msgs :ad-form:ad-painel-dialog :client-form:ad-table" 
+							oncomplete="if (!args.validationFailed) PF('adDialog').hide()"/>
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>
-
-
-
+		
 		</h:form>
 	</ui:define>
 
