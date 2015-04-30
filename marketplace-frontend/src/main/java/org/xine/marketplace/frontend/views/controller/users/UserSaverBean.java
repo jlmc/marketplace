@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -64,7 +65,6 @@ public class UserSaverBean implements Serializable {
      */
     @PostConstruct
     private void initialize() {
-        System.out.println("->initialize @PostConstruct");
         this.allPermissions = this.service.getPermissions();
         if (this.user == null) {
             clean();
@@ -73,8 +73,10 @@ public class UserSaverBean implements Serializable {
 
     /**
      * Inits the.
+     * @param e
+     *            the e
      */
-    public void init() {
+    public void init(final ComponentSystemEvent e) {
         if (FacesUtil.isNotPostback()) {
             if (this.user == null) {
                 clean();

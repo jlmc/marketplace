@@ -1,6 +1,7 @@
 package org.xine.marketplace.frontend.views.controller.clients;
 
 import org.xine.marketplace.business.services.ClientService;
+import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.filters.ClientFilter;
 
@@ -77,6 +78,13 @@ public class ClientSearchBean implements Serializable {
     public void delete() {
         if (this.clientToDelete != null) {
             this.service.delete(this.clientToDelete);
+
+            FacesUtil.addInfoMessage("Client '" + this.clientToDelete.getName()
+                    + "' was been Deleted.");
+
+            this.clients.remove(this.clientToDelete);
+            this.clientToDelete = null;
+
         }
     }
 

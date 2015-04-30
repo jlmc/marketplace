@@ -14,8 +14,9 @@
 	<ui:define name="contentBody">
 		<h:form id="clientSearchForm">
 
-
 			<h1>Search Clients</h1>
+			
+			<p:messages autoUpdate="true" closable="true" />
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
@@ -60,12 +61,15 @@
 
 
 				<p:column style="width: 100px; text-align: center">
-					<p:button icon="ui-icon-pencil" title="Editar" />
+					
+					<p:button icon="ui-icon-pencil" title="Editar" outcome="/clients/ClientRegistration">
+						<f:param name="client" value="#{c.id}"/>
+					</p:button>
 
 					<p:commandButton icon="ui-icon-trash" title="Excluir"
 						oncomplete="PF('confimeDelete').show(); return false;"
 						update=":clientSearchForm:confimeDeleteDialog" process="@this">
-						<f:setPropertyActionListener value="c" target="#{clientSearchBean.clientToDelete}" />
+						<f:setPropertyActionListener value="#{c}" target="#{clientSearchBean.clientToDelete}" />
 					</p:commandButton>
 
 				</p:column>

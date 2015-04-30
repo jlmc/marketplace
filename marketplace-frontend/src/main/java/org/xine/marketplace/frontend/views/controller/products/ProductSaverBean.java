@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Default;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -47,32 +48,25 @@ public class ProductSaverBean implements Serializable {
      */
     @PostConstruct
     public void initialize() {
-        System.out.println("\n-----------------------------------------------");
-        System.out.println("initialize @PostConstruct");
-        System.out.println("--------------------------------------------------");
         clean();
 
         this.rootCategorys = this.service.getRootCategorys();
-
     }
 
     /**
      * Inits the.
+     * @param event
+     *            the event
      */
-    public void init() {
+    public void init(final ComponentSystemEvent event) {
         if (FacesUtil.isNotPostback()) {
             if (this.product == null) {
                 clean();
             }
-
-            System.out.println("\n---------------------------------------");
-            System.out.println("INIT");
             // do the operation here
             if (this.categoryMaster != null) {
-                System.out.println(">>>> LOAD CHILD CATEGORIES");
                 loadChildCategorys();
             }
-            System.out.println("------------------------------------------");
         }
     }
 
@@ -157,9 +151,6 @@ public class ProductSaverBean implements Serializable {
 
         if (this.product != null) {
             // load the category
-            System.out.println("\n-------------------------------------------------------------");
-            System.out.println("setProduct load subcategorias e categorias");
-            System.out.println("--------------------------------------------------------------");
             if (this.product.getCategory() != null) {
                 this.categoryMaster = this.product.getCategory().getMasterCategory();
 

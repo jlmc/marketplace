@@ -49,7 +49,7 @@ public class ClientConverter implements Converter {
         Client result = null;
         if (Strings.isNotNullOrBlank(value)) {
             final Long id = new Long(value);
-            result = this.service.getById(id);
+            result = this.service.getClient(id);
         }
         return result;
     }

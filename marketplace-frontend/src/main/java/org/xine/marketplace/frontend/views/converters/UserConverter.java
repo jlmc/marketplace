@@ -41,9 +41,6 @@ public class UserConverter implements Converter {
         User result = null;
         if (Strings.isNotNullOrBlank(value)) {
             final Long id = new Long(value);
-            System.out.println("-----------------------------------------------------------------");
-            System.out.println("UserConverter getAsObject");
-            System.out.println("-----------------------------------------------------------------");
             result = this.repository.getById(id);
         }
         return result;

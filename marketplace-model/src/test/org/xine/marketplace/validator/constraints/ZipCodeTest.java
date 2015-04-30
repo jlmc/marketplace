@@ -13,10 +13,10 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 /**
- * The Class SKUTest.
+ * The Class ZipCodeTest.
  */
-@SuppressWarnings("static-method")
-public class EmailTest {
+@SuppressWarnings({"unchecked", "static-method" })
+public class ZipCodeTest {
 
     /** The validator. */
     private static Validator validator;
@@ -38,39 +38,34 @@ public class EmailTest {
     @Test
     public void testSucess() {
         // fail("Not yet implemented");
-        final EmailStubModel stub = new EmailStubModel("funny8086@gmail.com");
+        final ZipCodeStubModel stub = new ZipCodeStubModel();
+        stub.setZipCode("3130-541");
 
-        final Set<ConstraintViolation<EmailStubModel>> constraintViolations = validator
-                .validate(stub);
-
-        assertEquals(0, constraintViolations.size());
-    }
-
-    @Test
-    public void testSucessEmpty() {
-        // fail("Not yet implemented");
-        final EmailStubModel stub = new EmailStubModel("");
-
-        final Set<ConstraintViolation<EmailStubModel>> constraintViolations = validator
+        final Set<ConstraintViolation<ZipCodeStubModel>> constraintViolations = validator
                 .validate(stub);
 
         assertEquals(0, constraintViolations.size());
     }
 
     /**
-     * Test invalid.
+     * Test sucess empty.
      */
-    @Test
-    public void testInvalid() {
-        // fail("Not yet implemented");
-        final EmailStubModel stub = new EmailStubModel("invalidEmail.com");
 
-        final Set<ConstraintViolation<EmailStubModel>> constraintViolations = validator
+    @Test
+    public void testSucessEmpty() {
+        final ZipCodeStubModel stub = new ZipCodeStubModel();
+        stub.setZipCode("3-130541");
+
+        final Set<ConstraintViolation<ZipCodeStubModel>> constraintViolations = validator
                 .validate(stub);
 
         assertEquals(1, constraintViolations.size());
-        assertEquals("{org.xine.marketplace.validator.constraints.Email.message}",
-                constraintViolations.iterator().next().getMessage());
-    }
 
+        final ConstraintViolation<ZipCodeStubModel>[] violations = constraintViolations
+                .toArray(new ConstraintViolation[0]);
+
+        assertEquals("{org.xine.marketplace.validator.constraints.ZipCode.message}",
+                violations[0].getMessage());
+
+    }
 }

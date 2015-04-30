@@ -1,16 +1,24 @@
 
 <ui:composition template="/WEB-INF/template/BaseLayout.xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="title">#{clientSaverBean.edit ? 'Edit Client' : 'New Client'}</ui:define>
 
 	<ui:define name="contentBody">
+		<f:metadata>
+			<o:viewParam name="client" value="#{clientSaverBean.client}" />
+			<f:event listener="#{clientSaverBean.initialize}" type="preRenderView"/>
+		</f:metadata>
 
-		<h:form id="clientForm">
+
+
+		<h:form id="client-form">
 
 
 			<h1>#{clientSaverBean.edit ? 'Edit Client' : 'New Client'}</h1>
@@ -20,7 +28,8 @@
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
 					<p:button value="New" outcome="/clients/ClientRegistration" />
-					<p:commandButton value="Save" id="save" action="#{clientSaverBean.save}" update="@form"/>
+					<p:commandButton value="Save" id="save"
+						action="#{clientSaverBean.save}" update="@form" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Search" outcome="/clients/ClientSearch" />
@@ -28,40 +37,162 @@
 			</p:toolbar>
 
 
-			<p:panelGrid columns="2" id="painel"
-				style="width: 100%; margin-top: 20px" columnClasses="mark, field">
+			<p:panelGrid id="painel" style="width: 100%; margin-top: 20px"
+				columnClasses="mark, field">
+
+				<p:row>
+					<p:column styleClass="mark">
+						<p:outputLabel value="Name" for="name" />
+					</p:column>
+					<p:column styleClass="field">
+						<p:inputText id="name" size="60" maxlength="80"
+							value="#{clientSaverBean.client.name}" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column styleClass="mark">
+						<p:outputLabel value="Type" for="type" />
+					</p:column>
+					<p:column styleClass="field">
+						<p:selectOneRadio id="type"
+							value="#{clientSaverBean.client.clientType}">
+							<f:selectItems value="#{clientSaverBean.clientTypes}" var="ty"
+								itemValue="#{ty}" itemLabel="#{ty}" />
+						</p:selectOneRadio>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column styleClass="mark">
+						<p:outputLabel value="CNJP" for="cnjp" />
+					</p:column>
+					<p:column styleClass="field">
+						<p:inputMask mask="999. 999.999-99" id="cnjp"
+							value="#{clientSaverBean.client.cnjp}" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column styleClass="mark">
+						<p:outputLabel value="E-mail" for="email" />
+					</p:column>
+					<p:column styleClass="field">
+						<p:inputText id="email" size="40" maxlength="40"
+							value="#{clientSaverBean.client.email}" />
+					</p:column>
+				</p:row>
 
 
-				<p:outputLabel value="Name" for="name" />
-				<p:inputText id="name" size="60" maxlength="80"
-					value="#{clientSaverBean.client.name}" />
-
-				<p:outputLabel value="Type" for="type" />
-
-				<p:selectOneRadio id="type" value="#{clientSaverBean.client.clientType}">
-				
-				
-				<f:selectItems value="#{clientSaverBean.clientTypes}"
-						var="ty" itemValue="#{ty}"
-						itemLabel="#{ty}" />
-				</p:selectOneRadio>
-
-
-
-				<p:outputLabel value="CNJP" for="cnjp" />
-				<p:inputMask mask="999. 999.999-99" id="cnjp"
-					value="#{clientSaverBean.client.cnjp}" />
-
-
-				<p:outputLabel value="E-mail" for="email" />
-				<p:inputText id="email" size="40" maxlength="40"
-					value="#{clientSaverBean.client.email}" />
 
 
 
 
+
+
+
+
+				<p:row>
+					<p:column colspan="2">
+
+					
+						<h:panelGroup>
+							<p:outputLabel for="add-a-button" value="Add addreass"
+								style="padding-right: 25px;" />
+							<p:button title="add address" id="add-a-button"
+								icon="ui-icon-plus" iconPos="right"
+								onclick="PF('adDialog').show(); return false;" />
+						</h:panelGroup>
+
+
+
+						<p:dataTable id="ad-table"
+							value="#{clientSaverBean.client.addresses}" var="a"
+							emptyMessage="no addresses defined" rows="5" paginator="true"
+							paginatorAlwaysVisible="false" paginatorPosition="botton"
+							style="margin-top: 20px">
+
+							<p:column headerText="Country" width="80">
+								<h:outputLabel value="#{a.country}" />
+							</p:column>
+							<p:column headerText="City" width="80">
+								<h:outputLabel value="#{a.city}" />
+							</p:column>
+							<p:column headerText="zip-code" width="55">
+								<h:outputLabel value="#{a.zipCode}" />
+							</p:column>
+							<p:column headerText="street" width="100%">
+								<h:outputLabel value="#{a.street}" />
+							</p:column>
+							<p:column headerText="Number" width="50">
+								<h:outputLabel value="#{a.number}" />
+							</p:column>
+							<p:column width="68" style="text-align: right">
+								<p:commandButton icon="ui-icon-pencil" title="Excluir"
+									update=":client-form:ad-dialog" process="@this"
+									oncomplete="PF('adDialog').show(); return false;">
+									<f:setPropertyActionListener value="#{a}"
+										target="#{clientSaverBean.editableAddress}" />
+								</p:commandButton>
+
+								<p:commandButton icon="ui-icon-trash" title="Excluir"
+									action="#{clientSaverBean.removeAddress}"
+									update=":client-form:ad-table :client-form:ad-dialog"
+									process="@this">
+									<f:setPropertyActionListener value="#{a}"
+										target="#{clientSaverBean.editableAddress}" />
+								</p:commandButton>
+
+							</p:column>
+						</p:dataTable>
+
+					</p:column>
+
+
+				</p:row>
 
 			</p:panelGrid>
+
+			<p:dialog id="ad-dialog" widgetVar="adDialog" modal="true" width="400"
+				closeOnEscape="true" resizable="false" header="Addreass">
+
+				<p:messages id="a-msgs" closable="true" />
+
+				<h:panelGrid columns="2" id="ad-painel-dialog" width="100%">
+					<p:outputLabel value="Country" for="country" />
+					<p:inputText id="country" style="width:100%"
+						value="#{clientSaverBean.editableAddress.country}" />
+
+					<p:outputLabel value="City" for="city" />
+					<p:inputText id="city"
+						value="#{clientSaverBean.editableAddress.city}" />
+
+					<p:outputLabel value="Zip-Code" for="zipcode" />
+					<p:inputText id="zipcode"
+						value="#{clientSaverBean.editableAddress.zipCode}" />
+
+					<p:outputLabel value="Street" for="street" />
+					<p:inputTextarea id="street"
+						value="#{clientSaverBean.editableAddress.street}" />
+
+					<p:outputLabel value="Number" for="number" />
+					<p:inputText id="number"
+						value="#{clientSaverBean.editableAddress.number}" />
+
+					<h:panelGroup />
+
+					<f:facet name="footer">
+						<p:commandButton value="save"
+							action="#{clientSaverBean.saveAddress}"
+							process=":client-form:ad-dialog"
+							update=":client-form:ad-dialog :client-form:ad-table" />
+
+
+					</f:facet>
+				</h:panelGrid>
+			</p:dialog>
+
+
+
 		</h:form>
 	</ui:define>
 

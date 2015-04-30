@@ -1,5 +1,7 @@
 package org.xine.marketplace.model.entities;
 
+import org.xine.marketplace.validator.constraints.ZipCode;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,6 +14,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * The Class Address.
@@ -44,6 +49,9 @@ public class Address implements Serializable {
     /** The client. */
     private Client client;
 
+    /** The edit. */
+    private boolean edit;
+
     /**
      * Gets the id.
      * @return the id
@@ -67,6 +75,7 @@ public class Address implements Serializable {
      * Gets the street.
      * @return the street
      */
+    @Size(min = 0, max = 155)
     @Column(name = "street", length = 155, nullable = true)
     public String getStreet() {
         return this.street;
@@ -103,6 +112,9 @@ public class Address implements Serializable {
      * Gets the zip code.
      * @return the zip code
      */
+    @NotNull
+    @ZipCode
+    @Size(min = 7, max = 14)
     @Column(name = "zipCode", nullable = false, length = 15)
     public String getZipCode() {
         return this.zipCode;
@@ -121,6 +133,8 @@ public class Address implements Serializable {
      * Gets the city.
      * @return the city
      */
+    @NotNull
+    @Size(min = 3, max = 50)
     @Column(name = "city", length = 50, nullable = false)
     public String getCity() {
         return this.city;
@@ -139,6 +153,8 @@ public class Address implements Serializable {
      * Gets the country.
      * @return the country
      */
+    @NotNull
+    @Size(min = 3, max = 50)
     @Column(name = "country", length = 50, nullable = false)
     public String getCountry() {
         return this.country;
@@ -178,7 +194,10 @@ public class Address implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(this.id, String.valueOf(this.country).trim().toUpperCase(), String
+                .valueOf(this.city).trim().toUpperCase(), String.valueOf(this.zipCode).trim()
+                .toUpperCase(), String.valueOf(this.street).trim().toUpperCase(),
+                String.valueOf(this.number).trim().toUpperCase());
     }
 
     /*
@@ -197,6 +216,27 @@ public class Address implements Serializable {
             return false;
         }
         final Address other = (Address) obj;
+        if (this.city == null) {
+            if (other.city != null) {
+                return false;
+            }
+        } else if (!this.city.equals(other.city)) {
+            return false;
+        }
+        if (this.client == null) {
+            if (other.client != null) {
+                return false;
+            }
+        } else if (!this.client.equals(other.client)) {
+            return false;
+        }
+        if (this.country == null) {
+            if (other.country != null) {
+                return false;
+            }
+        } else if (!this.country.equals(other.country)) {
+            return false;
+        }
         if (this.id == null) {
             if (other.id != null) {
                 return false;
@@ -204,7 +244,46 @@ public class Address implements Serializable {
         } else if (!this.id.equals(other.id)) {
             return false;
         }
+        if (this.number == null) {
+            if (other.number != null) {
+                return false;
+            }
+        } else if (!this.number.equals(other.number)) {
+            return false;
+        }
+        if (this.street == null) {
+            if (other.street != null) {
+                return false;
+            }
+        } else if (!this.street.equals(other.street)) {
+            return false;
+        }
+        if (this.zipCode == null) {
+            if (other.zipCode != null) {
+                return false;
+            }
+        } else if (!this.zipCode.equals(other.zipCode)) {
+            return false;
+        }
         return true;
+    }
+
+    /**
+     * Checks if is edits the.
+     * @return the edit
+     */
+    @Transient
+    public boolean isEdit() {
+        return this.edit;
+    }
+
+    /**
+     * Sets the edits the.
+     * @param edit
+     *            the edit to set
+     */
+    public void setEdit(final boolean edit) {
+        this.edit = edit;
     }
 
 }

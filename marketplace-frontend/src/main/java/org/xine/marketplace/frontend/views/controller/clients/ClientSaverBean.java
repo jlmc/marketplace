@@ -2,12 +2,14 @@ package org.xine.marketplace.frontend.views.controller.clients;
 
 import org.xine.marketplace.business.services.ClientService;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
+import org.xine.marketplace.model.entities.Address;
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.entities.ClientType;
 
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -27,6 +29,7 @@ public class ClientSaverBean implements Serializable {
     // business services
     //
     // -------------------------------------------------------------------------
+    /** The service. */
     @Inject
     private ClientService service;
     // -------------------------------------------------------------------------
@@ -40,6 +43,9 @@ public class ClientSaverBean implements Serializable {
     /** The client types. */
     private final ClientType[] clientTypes = ClientType.values();
 
+    /** The editable address. */
+    private Address editableAddress;
+
     // -------------------------------------------------------------------------
     //
     // Single operation
@@ -48,8 +54,10 @@ public class ClientSaverBean implements Serializable {
 
     /**
      * Initialize.
+     * @param e
+     *            the e
      */
-    public void initialize() {
+    public void initialize(final ComponentSystemEvent e) {
         if (FacesUtil.isNotPostback()) {
             if (this.client == null) {
                 clean();
@@ -57,6 +65,9 @@ public class ClientSaverBean implements Serializable {
         }
     }
 
+    /**
+     * Inits the.
+     */
     @PostConstruct
     private void init() {
         clean();
@@ -71,23 +82,46 @@ public class ClientSaverBean implements Serializable {
      * Save.
      */
     public void save() {
-        this.service.save(this.client);
-        FacesUtil.addInfoMessage("Client saved.");
-        clean();
+        if (this.client != null) {
+            final boolean isEditOperation = this.client.getId() != null;
+            this.client = this.service.save(this.client);
+            FacesUtil.addInfoMessage("Client saved.");
+
+            if (!isEditOperation) {
+                clean();
+            }
+        }
     }
 
     /**
      * Adds the address.
      */
-    public void addAddress() {
-        // TODO::
+    public void saveAddress() {
+        if (this.editableAddress != null && this.client != null) {
+            this.editableAddress.setClient(this.client);
+            if (!this.editableAddress.isEdit()) {
+                this.client.getAddresses().add(this.editableAddress);
+            }
+            this.editableAddress = new Address();
+        }
+    }
+
+    /**
+     * Edits the address.
+     */
+    public void editAddress() {
+        this.editableAddress.setClient(this.client);
+        this.editableAddress = new Address();
     }
 
     /**
      * Removes the address.
      */
     public void removeAddress() {
-        // TODO::
+        if (this.editableAddress != null && this.client != null) {
+            this.client.getAddresses().remove(this.editableAddress);
+            this.editableAddress = new Address();
+        }
     }
 
     /**
@@ -95,6 +129,7 @@ public class ClientSaverBean implements Serializable {
      */
     private void clean() {
         this.client = new Client();
+        this.editableAddress = new Address();
     }
 
     // --------------------------------------------------------------------------
@@ -133,6 +168,24 @@ public class ClientSaverBean implements Serializable {
      */
     public ClientType[] getClientTypes() {
         return this.clientTypes;
+    }
+
+    /**
+     * Gets the editable address.
+     * @return the editableAddress
+     */
+    public Address getEditableAddress() {
+        return this.editableAddress;
+    }
+
+    /**
+     * Sets the editable address.
+     * @param editableAddress
+     *            the editableAddress to set
+     */
+    public void setEditableAddress(final Address editableAddress) {
+        this.editableAddress = editableAddress;
+        this.editableAddress.setEdit(true);
     }
 
 }

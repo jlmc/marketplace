@@ -48,6 +48,11 @@ public class ClientService implements Serializable {
         return this.clientRepository.save(client);
     }
 
+    /**
+     * Delete.
+     * @param client
+     *            the client
+     */
     @Transactional
     public void delete(final Client client) {
         try {
@@ -59,6 +64,12 @@ public class ClientService implements Serializable {
 
     }
 
+    /**
+     * Search.
+     * @param filter
+     *            the filter
+     * @return the list
+     */
     public List<Client> search(final ClientFilter filter) {
         return this.clientRepository.shearch(filter);
     }
@@ -71,6 +82,16 @@ public class ClientService implements Serializable {
      */
     public Client getById(final Long id) {
         return this.clientRepository.getById(id);
+    }
+
+    /**
+     * Gets the client.
+     * @param id
+     *            the id
+     * @return the client
+     */
+    public Client getClient(final Long id) {
+        return this.clientRepository.getById(id, true);
     }
 
     /**
