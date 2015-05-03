@@ -98,12 +98,10 @@ public class RequisitionsRepository implements Serializable {
                 predicates.add(Helper.ilike(builder, JoinSellers.get("username"),
                         filter.getSellerName(), MatchMode.ANYWHERE));
             }
-
             if (!Strings.isNullOrBlank(filter.getClientName())) {
                 predicates.add(Helper.ilike(builder, joinerClients.get("name"),
                         filter.getClientName(), MatchMode.ANYWHERE));
             }
-
             if (filter.getStatus() != null && filter.getStatus().length > 0) {
                 final List<Predicate> sts = new ArrayList<>();
                 Arrays.stream(filter.getStatus()).forEach(

@@ -1,15 +1,16 @@
 package org.xine.marketplace.frontend.views.controller.requisitions;
 
+import org.xine.marketplace.business.services.RequisitionService;
 import org.xine.marketplace.model.entities.Requisition;
 import org.xine.marketplace.model.entities.RequisitionStatus;
 import org.xine.marketplace.model.filters.RequisitionFilter;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -21,6 +22,14 @@ public class RequisitionSearchBean implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
+
+    // -------------------------------------------------------------------------
+    //
+    // business services
+    //
+    // -------------------------------------------------------------------------
+    @Inject
+    private RequisitionService requisitionService;
 
     // -------------------------------------------------------------------------
     //
@@ -50,11 +59,11 @@ public class RequisitionSearchBean implements Serializable {
         this.requisitionStatus = RequisitionStatus.values();
         this.filter = new RequisitionFilter();
 
-        System.out.println("SearchOrdersBean PostConstruct");
-        this.requisitions = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            this.requisitions.add(new Requisition(Long.valueOf(i + 1)));
-        }
+        // System.out.println("SearchOrdersBean PostConstruct");
+        // this.requisitions = new ArrayList<>();
+        // for (int i = 0; i < 50; i++) {
+        // this.requisitions.add(new Requisition(Long.valueOf(i + 1)));
+        // }
     }
 
     // -------------------------------------------------------------------------
@@ -65,11 +74,9 @@ public class RequisitionSearchBean implements Serializable {
     /**
      * Search.
      */
-    @SuppressWarnings("static-method")
     public void search() {
         System.out.println("Search operation");
-        System.out.println();
-
+        this.requisitions = this.requisitionService.search(this.filter);
     }
 
     // -------------------------------------------------------------------------
