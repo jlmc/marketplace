@@ -11,6 +11,8 @@
 		<class>org.xine.marketplace.model.entities.Category</class>
 		<class>org.xine.marketplace.model.entities.Client</class>
 		<class>org.xine.marketplace.model.entities.Address</class>
+		<class>org.xine.marketplace.model.entities.RequisitionItem</class>
+		<class>org.xine.marketplace.model.entities.Requisition</class>
         
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />

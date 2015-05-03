@@ -5,8 +5,11 @@ import org.xine.marketplace.validator.constraints.SKU;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -49,11 +53,13 @@ public class Product implements Serializable {
     /** The category. */
     private Category category;
 
+    /** The requisition itens. */
+    private Set<RequisitionItem> requisitionItens = new HashSet<>();
+
     /**
      * Instantiates a new product.
      */
-    public Product() {
-    }
+    public Product() {}
 
     /**
      * Instantiates a new product.
@@ -68,13 +74,11 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    
     /**
      * Gets the sku.
-     *
      * @return the sku
      */
-    //@Pattern(regexp="([a-zA-Z]{2}\\d{4,18})?")
+    // @Pattern(regexp="([a-zA-Z]{2}\\d{4,18})?")
     @NotNull
     @SKU
     @Column(nullable = false, length = 20, unique = true)
@@ -173,7 +177,7 @@ public class Product implements Serializable {
      * Gets the category.
      * @return the category
      */
-   // @ManyToOne
+    // @ManyToOne
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     public Category getCategory() {
@@ -187,6 +191,24 @@ public class Product implements Serializable {
      */
     public void setCategory(final Category category) {
         this.category = category;
+    }
+
+    /**
+     * Gets the requisition itens.
+     * @return the requisitionItens
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    public Set<RequisitionItem> getRequisitionItens() {
+        return this.requisitionItens;
+    }
+
+    /**
+     * Sets the requisition itens.
+     * @param requisitionItens
+     *            the requisitionItens to set
+     */
+    public void setRequisitionItens(final Set<RequisitionItem> requisitionItens) {
+        this.requisitionItens = requisitionItens;
     }
 
     /*

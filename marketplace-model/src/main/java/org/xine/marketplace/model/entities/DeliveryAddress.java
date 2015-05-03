@@ -171,7 +171,7 @@ public class DeliveryAddress implements Serializable {
      */
     @NotNull
     @Size(max = 200)
-    @Column(name = "delivery_Name", length = 200, nullable = false)
+    @Column(name = "delivery_name", length = 200, nullable = false)
     public String getDeliveryName() {
         return this.deliveryName;
     }

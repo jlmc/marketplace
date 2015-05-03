@@ -1,4 +1,4 @@
-package org.xine.marketplace.frontend.views.controller;
+package org.xine.marketplace.frontend.views.controller.requisitions;
 
 import org.xine.marketplace.model.entities.Requisition;
 

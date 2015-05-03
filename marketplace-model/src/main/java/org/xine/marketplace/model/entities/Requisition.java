@@ -3,17 +3,22 @@ package org.xine.marketplace.model.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -61,6 +66,8 @@ public class Requisition implements Serializable {
 
     /** The delivery address. */
     private DeliveryAddress deliveryAddress;
+
+    private Set<RequisitionItem> requisitionItens = new HashSet<>();
 
     /**
      * Instantiates a new requisition.
@@ -118,7 +125,8 @@ public class Requisition implements Serializable {
      * Gets the notes.
      * @return the notes
      */
-    @Column(columnDefinition = "text")
+    // @Column(columnDefinition = "text")
+    @Column(name = "notes", length = 2048)
     public String getNotes() {
         return this.notes;
     }
@@ -157,7 +165,8 @@ public class Requisition implements Serializable {
      * @return the seller
      */
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    // by default is fetch e EAGER @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", nullable = false)
     public User getSeller() {
         return this.seller;
@@ -177,7 +186,8 @@ public class Requisition implements Serializable {
      * @return the client
      */
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    // by default is fetch e EAGER @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
     public Client getClient() {
         return this.client;
@@ -256,7 +266,7 @@ public class Requisition implements Serializable {
      */
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "Payment_Method", nullable = false, length = 20)
+    @Column(name = "payment_method", nullable = false, length = 20)
     public PaymentMethod getPaymentMethod() {
         return this.paymentMethod;
     }
@@ -286,6 +296,36 @@ public class Requisition implements Serializable {
      */
     public void setDeliveryAddress(final DeliveryAddress deliveryAddress) {
         this.deliveryAddress = deliveryAddress;
+    }
+
+    /**
+     * @return the requisitionItens
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
+    public Set<RequisitionItem> getRequisitionItens() {
+        return this.requisitionItens;
+    }
+
+    /**
+     * @param requisitionItens
+     *            the requisitionItens to set
+     */
+    public void setRequisitionItens(final Set<RequisitionItem> requisitionItens) {
+        this.requisitionItens = requisitionItens;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "Requisition [id=" + this.id + ", creationDate=" + this.creationDate + ", notes="
+                + this.notes + ", deliveryDate=" + this.deliveryDate + ", seller=" + this.seller
+                + ", client=" + this.client + ", rebateValue=" + this.rebateValue + ", totalValue="
+                + this.totalValue + ", status=" + this.status + ", paymentMethod="
+                + this.paymentMethod + ", deliveryAddress=" + this.deliveryAddress
+                + ", requisitionItens=" + this.requisitionItens + "]";
     }
 
 }
