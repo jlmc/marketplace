@@ -128,12 +128,25 @@ public class UsersSearchIntegrationTest extends AbstractDbUnitJpaTest {
         Assert.assertNotNull(users);
         Assert.assertEquals(4, users.size());
 
-        users.stream().filter(u -> u.getId().equals(Long.valueOf(1L)))
-        .forEach(u -> System.out.println("SIZE: " + u.getPermissions().size()));
-        users.stream().filter(u -> u.getId().equals(Long.valueOf(2L)))
-        .forEach(u -> System.out.println("SIZE: " + u.getPermissions().size()));
-        users.stream().filter(u -> u.getId().equals(Long.valueOf(3L)))
-        .forEach(u -> System.out.println("SIZE: " + u.getPermissions().size()));
+        users.stream().filter(u -> u.getId().equals(Long.valueOf(1L))).findAny().ifPresent(u -> {
+            System.out.println("User 1 Must have 3 Permissions");
+            Assert.assertEquals(3, u.getPermissions().size());
+        });
+        users.stream().filter(u -> u.getId().equals(Long.valueOf(2L))).findAny().ifPresent(u -> {
+            System.out.println("User 2 Must have 1 Permissions");
+            Assert.assertEquals(1, u.getPermissions().size());
+        });
+        users.stream().filter(u -> u.getId().equals(Long.valueOf(3L))).findAny().ifPresent(u -> {
+            System.out.println("User 3 Must have 1 Permissions");
+            Assert.assertEquals(1, u.getPermissions().size());
+        });
+
+        // users.stream().filter(u -> u.getId().equals(Long.valueOf(1L)))
+        // .forEach(u -> System.out.println("SIZE: " + u.getPermissions().size()));
+        // users.stream().filter(u -> u.getId().equals(Long.valueOf(2L)))
+        // .forEach(u -> System.out.println("SIZE: " + u.getPermissions().size()));
+        // users.stream().filter(u -> u.getId().equals(Long.valueOf(3L)))
+        // .forEach(u -> System.out.println("SIZE: " + u.getPermissions().size()));
 
     }
 }
