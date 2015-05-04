@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * The Class Order.
@@ -176,8 +177,9 @@ public class Requisition implements Serializable {
      * Gets the notes.
      * @return the notes
      */
+    @Size(max = 1024)
     // @Column(columnDefinition = "text")
-    @Column(name = "notes", length = 2048)
+    @Column(name = "notes", length = 1024)
     public String getNotes() {
         return this.notes;
     }

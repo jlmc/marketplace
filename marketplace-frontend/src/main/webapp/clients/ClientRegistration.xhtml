@@ -13,7 +13,8 @@
 	<ui:define name="contentBody">
 		<f:metadata>
 			<o:viewParam name="client" value="#{clientSaverBean.client}" />
-			<f:event listener="#{clientSaverBean.initialize}" type="preRenderView"/>
+			<f:event listener="#{clientSaverBean.initialize}"
+				type="preRenderView" />
 		</f:metadata>
 
 
@@ -23,17 +24,19 @@
 
 			<h1>#{clientSaverBean.edit ? 'Edit Client' : 'New Client'}</h1>
 
-			<p:messages  id="client-form-msg" closable="true"  />
+			<p:messages id="client-form-msg" closable="true" />
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
 					<p:button value="New" outcome="/clients/ClientRegistration" />
-					
+
 					<p:commandButton value="Save" id="save"
-						action="#{clientSaverBean.save}" update=":client-form:client-form-msg :client-form:painel" process=":client-form:painel @this" />
-						
-						
-						
+						action="#{clientSaverBean.save}"
+						update=":client-form:client-form-msg :client-form:painel"
+						process=":client-form:painel @this" />
+
+
+
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
 					<p:button value="Search" outcome="/clients/ClientSearch" />
@@ -99,7 +102,7 @@
 				<p:row>
 					<p:column colspan="2">
 
-					
+
 						<h:panelGroup>
 							<p:outputLabel for="add-a-button" value="Add addreass"
 								style="padding-right: 25px;" />
@@ -139,11 +142,10 @@
 										target="#{clientSaverBean.editableAddress}" />
 								</p:commandButton>
 
-								<p:commandButton icon="ui-icon-trash" title="Excluir" 
+								<p:commandButton icon="ui-icon-trash" title="Excluir"
 									action="#{clientSaverBean.removeAddress}"
 									update=":client-form:ad-table :ad-form:ad-dialog"
-									process="@this"
-									>
+									process="@this">
 									<f:setPropertyActionListener value="#{a}"
 										target="#{clientSaverBean.editableAddress}" />
 								</p:commandButton>
@@ -157,17 +159,19 @@
 
 			</p:panelGrid>
 		</h:form>
-		
-		
+
+
+
 		<h:form id="ad-form">
-				<p:dialog id="ad-dialog" widgetVar="adDialog" modal="true" width="400"
-				closeOnEscape="true" resizable="false" header="Addreass">
+			<p:dialog id="ad-dialog" widgetVar="adDialog" modal="true"
+				width="400" closeOnEscape="true" resizable="false" header="Addreass">
 
 				<p:messages id="a-msgs" closable="true" />
 
-				<h:panelGrid columns="2" id="ad-painel-dialog" width="100%">
-					<p:outputLabel value="Country" for="country" />
-					<p:inputText id="country" style="width:100%"
+				<h:panelGrid columns="2" id="ad-painel-dialog" width="100%"
+					columnClasses="mark-modal, field">
+					<p:outputLabel value="Country" for="country" styleClass="mark" />
+					<p:inputText id="country" styleClass="field" size="20"
 						value="#{clientSaverBean.editableAddress.country}" />
 
 					<p:outputLabel value="City" for="city" />
@@ -175,15 +179,19 @@
 						value="#{clientSaverBean.editableAddress.city}" />
 
 					<p:outputLabel value="Zip-Code" for="zipcode" />
-					<p:inputText id="zipcode"
+					<p:inputMask mask="9999-999" id="zipcode" size="5"
 						value="#{clientSaverBean.editableAddress.zipCode}" />
 
 					<p:outputLabel value="Street" for="street" />
-					<p:inputTextarea id="street"
-						value="#{clientSaverBean.editableAddress.street}" />
-
+					<h:panelGroup>
+						<p:inputTextarea id="street" style="width:100%"
+							value="#{clientSaverBean.editableAddress.street}"
+							counterTemplate="{0} characters remaining." autoResize="true" rows="5" cols="50"
+							counter="display" maxlength="155" />
+						<h:outputText id="display" style="font-size:.8em" />
+					</h:panelGroup>
 					<p:outputLabel value="Number" for="number" />
-					<p:inputText id="number"
+					<p:inputText id="number" size="4" 
 						value="#{clientSaverBean.editableAddress.number}" />
 
 					<h:panelGroup />
@@ -192,12 +200,12 @@
 						<p:commandButton value="save"
 							action="#{clientSaverBean.saveAddress}"
 							process=":ad-form:ad-dialog"
-							update=":ad-form:a-msgs :ad-form:ad-painel-dialog :client-form:ad-table" 
-							oncomplete="if (!args.validationFailed) PF('adDialog').hide()"/>
+							update=":ad-form:a-msgs :ad-form:ad-painel-dialog :client-form:ad-table"
+							oncomplete="if (!args.validationFailed) PF('adDialog').hide()" />
 					</f:facet>
 				</h:panelGrid>
 			</p:dialog>
-		
+
 		</h:form>
 	</ui:define>
 

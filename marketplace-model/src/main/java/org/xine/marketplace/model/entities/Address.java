@@ -94,7 +94,8 @@ public class Address implements Serializable {
      * Gets the number.
      * @return the number
      */
-    @Column(name = "doorNumber", nullable = true, length = 15)
+    @Size(max = 8)
+    @Column(name = "doorNumber", nullable = true, length = 8)
     public String getNumber() {
         return this.number;
     }
