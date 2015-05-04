@@ -1,13 +1,14 @@
 package org.xine.marketplace.repository.daos;
 
-import org.xine.marketplace.model.entities.Permission;
 import org.xine.marketplace.model.entities.User;
 import org.xine.marketplace.model.filters.UserFilter;
 import org.xine.marketplace.repository.exceptions.RepositoryException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -18,9 +19,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -114,58 +113,6 @@ public class UsersRepository implements Serializable {
         }
     }
 
-    public List<User> search(final UserFilter filter) {
-        return search(filter, true);
-    }
-
-    /**
-     * Search.
-     * @param filter
-     *            the filter
-     * @return the list
-     */
-    public List<User> search(final UserFilter filter, final boolean withPermission) {
-        final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
-        final CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-
-        final Root<User> root = criteriaQuery.from(User.class);
-
-        if (withPermission) {
-            @SuppressWarnings({"unchecked", "rawtypes", "unused" })
-            final Join<User, Permission> userPermission = (Join) root.fetch("permissions",
-                    JoinType.LEFT);
-            root.join("permissions", JoinType.LEFT);
-        }
-
-        criteriaQuery.select(root).distinct(true);
-
-        // predicates
-
-        final List<Predicate> predicates = new ArrayList<>();
-
-        if (haveName(filter)) {
-
-            final Expression<String> name = criteriaBuilder.parameter(String.class, "NAME");
-            predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("username")), name));
-        }
-
-        criteriaQuery.where(predicates.toArray(new Predicate[0]));
-
-        // adding order
-        final List<Order> ordersBys = new ArrayList<>();
-        ordersBys.add(criteriaBuilder.asc(criteriaBuilder.upper(root.get("username"))));
-        criteriaQuery.orderBy(ordersBys);
-
-        final TypedQuery<User> tq = this.entityManager.createQuery(criteriaQuery);
-
-        if (haveName(filter)) {
-            tq.setParameter("NAME", "%" + filter.getName().toUpperCase().trim() + "%");
-        }
-
-        final List<User> users = tq.getResultList();
-        return users;
-    }
-
     /**
      * Have name.
      * @param filter
@@ -176,4 +123,79 @@ public class UsersRepository implements Serializable {
         return filter != null && filter.getName() != null && !filter.getName().trim().isEmpty();
     }
 
+    /**
+     * Have email.
+     * @param filter
+     *            the filter
+     * @return true, if successful
+     */
+    private static boolean haveEmail(final UserFilter filter) {
+        return filter != null && filter.getEmail() != null && !filter.getEmail().trim().isEmpty();
+    }
+
+    /**
+     * Search two.
+     * @param filter
+     *            the filter
+     * @return the list
+     */
+    @SuppressWarnings("null")
+    public List<User> search(final UserFilter filter) {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+        final Root<User> root = criteriaQuery.from(User.class);
+
+        if (isToLoadPermissions(filter)) {
+            criteriaQuery.select(root).distinct(true);
+            root.fetch("permissions", JoinType.LEFT);
+        } else {
+            criteriaQuery.select(root);
+        }
+
+        final Map<String, Object> paramValues = new HashMap<>();
+
+        // INF:: define predicates
+        final List<Predicate> predicates = new ArrayList<>();
+
+        if (haveName(filter)) {
+            final Expression<String> nameParam = builder.parameter(String.class, "_name");
+            predicates.add(builder.like(builder.upper(root.get("username")), nameParam));
+
+            paramValues.put("_name",
+                    Helper.MatchMode.ANYWHERE.toMatchString(filter.getName().toUpperCase()));
+        }
+        if (haveEmail(filter)) {
+            final Expression<String> email = builder.parameter(String.class, "_email");
+            predicates.add(builder.equal(builder.upper(root.get("email")), email));
+
+            paramValues.put("_email", filter.getEmail().toUpperCase());
+        }
+
+        criteriaQuery.where(predicates.toArray(new Predicate[0]));
+
+        // INF:: add Orders to criteriaQuery
+
+        criteriaQuery.orderBy(builder.asc(builder.upper(root.get("username"))),
+                builder.asc(root.get("id")));
+
+        final TypedQuery<User> typedQuery = this.entityManager.createQuery(criteriaQuery);
+        // INFO:: add parameters to typedQuery
+
+        paramValues.keySet().forEach(key -> {
+            typedQuery.setParameter(key, paramValues.get(key));
+        });
+
+        final List<User> users = typedQuery.getResultList();
+        return users;
+    }
+
+    /**
+     * Checks if is to load permissions.
+     * @param filter
+     *            the filter
+     * @return true, if is to load permissions
+     */
+    private static boolean isToLoadPermissions(final UserFilter filter) {
+        return filter != null && filter.isLoadPermissions();
+    }
 }

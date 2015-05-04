@@ -23,6 +23,9 @@ public class UserFilter implements Serializable {
     /** The permissions. */
     private Set<Permission> permissions = new HashSet<>();
 
+    /** The load permissions. */
+    private boolean loadPermissions;
+
     /**
      * Instantiates a new user filter.
      */
@@ -38,9 +41,24 @@ public class UserFilter implements Serializable {
      *            the email
      */
     public UserFilter(final String name, final String email) {
-        super();
+        this();
         this.name = name;
         this.email = email;
+    }
+
+    /**
+     * Instantiates a new user filter.
+     * @param name
+     *            the name
+     * @param email
+     *            the email
+     * @param loadPermissions
+     *            Load the permissions List to witch user if {@code true}, not Load permissions
+     *            otherwise.
+     */
+    public UserFilter(final String name, final String email, final boolean loadPermissions) {
+        this(name, email);
+        this.loadPermissions = loadPermissions;
     }
 
     /**
@@ -92,6 +110,25 @@ public class UserFilter implements Serializable {
      */
     public void setPermissions(final Set<Permission> permissions) {
         this.permissions = permissions;
+    }
+
+    /**
+     * Checks if is load permissions.
+     * Load the permissions List to witch user if {@code true}, not Load permissions otherwise.
+     * @return the loadPermissions
+     */
+    public boolean isLoadPermissions() {
+        return this.loadPermissions;
+    }
+
+    /**
+     * Sets the load permissions.
+     * Load the permissions List to witch user if {@code true}, not Load permissions otherwise.
+     * @param loadPermissions
+     *            the loadPermissions to set
+     */
+    public void setLoadPermissions(final boolean loadPermissions) {
+        this.loadPermissions = loadPermissions;
     }
 
 }

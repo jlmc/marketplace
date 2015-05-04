@@ -78,8 +78,7 @@ public class RequisitionService implements Serializable {
      * @return the sellers
      */
     public List<User> getSellers() {
-        // TODO:: this method needs to be changed or implemented another version , because in this
-        // scenario is not necessary to load the permissiões
+
         return this.sellersRepository.search(null);
     }
 
@@ -110,6 +109,6 @@ public class RequisitionService implements Serializable {
      * @return the list
      */
     public List<User> searchSellerByName(final String sellerName) {
-        return this.sellersRepository.search(new UserFilter(sellerName, null), false);
+        return this.sellersRepository.search(new UserFilter(sellerName, null));
     }
 }
