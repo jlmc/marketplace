@@ -1,5 +1,7 @@
 package org.xine.marketplace.model.entities;
 
+import org.xine.marketplace.validator.constraints.ZipCode;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -110,6 +112,7 @@ public class DeliveryAddress implements Serializable {
      * @return the zip code
      */
     @NotNull
+    @ZipCode
     @Size(max = 15)
     @Column(name = "delivery_zip_code", length = 15, nullable = false)
     public String getZipCode() {

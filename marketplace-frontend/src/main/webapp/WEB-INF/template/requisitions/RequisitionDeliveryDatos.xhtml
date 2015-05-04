@@ -8,42 +8,50 @@
 
 
 
-	<p:panelGrid columns="4" style="width: 100%" columnClasses="mark, field, mark, field">
-		
+	<p:panelGrid columns="4" style="width: 100%"
+		columnClasses="mark, field, mark, field">
+
 		<p:outputLabel value="Delivery Date" for="dataEntrega" />
-		<p:calendar id="dataEntrega" size="10" pattern="dd/MM/yyyy" value="#{requisitionSaverBean.requisition.deliveryDate}"/>
-		
+		<p:calendar id="dataEntrega" size="10" pattern="dd/MM/yyyy"
+			value="#{requisitionSaverBean.requisition.deliveryDate}" />
+
 		<p:spacer />
 		<p:spacer />
-	
-        <p:outputLabel value="delivery-Name" for="deliveryName" />
-        <p:inputText id="deliveryName" size="50" value="#{requisitionSaverBean.requisition.deliveryAddress.deliveryName}"/>
 
-        <p:outputLabel value="Contry" for="contry" />
-        <p:inputText id="contry" size="50" value="#{requisitionSaverBean.requisition.deliveryAddress.country}"/>
-        
-        <p:outputLabel value="City" for="city" />
-        <p:inputText id="city" size="50" value="#{requisitionSaverBean.requisition.deliveryAddress.city}"/>
-        
-        <p:outputLabel value="Zip-Code" for="zip" />
-        <p:inputText id="zip" size="50" value="#{requisitionSaverBean.requisition.deliveryAddress.zipCode}"/>
-        
-        
-        <p:outputLabel value="Street" for="street" />
-        <p:inputText id="street" size="50" value="#{requisitionSaverBean.requisition.deliveryAddress.street}"/>
-        
-        <p:outputLabel value="Number" for="number" />
-        <p:inputText id="number" size="50" value="#{requisitionSaverBean.requisition.deliveryAddress.number}"/>
-        
+		<p:outputLabel value="delivery-Name" for="deliveryName" />
+		<p:inputText id="deliveryName" size="50"
+			value="#{requisitionSaverBean.requisition.deliveryAddress.deliveryName}" />
 
-      
+		<p:outputLabel value="Contry" for="contry" />
+		<p:inputText id="contry" size="20"
+			value="#{requisitionSaverBean.requisition.deliveryAddress.country}" />
+
+		<p:outputLabel value="City" for="city" />
+		<p:inputText id="city" size="20"
+			value="#{requisitionSaverBean.requisition.deliveryAddress.city}" />
+
+		<p:outputLabel value="Zip-Code" for="zip" />
+		<p:inputMask mask="9999-999" id="zip" size="8"
+			value="#{requisitionSaverBean.requisition.deliveryAddress.zipCode}" />
 
 
-        
+		<p:outputLabel value="Street" for="street" />
+		<p:inputText id="street" size="50"
+			value="#{requisitionSaverBean.requisition.deliveryAddress.street}" />
 
-      
-		
+		<p:outputLabel value="Number" for="number" />
+		<p:inputText id="number" size="4"
+			value="#{requisitionSaverBean.requisition.deliveryAddress.number}" />
+
+
+
+
+
+
+
+
+
 	</p:panelGrid>
-	
-	
+
+
 </ui:composition>
