@@ -114,24 +114,28 @@ public class UsersRepository implements Serializable {
         }
     }
 
+    public List<User> search(final UserFilter filter) {
+        return search(filter, true);
+    }
+
     /**
      * Search.
      * @param filter
      *            the filter
      * @return the list
      */
-    public List<User> search(final UserFilter filter) {
+    public List<User> search(final UserFilter filter, final boolean withPermission) {
         final CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
         final CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
 
         final Root<User> root = criteriaQuery.from(User.class);
-        @SuppressWarnings({"unchecked", "rawtypes", "unused" })
-        final Join<User, Permission> userPermission = (Join) root.fetch("permissions",
-                JoinType.LEFT);
-        root.join("permissions", JoinType.LEFT);
 
-        // @SuppressWarnings({ "unchecked", "rawtypes" })
-        // final Join<Product, Category> joiner = (Join) root.fetch("category");
+        if (withPermission) {
+            @SuppressWarnings({"unchecked", "rawtypes", "unused" })
+            final Join<User, Permission> userPermission = (Join) root.fetch("permissions",
+                    JoinType.LEFT);
+            root.join("permissions", JoinType.LEFT);
+        }
 
         criteriaQuery.select(root).distinct(true);
 
@@ -140,16 +144,10 @@ public class UsersRepository implements Serializable {
         final List<Predicate> predicates = new ArrayList<>();
 
         if (haveName(filter)) {
-            // where name like '%texto%'
+
             final Expression<String> name = criteriaBuilder.parameter(String.class, "NAME");
             predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("username")), name));
         }
-
-        // if (haveSKU(filter)) {
-        // final Expression<String> sku = builder.parameter(String.class,
-        // "SKU");
-        // predicates.add(builder.equal(root.get("sku"), sku));
-        // }
 
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
 

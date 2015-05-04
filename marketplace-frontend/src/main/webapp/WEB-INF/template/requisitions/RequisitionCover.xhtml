@@ -11,56 +11,89 @@
 	<p:panelGrid columns="4" style="width: 100%; margin-top: 20px"
 		columnClasses="mark, field, mark, field">
 
-		<p:outputLabel value="Number" for="number" />
-		<h:outputText id="number" value="123456" />
+		<p:outputLabel value="Number" for="number"
+			rendered="#{requisitionSaverBean.edit}" />
+		<h:outputText id="number"
+			value="#{requisitionSaverBean.requisition.id}"
+			rendered="#{requisitionSaverBean.edit}" />
 
 
 
-		<p:outputLabel value="Creation Date" for="creationDate" />
-		<h:outputText id="creationDate" value="05/12/2015" />
+		<p:outputLabel value="Creation Date" for="creationDate"
+			rendered="#{requisitionSaverBean.edit}" />
+		<h:outputText id="creationDate"
+			value="#{requisitionSaverBean.requisition.creationDate}"
+			rendered="#{requisitionSaverBean.edit}">
+			<f:convertDateTime pattern="dd/MM/yyyy" />
+		</h:outputText>
 
 
 		<p:outputLabel value="Status" for="status" />
-		<h:outputText id="status" value="Budget" />
+		<h:outputText id="status"
+			value="#{requisitionSaverBean.requisition.status.description}" />
 
 
-		<p:outputLabel value="Seller" />
-		<p:selectOneMenu id="seller">
-			<f:selectItem itemLabel="select one" />
-			<f:selectItem itemLabel="Vendedor I" />
-			<f:selectItem itemLabel="Vendedor II" />
-			<f:selectItem itemLabel="Vendedor III" />
-			<f:selectItem itemLabel="Vendedor IV" />
-			<f:selectItem itemLabel="Vendedor V" />
-		</p:selectOneMenu>
+		 <p:outputLabel value="Seller" for="vendedor"/>
+		<p:autoComplete id="vendedor" size="40" dropdown="true"
+			style="margin-right:15px; padding-right: 10px;"
+			value="#{requisitionSaverBean.requisition.seller}"
+			completeMethod="#{requisitionSaverBean.completeSeller}" var="s"
+			itemLabel="#{s.username}" itemValue="#{s}" forceSelection="true" />
+		 
+		 
+      
+        
+
+
+
 
 		<p:outputLabel value="Client" for="client" />
-		
-		<p:autoComplete id="client" size="40"  dropdown="true" style="margin-right:15px; padding-right: 10px;" />
+		<p:autoComplete id="client" size="40" dropdown="true"
+			style="margin-right:15px; padding-right: 10px;"
+			value="#{requisitionSaverBean.requisition.client}"
+			completeMethod="#{requisitionSaverBean.completeClient}" var="c"
+			itemLabel="#{c.name}" itemValue="#{c}" forceSelection="true" />
+
 
 		<p:outputLabel value="Payment method" for="paymentMethod" />
-		<p:selectOneMenu id="paymentMethod">
-			<f:selectItem itemLabel="Select one" />
-			<f:selectItem itemLabel="Credit card" />
-			<f:selectItem itemLabel="Paypal" />
+		<p:selectOneMenu id="paymentMethod" value="#{requisitionSaverBean.requisition.paymentMethod}">
+			<f:selectItem itemLabel="select one..." />
+			<f:selectItems value="#{requisitionSaverBean.paymentMethods}"
+				var="pm" itemValue="#{pm}" itemLabel="#{pm.description}" />
 		</p:selectOneMenu>
 
-		<p:outputLabel value="Current Price" for="currentPrice" />
-		<p:inputText id="currentPrice" size="10" maxlength="10" />
 
-		<p:outputLabel value="Subtotal" style="font-weight: bold"
-			for="subtotal" />
-		<h:outputText value="€ 0,00" style="font-weight: bold" id="subtotal" />
-
-
-		<p:outputLabel value="Discount amount" for="discountAmount" />
-		<p:inputText id="discountAmount" size="10" maxlength="10" />
+		<p:outputLabel value="Shipping Value" for="shipping-value" />
+		<p:inputText id="shipping-value" size="10" maxlength="10"
+			styleClass="currency"
+			value="#{requisitionSaverBean.requisition.shippingValue}">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
 
 
-		<p:outputLabel value="Total Order" for="totalOrder"
+
+
+
+		<p:outputLabel value="Sub-Total" style="font-weight: bold"
+			for="sub-total" />
+		<h:outputText value="€ 0,00" style="font-weight: bold" id="sub-total" />
+
+
+		<p:outputLabel value="Discount Value" for="discount-value" />
+		<p:inputText id="discount-value" size="10" maxlength="10"
+			styleClass="currency"
+			value="#{requisitionSaverBean.requisition.rebateValue}">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+
+
+		<p:outputLabel value="Total Order" for="total-order"
 			style="font-weight: bold; font-size: 1.1em" />
-		<h:outputText value="R$ 0,00"
-			style="font-weight: bold; font-size: 1.1em" id="totalOrder" />
+		<h:outputText style="font-weight: bold; font-size: 1.1em"
+			id="total-order"
+			value="#{requisitionSaverBean.requisition.totalValue}">
+			<f:convertNumber type="currency" />
+		</h:outputText>
 
 	</p:panelGrid>
 

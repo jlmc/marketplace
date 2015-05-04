@@ -38,6 +38,16 @@ public class RequisitionsRepository implements Serializable {
     //
 
     /**
+     * Save.
+     * @param requisition
+     *            the requisition
+     * @return the requisition
+     */
+    public Requisition save(final Requisition requisition) {
+        return this.entityManager.merge(requisition);
+    }
+
+    /**
      * Search.
      * @param filter
      *            the filter
@@ -130,6 +140,32 @@ public class RequisitionsRepository implements Serializable {
         //
         return tquery.getResultList();
 
+    }
+
+    /**
+     * Gets the by id.
+     * @param id
+     *            the id
+     * @return the by id
+     */
+    public Requisition getById(final Long id) {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Requisition> criteriaQuery = builder.createQuery(Requisition.class);
+        final Root<Requisition> root = criteriaQuery.from(Requisition.class);
+
+        criteriaQuery.select(root);
+        @SuppressWarnings({"unchecked", "rawtypes", "unused" })
+        final Join<Requisition, Client> joinerClients = (Join) root.fetch("client");
+        @SuppressWarnings({"unchecked", "rawtypes", "unused" })
+        final Join<Requisition, User> JoinSellers = (Join) root.fetch("seller");
+
+        criteriaQuery.where(builder.equal(root.get("id"), id));
+
+        final TypedQuery<Requisition> query = this.entityManager.createQuery(criteriaQuery);
+
+        // query.getSingleResult();
+        final Requisition req = Helper.getSingleResultUncheck(query);
+        return req;
     }
 
     /**

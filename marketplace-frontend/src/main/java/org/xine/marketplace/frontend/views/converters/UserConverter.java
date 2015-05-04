@@ -61,7 +61,7 @@ public class UserConverter implements Converter {
             final Object value) {
         if (value != null) {
             final User user = (User) value;
-            return user.getId() == null ? null : user.getId().toString();
+            return (user.getId() == null) ? "" : user.getId().toString();
         }
         return "";
     }

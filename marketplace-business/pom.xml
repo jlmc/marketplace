@@ -9,7 +9,7 @@
 	<artifactId>marketplace-business</artifactId>
 
 	<dependencies>
-
+       
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet</artifactId>
@@ -68,6 +68,16 @@
 			<artifactId>marketplace-repository</artifactId>
 			<scope>compile</scope>
 		</dependency>
+        
+        
+        
+         <!-- Junit for Unit Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
 	</dependencies>
 
 	<build>

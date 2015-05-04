@@ -58,6 +58,9 @@ public class Requisition implements Serializable {
     /** The total value. */
     private BigDecimal totalValue;
 
+    /** The freight value. */
+    private BigDecimal shippingValue;
+
     /** The status. */
     private RequisitionStatus status;
 
@@ -67,20 +70,68 @@ public class Requisition implements Serializable {
     /** The delivery address. */
     private DeliveryAddress deliveryAddress;
 
+    /** The requisition itens. */
     private Set<RequisitionItem> requisitionItens = new HashSet<>();
 
     /**
      * Instantiates a new requisition.
      */
-    public Requisition() {}
+    public Requisition() {
+        super();
+        this.deliveryAddress = new DeliveryAddress();
+        this.status = RequisitionStatus.BUDGET;
+        this.rebateValue = BigDecimal.ZERO;
+        this.totalValue = BigDecimal.ZERO;
+        this.shippingValue = BigDecimal.ZERO;
+        // this.paymentMethod = PaymentMethod.CREDIT_CARD;
+
+    }
 
     /**
      * Instantiates a new requisition.
      * @param id
      *            the id
+     * @param creationDate
+     *            the creation date
+     * @param notes
+     *            the notes
+     * @param deliveryDate
+     *            the delivery date
+     * @param seller
+     *            the seller
+     * @param client
+     *            the client
+     * @param rebateValue
+     *            the rebate value
+     * @param totalValue
+     *            the total value
+     * @param status
+     *            the status
+     * @param paymentMethod
+     *            the payment method
+     * @param deliveryAddress
+     *            the delivery address
+     * @param requisitionItens
+     *            the requisition itens
      */
-    public Requisition(final Long id) {
+    public Requisition(final Long id, final Date creationDate, final String notes,
+            final Date deliveryDate, final User seller, final Client client,
+            final BigDecimal rebateValue, final BigDecimal totalValue,
+            final RequisitionStatus status, final PaymentMethod paymentMethod,
+            final DeliveryAddress deliveryAddress, final Set<RequisitionItem> requisitionItens) {
+        this();
         this.id = id;
+        this.creationDate = creationDate;
+        this.notes = notes;
+        this.deliveryDate = deliveryDate;
+        this.seller = seller;
+        this.client = client;
+        this.rebateValue = rebateValue;
+        this.totalValue = totalValue;
+        this.status = status;
+        this.paymentMethod = paymentMethod;
+        this.deliveryAddress = deliveryAddress;
+        this.requisitionItens = requisitionItens;
     }
 
     /**
@@ -241,6 +292,25 @@ public class Requisition implements Serializable {
     }
 
     /**
+     * Gets the shipping value.
+     * @return the shipping value
+     */
+    @NotNull
+    @Column(name = "shipping_value", nullable = false, precision = 10, scale = 2)
+    public BigDecimal getShippingValue() {
+        return this.shippingValue;
+    }
+
+    /**
+     * Sets the shipping value.
+     * @param shippingValue
+     *            the new shipping value
+     */
+    public void setShippingValue(final BigDecimal shippingValue) {
+        this.shippingValue = shippingValue;
+    }
+
+    /**
      * Gets the status.
      * @return the status
      */
@@ -299,6 +369,7 @@ public class Requisition implements Serializable {
     }
 
     /**
+     * Gets the requisition itens.
      * @return the requisitionItens
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
@@ -307,6 +378,7 @@ public class Requisition implements Serializable {
     }
 
     /**
+     * Sets the requisition itens.
      * @param requisitionItens
      *            the requisitionItens to set
      */

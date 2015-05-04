@@ -30,7 +30,7 @@
 					<p:button value="New" outcome="/clients/ClientRegistration" />
 					
 					<p:commandButton value="Save" id="save"
-						action="#{clientSaverBean.save}" update=":client-form:client-form-msg :client-form:painel" process=":client-form:painel" />
+						action="#{clientSaverBean.save}" update=":client-form:client-form-msg :client-form:painel" process=":client-form:painel @this" />
 						
 						
 						
