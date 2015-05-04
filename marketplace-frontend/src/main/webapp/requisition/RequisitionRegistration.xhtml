@@ -11,32 +11,40 @@
 	<ui:define name="title">#{requisitionSaverBean.edit ? 'Edit Requisition' : 'Create Requisition'}</ui:define>
 
 	<ui:define name="contentBody">
-	
+
 		<f:metadata>
-		<f:event listener="#{requisitionSaverBean.initialize}" type="preRenderView" />
-	</f:metadata>
-	
+			<o:viewParam name="requisition" value="#{requisitionSaverBean.requisition}" />
+			<f:event listener="#{requisitionSaverBean.initialize}"
+				type="preRenderView" />
+		</f:metadata>
+
 		<h:form id="req-form">
 
-			<h1>#{requisitionSaverBean.edit ? 'Edit Requisition' : 'Create Requisition'}</h1>
-			
-			<p:messages  id="requisition-form-msg" closable="true"  />
+			<h1>#{requisitionSaverBean.edit ? 'Edit Requisition' : 'Create
+				Requisition'}</h1>
 
-			<ui:include src="/WEB-INF/template/requisitions/RequisitionButtons.xhtml" />
+			<p:messages id="requisition-form-msg" closable="true" />
+
+			<ui:include
+				src="/WEB-INF/template/requisitions/RequisitionButtons.xhtml" />
 
 
-			<ui:include src="/WEB-INF/template/requisitions/RequisitionCover.xhtml"></ui:include>
+			<ui:include
+				src="/WEB-INF/template/requisitions/RequisitionCover.xhtml"></ui:include>
 
 
 			<p:tabView style="margin-top: 20px">
 				<p:tab title="Itens">
-					<ui:include src="/WEB-INF/template/requisitions/RequisitionItens.xhtml"></ui:include>
+					<ui:include
+						src="/WEB-INF/template/requisitions/RequisitionItens.xhtml"></ui:include>
 				</p:tab>
 				<p:tab title="Delivery datos">
-					<ui:include src="/WEB-INF/template/requisitions/RequisitionDeliveryDatos.xhtml" />
+					<ui:include
+						src="/WEB-INF/template/requisitions/RequisitionDeliveryDatos.xhtml" />
 				</p:tab>
 				<p:tab title="Comments">
-					<ui:include src="/WEB-INF/template/requisitions/RequisitionComments.xhtml" />
+					<ui:include
+						src="/WEB-INF/template/requisitions/RequisitionComments.xhtml" />
 				</p:tab>
 			</p:tabView>
 

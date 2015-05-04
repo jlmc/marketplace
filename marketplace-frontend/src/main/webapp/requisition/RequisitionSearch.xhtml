@@ -19,11 +19,12 @@
 
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
-					<p:commandButton value="Search" id="search-button" 
+					<p:commandButton value="Search" id="search-button"
 						action="#{requisitionSearchBean.search}" update="@form" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
-					<p:button value="New" outcome="/requisition/RequisitionRegistration"/>
+					<p:button value="New"
+						outcome="/requisition/RequisitionRegistration" />
 				</p:toolbarGroup>
 			</p:toolbar>
 
@@ -33,31 +34,36 @@
 
 				<p:outputLabel value="Number" />
 				<h:panelGroup>
-					<p:inputText size="10" value="#{requisitionSearchBean.filter.numberStart}"/>
+					<p:inputText size="10"
+						value="#{requisitionSearchBean.filter.numberStart}" />
 					to
-					<p:inputText size="10" value="#{requisitionSearchBean.filter.numberEnd}"/>
+					<p:inputText size="10"
+						value="#{requisitionSearchBean.filter.numberEnd}" />
 				</h:panelGroup>
 
 				<p:outputLabel value="Creation date" />
 				<h:panelGroup>
-					<p:calendar size="10" pattern="dd/MM/yyyy" 
-									value="#{requisitionSearchBean.filter.creationDateStart}"/>
+					<p:calendar size="10" pattern="dd/MM/yyyy"
+						value="#{requisitionSearchBean.filter.creationDateStart}" />
 					to
-					<p:calendar size="10" pattern="dd/MM/yyyy" 
-									value="#{requisitionSearchBean.filter.creationDateEnd}"/>
+					<p:calendar size="10" pattern="dd/MM/yyyy"
+						value="#{requisitionSearchBean.filter.creationDateEnd}" />
 				</h:panelGroup>
 
 				<p:outputLabel value="Seller name" />
-				<p:inputText size="40" value="#{requisitionSearchBean.filter.sellerName}"/>
+				<p:inputText size="40"
+					value="#{requisitionSearchBean.filter.sellerName}" />
 
 
 				<p:outputLabel value="Client name" />
-				<p:inputText size="40" value="#{requisitionSearchBean.filter.clientName}"/>
+				<p:inputText size="40"
+					value="#{requisitionSearchBean.filter.clientName}" />
 
 				<p:outputLabel value="Status" />
 				<p:selectManyCheckbox value="#{requisitionSearchBean.filter.status}">
-					<f:selectItems value="#{requisitionSearchBean.requisitionStatus}" var="status"
-							itemValue="#{status}" itemLabel="#{status.description}"/>
+					<f:selectItems value="#{requisitionSearchBean.requisitionStatus}"
+						var="status" itemValue="#{status}"
+						itemLabel="#{status.description}" />
 				</p:selectManyCheckbox>
 			</p:panelGrid>
 
@@ -67,7 +73,7 @@
 				style="margin-top: 20px" emptyMessage="No Requisitions Found."
 				rows="20" paginator="true" paginatorAlwaysVisible="false"
 				paginatorPosition="bottom">
-				
+
 				<p:column headerText="Number"
 					style="text-align: center; width: 100px">
 					<h:outputText value="#{req.id}" />
@@ -80,8 +86,8 @@
 				</p:column>
 				<p:column headerText="Creation date"
 					style="text-align: center; width: 140px">
-					<h:outputText value="#{req.creationDate}" >
-						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					<h:outputText value="#{req.creationDate}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
 				<p:column headerText="Total Value"
@@ -94,8 +100,13 @@
 					<h:outputText value="#{req.status.description}" />
 				</p:column>
 				<p:column style="text-align: center; width: 50px">
-					<p:button icon="ui-icon-pencil" title="Edit" />
+					<p:button icon="ui-icon-pencil" title="Editar"
+						outcome="/requisition/RequisitionRegistration">
+						<f:param name="requisition" value="#{req.id}" />
+					</p:button>
 				</p:column>
+
+
 			</p:dataTable>
 
 		</h:form>
