@@ -109,6 +109,27 @@ public class RequisitionSaverBean implements Serializable {
     }
 
     /**
+     * Update qty.
+     * @param item
+     *            the item
+     * @param lineIndex
+     *            the line index
+     */
+    @SuppressWarnings("boxing")
+    public void updateQty(final RequisitionItem item, final int lineIndex) {
+        if (item.getQty() < 1) {
+            if (lineIndex == 0) {
+                item.setQty(1);
+            } else {
+                // this.requisition.getRequisitionItens().remove(item);
+                this.requisition.getRequisitionItens().remove(lineIndex);
+            }
+        }
+
+        this.requisition = this.requisitionService.calcTotals(this.requisition);
+    }
+
+    /**
      * Save.
      */
     public void save() {

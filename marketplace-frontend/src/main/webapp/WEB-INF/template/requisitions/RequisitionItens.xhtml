@@ -10,7 +10,7 @@
 
 
 	<p:dataTable id="tabelaItens"
-		value="#{requisitionSaverBean.requisition.requisitionItens}"
+		value="#{requisitionSaverBean.requisition.requisitionItens}" rowIndexVar="lineIndex"
 		var="item">
 
 
@@ -68,7 +68,12 @@
 
 		</p:column>
 		<p:column headerText="Qty" style="text-align: center; width: 100px">
-			<p:inputText size="8" value="#{item.qty}" />
+			<p:inputText size="8" value="#{item.qty}" >
+				<p:ajax process="@this" 
+				update="tabelaItens :req-form:sub-total :req-form:totalreq :req-form:requisition-form-msg"
+				listener="#{requisitionSaverBean.updateQty(item,lineIndex)}"/>
+			
+			</p:inputText>
 		</p:column>
 		<p:column headerText="Stock" style="text-align: center; width: 100px">
 			<h:outputText value="#{item.product.stockQty}" />
