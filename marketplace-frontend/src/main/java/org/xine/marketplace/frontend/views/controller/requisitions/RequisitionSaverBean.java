@@ -133,8 +133,17 @@ public class RequisitionSaverBean implements Serializable {
      * Save.
      */
     public void save() {
-        this.requisition = this.requisitionService.save(this.requisition);
-        FacesUtil.addInfoMessage("The requisition has been saved successfully!");
+        // we can't save the firts item
+        removeEmptyrequisitionItem();
+
+        try {
+            this.requisition = this.requisitionService.save(this.requisition);
+
+            FacesUtil.addInfoMessage("The requisition has been saved successfully!");
+        } finally {
+            // after save the requisition we have to add the empty line that
+            addEmptyRequisitionItem();
+        }
     }
 
     /**
@@ -268,6 +277,21 @@ public class RequisitionSaverBean implements Serializable {
             requisitionItem.setProduct(product);
             requisitionItem.setRequisition(this.requisition);
             this.requisition.getRequisitionItens().add(0, requisitionItem);
+        }
+    }
+
+    /**
+     * Removes the emptyrequisition item.
+     */
+    private void removeEmptyrequisitionItem() {
+        if (isBudget()) {
+
+            final RequisitionItem firtsItems = getEditableRequisitionItem();
+            if (firtsItems != null
+                    && (firtsItems.getProduct() == null || firtsItems.getProduct().getId() == null)) {
+                this.requisition.getRequisitionItens().remove(0);
+            }
+
         }
     }
 

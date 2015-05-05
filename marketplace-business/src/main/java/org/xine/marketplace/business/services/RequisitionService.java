@@ -75,7 +75,24 @@ public class RequisitionService implements Serializable {
                 requisition.setStatus(RequisitionStatus.BUDGET);
             }
 
-            return this.requisitionsRepository.save(requisition);
+            // Business RULE : can't save a requisition without Requisition Lines
+            if (requisition.getRequisitionItens() == null
+                    || requisition.getRequisitionItens().isEmpty()) {
+                throw new BusinessException("Can't save a requisition without Any Line.");
+            }
+
+            // to make sure that the request will be
+            // saved with the correct calculations
+            calcTotals(requisition);
+
+            // Business RULE:: The requisition Total can't be NEGATIVE
+            if (requisition.getTotalValue().compareTo(BigDecimal.ZERO) < 0) {
+                throw new BusinessException("The Requisition Can't have a 'Negative' Total.");
+            }
+
+            final Requisition requisitionAfterOperation = this.requisitionsRepository
+                    .save(requisition);
+            return requisitionAfterOperation;
         }
         throw new BusinessException("Can't save that requisition.");
     }
