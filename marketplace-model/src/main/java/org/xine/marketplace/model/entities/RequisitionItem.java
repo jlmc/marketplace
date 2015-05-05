@@ -150,4 +150,13 @@ public class RequisitionItem implements Serializable {
         this.id = id;
     }
 
+    /**
+     * Checks if is associated.
+     * @return true, if is associated
+     */
+    @Transient
+    public boolean isAssociated() {
+        return getProduct() != null && getProduct().getId() != null;
+    }
+
 }

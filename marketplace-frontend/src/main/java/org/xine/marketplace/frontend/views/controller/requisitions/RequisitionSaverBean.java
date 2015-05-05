@@ -5,9 +5,11 @@ import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.entities.PaymentMethod;
 import org.xine.marketplace.model.entities.Requisition;
+import org.xine.marketplace.model.entities.RequisitionItem;
 import org.xine.marketplace.model.entities.User;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -42,6 +44,9 @@ public class RequisitionSaverBean implements Serializable {
     // -------------------------------------------------------------------------
     /** The requisition. */
     private Requisition requisition;
+
+    /** The edited item. */
+    private RequisitionItem editedItem;
 
     // -------------------------------------------------------------------------
     //
@@ -78,6 +83,7 @@ public class RequisitionSaverBean implements Serializable {
      */
     private void clean() {
         this.requisition = new Requisition();
+        this.editedItem = new RequisitionItem();
     }
 
     // -------------------------------------------------------------------------
@@ -86,6 +92,9 @@ public class RequisitionSaverBean implements Serializable {
     //
     // -------------------------------------------------------------------------
 
+    /**
+     * Calc totals.
+     */
     public void calcTotals() {
         this.requisition = this.requisitionService.calcTotals(this.requisition);
     }
@@ -164,5 +173,19 @@ public class RequisitionSaverBean implements Serializable {
      */
     public boolean isCreate() {
         return !isEdit();
+    }
+
+    /**
+     * Gets the requisition items.
+     * @return the requisition items
+     */
+    public List<RequisitionItem> getRequisitionItems() {
+        final ArrayList<RequisitionItem> itens = new ArrayList<>();
+        itens.add(this.editedItem);
+
+        if (this.requisition != null && this.requisition.getRequisitionItens() != null) {
+            itens.addAll(this.requisition.getRequisitionItens());
+        }
+        return itens;
     }
 }
