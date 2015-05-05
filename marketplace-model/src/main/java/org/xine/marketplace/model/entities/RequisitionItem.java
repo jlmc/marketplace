@@ -31,7 +31,7 @@ public class RequisitionItem implements Serializable {
     private Long id;
 
     /** The qty. */
-    private Integer qty = Integer.valueOf(0);
+    private Integer qty = Integer.valueOf(1);
 
     /** The unit value. */
     private BigDecimal unitValue = BigDecimal.ZERO;
@@ -157,6 +157,15 @@ public class RequisitionItem implements Serializable {
     @Transient
     public boolean isAssociated() {
         return getProduct() != null && getProduct().getId() != null;
+    }
+
+    /**
+     * Gets the total value.
+     * @return the total value
+     */
+    @Transient
+    public BigDecimal getTotalValue() {
+        return getUnitValue().multiply(new BigDecimal(getQty().intValue()));
     }
 
 }

@@ -1,16 +1,20 @@
 package org.xine.marketplace.frontend.views.controller.requisitions;
 
 import org.xine.marketplace.business.services.RequisitionService;
+import org.xine.marketplace.frontend.views.util.helpers.Strings;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.entities.PaymentMethod;
+import org.xine.marketplace.model.entities.Product;
 import org.xine.marketplace.model.entities.Requisition;
 import org.xine.marketplace.model.entities.RequisitionItem;
+import org.xine.marketplace.model.entities.RequisitionStatus;
 import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.validator.constraints.SKU;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.faces.event.ComponentSystemEvent;
@@ -45,8 +49,11 @@ public class RequisitionSaverBean implements Serializable {
     /** The requisition. */
     private Requisition requisition;
 
-    /** The edited item. */
-    private RequisitionItem editedItem;
+    /** The editable line product. */
+    private Product editableLineProduct;
+
+    /** The sku. */
+    private String sku;
 
     // -------------------------------------------------------------------------
     //
@@ -73,8 +80,10 @@ public class RequisitionSaverBean implements Serializable {
             if (this.requisition == null) {
                 clean();
             }
-            calcTotals();
 
+            addEmptyRequisitionItem();
+
+            calcTotals();
         }
     }
 
@@ -83,7 +92,7 @@ public class RequisitionSaverBean implements Serializable {
      */
     private void clean() {
         this.requisition = new Requisition();
-        this.editedItem = new RequisitionItem();
+        addEmptyRequisitionItem();
     }
 
     // -------------------------------------------------------------------------
@@ -125,6 +134,57 @@ public class RequisitionSaverBean implements Serializable {
      */
     public List<User> completeSeller(final String sellerName) {
         return this.requisitionService.searchSellerByName(sellerName);
+    }
+
+    /**
+     * Complete product.
+     * @param productName
+     *            the product name
+     * @return the list
+     */
+    public List<Product> completeProduct(final String productName) {
+        return this.requisitionService.searchProductByName(productName);
+    }
+
+    /**
+     * Load editable item product.
+     */
+    public void loadEditableItemProduct() {
+        final RequisitionItem item = getEditableRequisitionItem();
+        if (item != null && this.editableLineProduct != null) {
+
+            // if the product exists on the list do nothing
+            final Optional<RequisitionItem> exists = this.requisition.getRequisitionItens()
+                    .stream().filter(ri -> {
+                        return this.editableLineProduct.equals(ri.getProduct());
+                    }).findAny();
+
+            if (exists.isPresent()) {
+                FacesUtil.addErrorMessage("requisition-form-msg", String.format(
+                        "The Product '%s' is already in your the List!",
+                        this.editableLineProduct.getName()));
+            } else {
+
+                item.setProduct(this.editableLineProduct);
+                item.setUnitValue(this.editableLineProduct.getUnitValue());
+
+                addEmptyRequisitionItem();
+                this.editableLineProduct = null;
+                this.sku = null;
+
+                calcTotals();
+            }
+        }
+    }
+
+    /**
+     * Load product by code.
+     */
+    public void loadProductByCode() {
+        if (Strings.isNotNullOrBlank(this.sku)) {
+            this.editableLineProduct = this.requisitionService.searchProductByCode(this.sku);
+            loadEditableItemProduct();
+        }
     }
 
     // -------------------------------------------------------------------------
@@ -176,16 +236,73 @@ public class RequisitionSaverBean implements Serializable {
     }
 
     /**
-     * Gets the requisition items.
-     * @return the requisition items
+     * Adds the empty requisition item.
      */
-    public List<RequisitionItem> getRequisitionItems() {
-        final ArrayList<RequisitionItem> itens = new ArrayList<>();
-        itens.add(this.editedItem);
+    private void addEmptyRequisitionItem() {
+        if (isBudget()) {
+            final Product product = new Product();
+            final RequisitionItem requisitionItem = new RequisitionItem();
+            requisitionItem.setQty(Integer.valueOf(1));
 
-        if (this.requisition != null && this.requisition.getRequisitionItens() != null) {
-            itens.addAll(this.requisition.getRequisitionItens());
+            requisitionItem.setProduct(product);
+            requisitionItem.setRequisition(this.requisition);
+            this.requisition.getRequisitionItens().add(0, requisitionItem);
         }
-        return itens;
     }
+
+    /**
+     * Checks if is budget.
+     * @return true, if is budget
+     */
+    private boolean isBudget() {
+        return this.requisition != null
+                && RequisitionStatus.BUDGET.equals(this.requisition.getStatus());
+    }
+
+    /**
+     * Gets the editable requisition item.
+     * @return the editable requisition item
+     */
+    private RequisitionItem getEditableRequisitionItem() {
+        if (isBudget()) {
+            return this.requisition.getRequisitionItens().get(0);
+        }
+        return null;
+    }
+
+    /**
+     * Gets the editable line product.
+     * @return the editableLineProduct
+     */
+    public Product getEditableLineProduct() {
+        return this.editableLineProduct;
+    }
+
+    /**
+     * Sets the editable line product.
+     * @param editableLineProduct
+     *            the editableLineProduct to set
+     */
+    public void setEditableLineProduct(final Product editableLineProduct) {
+        this.editableLineProduct = editableLineProduct;
+    }
+
+    /**
+     * Gets the sku.
+     * @return the sku
+     */
+    @SKU
+    public String getSku() {
+        return this.sku;
+    }
+
+    /**
+     * Sets the sku.
+     * @param sku
+     *            the sku to set
+     */
+    public void setSku(final String sku) {
+        this.sku = sku;
+    }
+
 }

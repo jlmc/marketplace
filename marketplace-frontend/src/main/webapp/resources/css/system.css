@@ -15,9 +15,7 @@ header {
 	background-color: #545454;
 	color: #fff;
 	box-shadow: 0px 2px 2px #ccc;
-	
 	min-width: 700px;
-	
 }
 
 header>div {
@@ -78,34 +76,60 @@ h1 {
 	height: 35px;
 }
 
-
 /* to remove line and spaces on checkbox group*/
 .ui-selectmanycheckbox td {
-/* 	border-width: 0px !important; */
-/* 	padding: 0px !important; */
+	/* 	border-width: 0px !important; */
+	/* 	padding: 0px !important; */
+	
 }
 
 .ui-selectmanycheckbox td label {
 	padding-right: 10px;
 }
 
+.product-table input {
+	width: 99%;
+}
+
+/* Customiza TabView - início */
+.ui-tabs .ui-tabs-panel {
+	padding: 0.5em 0.2em !important;
+}
+
+.ui-tabs {
+	padding: 0px !important;
+}
+
+.ui-tabs .ui-tabs-nav {
+	margin: -1px !important;
+}
+
+.ui-tabs.ui-tabs-top>.ui-tabs-nav {
+	padding: 0px !important;
+}
 
 /*
 * this is system-menu
 */
-
-.system-menu{
+.system-menu {
 	border: 0px !important;
 	padding: 0px !important;
 	background: none !important;
 }
 
-.system-menu .ui-menu-parent > a .ui-menuitem-text, .menu-sistema > .ui-menu-list > .ui-menuitem > a > .ui-menuitem-text {
-color: #ffffff !important;
+.system-menu .ui-menu-parent>a .ui-menuitem-text, .menu-sistema>.ui-menu-list>.ui-menuitem>a>.ui-menuitem-text
+	{
+	color: #ffffff !important;
 }
 
 .system-menu .ui-icon-triangle-1-s {
-background: url(#{resource['images:arrow_down.png']}) no-repeat;
+	background: url(#{ resource [ 'images:arrow_down.png' ]
+}
+)
+no-repeat
+;
+
+
 }
 
 /*

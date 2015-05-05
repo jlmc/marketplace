@@ -8,6 +8,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+@SuppressWarnings("static-method")
 public class RequisitionServiceTest {
 
     @Test

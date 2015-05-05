@@ -2,14 +2,17 @@ package org.xine.marketplace.business.services;
 
 import org.xine.marketplace.business.BusinessException;
 import org.xine.marketplace.model.entities.Client;
+import org.xine.marketplace.model.entities.Product;
 import org.xine.marketplace.model.entities.Requisition;
 import org.xine.marketplace.model.entities.RequisitionItem;
 import org.xine.marketplace.model.entities.RequisitionStatus;
 import org.xine.marketplace.model.entities.User;
 import org.xine.marketplace.model.filters.ClientFilter;
+import org.xine.marketplace.model.filters.ProductFilter;
 import org.xine.marketplace.model.filters.RequisitionFilter;
 import org.xine.marketplace.model.filters.UserFilter;
 import org.xine.marketplace.repository.daos.ClientsRepository;
+import org.xine.marketplace.repository.daos.ProductsRepository;
 import org.xine.marketplace.repository.daos.RequisitionsRepository;
 import org.xine.marketplace.repository.daos.UsersRepository;
 import org.xine.marketplace.repository.util.Transactional;
@@ -44,6 +47,10 @@ public class RequisitionService implements Serializable {
     @Inject
     private UsersRepository sellersRepository;
 
+    /** The products repository. */
+    @Inject
+    private ProductsRepository productsRepository;
+
     /**
      * Search.
      * @param filter
@@ -72,8 +79,6 @@ public class RequisitionService implements Serializable {
         }
         throw new BusinessException("Can't save that requisition.");
     }
-
-    // ----------------------------------------------------------------------
 
     /**
      * Gets the sellers.
@@ -115,11 +120,32 @@ public class RequisitionService implements Serializable {
     }
 
     /**
+     * Search product by name.
+     * @param productName
+     *            the product name
+     * @return the list
+     */
+    public List<Product> searchProductByName(final String productName) {
+        return this.productsRepository.search(new ProductFilter(productName, null));
+    }
+
+    /**
+     * Search product by code.
+     * @param code
+     *            the code
+     * @return the product
+     */
+    public Product searchProductByCode(final String code) {
+        return this.productsRepository.getBySKU(code);
+    }
+
+    /**
      * Calc totals.
      * @param requisition
      *            the requisition
      * @return the requisition
      */
+    @SuppressWarnings("static-method")
     public Requisition calcTotals(final Requisition requisition) {
         if (requisition != null) {
             BigDecimal total = BigDecimal.ZERO;
@@ -136,4 +162,5 @@ public class RequisitionService implements Serializable {
         }
         return requisition;
     }
+
 }

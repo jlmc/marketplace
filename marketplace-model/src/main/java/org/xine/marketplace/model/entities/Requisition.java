@@ -2,9 +2,9 @@ package org.xine.marketplace.model.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -73,7 +73,7 @@ public class Requisition implements Serializable {
     private DeliveryAddress deliveryAddress;
 
     /** The requisition itens. */
-    private Set<RequisitionItem> requisitionItens = new HashSet<>();
+    private List<RequisitionItem> requisitionItens = new ArrayList<>();
 
     /**
      * Instantiates a new requisition.
@@ -120,7 +120,7 @@ public class Requisition implements Serializable {
             final Date deliveryDate, final User seller, final Client client,
             final BigDecimal rebateValue, final BigDecimal totalValue,
             final RequisitionStatus status, final PaymentMethod paymentMethod,
-            final DeliveryAddress deliveryAddress, final Set<RequisitionItem> requisitionItens) {
+            final DeliveryAddress deliveryAddress, final List<RequisitionItem> requisitionItens) {
         this();
         this.id = id;
         this.creationDate = creationDate;
@@ -385,7 +385,7 @@ public class Requisition implements Serializable {
      * @return the requisitionItens
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requisition")
-    public Set<RequisitionItem> getRequisitionItens() {
+    public List<RequisitionItem> getRequisitionItens() {
         return this.requisitionItens;
     }
 
@@ -394,7 +394,7 @@ public class Requisition implements Serializable {
      * @param requisitionItens
      *            the requisitionItens to set
      */
-    public void setRequisitionItens(final Set<RequisitionItem> requisitionItens) {
+    public void setRequisitionItens(final List<RequisitionItem> requisitionItens) {
         this.requisitionItens = requisitionItens;
     }
 

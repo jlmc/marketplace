@@ -24,6 +24,18 @@ public final class FacesUtil {
     }
 
     /**
+     * Adds the error message.
+     * @param clientId
+     *            the client id
+     * @param message
+     *            the message
+     */
+    public static void addErrorMessage(final String clientId, final String message) {
+        FacesContext.getCurrentInstance().addMessage(clientId,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR, message, message));
+    }
+
+    /**
      * Adds the info message.
      * @param message
      *            the message
