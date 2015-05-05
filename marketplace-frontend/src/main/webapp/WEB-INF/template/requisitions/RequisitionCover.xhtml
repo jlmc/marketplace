@@ -70,7 +70,7 @@
 			value="#{requisitionSaverBean.requisition.shippingValue}">
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 
-			<p:ajax event="change" process="@this" update="totalreq"
+			<p:ajax event="blur" process="@this" update="totalreq"
 				listener="#{requisitionSaverBean.calcTotals}" />
 
 
@@ -95,7 +95,7 @@
 			styleClass="currency"
 			value="#{requisitionSaverBean.requisition.rebateValue}">
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-			<p:ajax event="change" process="@this" update="totalreq"
+			<p:ajax event="blur" process="@this" update="totalreq"
 				listener="#{requisitionSaverBean.calcTotals}" />
 		</p:inputText>
 
