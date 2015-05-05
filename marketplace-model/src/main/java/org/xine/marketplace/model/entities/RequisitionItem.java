@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * The Class RequisitionItem.
@@ -30,10 +31,10 @@ public class RequisitionItem implements Serializable {
     private Long id;
 
     /** The qty. */
-    private Integer qty;
+    private Integer qty = Integer.valueOf(0);
 
     /** The unit value. */
-    private BigDecimal unitValue;
+    private BigDecimal unitValue = BigDecimal.ZERO;
 
     /** The product. */
     private Product product;
@@ -54,6 +55,16 @@ public class RequisitionItem implements Serializable {
     @JoinColumn(name = "requisition_id", nullable = false)
     public Requisition getRequisition() {
         return this.requisition;
+    }
+
+    /**
+     * Gets the totalvalue.
+     * @return the totalvalue
+     */
+    @SuppressWarnings("boxing")
+    @Transient
+    public BigDecimal getTotalvalue() {
+        return getUnitValue().multiply(new BigDecimal(getQty()));
     }
 
     /**

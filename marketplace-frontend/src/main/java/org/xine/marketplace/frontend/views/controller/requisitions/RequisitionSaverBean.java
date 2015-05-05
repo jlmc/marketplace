@@ -64,9 +64,12 @@ public class RequisitionSaverBean implements Serializable {
      */
     public void initialize(final ComponentSystemEvent e) {
         if (FacesUtil.isNotPostback()) {
+
             if (this.requisition == null) {
                 clean();
             }
+            calcTotals();
+
         }
     }
 
@@ -82,6 +85,10 @@ public class RequisitionSaverBean implements Serializable {
     // Handlers
     //
     // -------------------------------------------------------------------------
+
+    public void calcTotals() {
+        this.requisition = this.requisitionService.calcTotals(this.requisition);
+    }
 
     /**
      * Save.

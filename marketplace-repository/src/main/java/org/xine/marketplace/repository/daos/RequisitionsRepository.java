@@ -20,6 +20,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -158,6 +159,9 @@ public class RequisitionsRepository implements Serializable {
         final Join<Requisition, Client> joinerClients = (Join) root.fetch("client");
         @SuppressWarnings({"unchecked", "rawtypes", "unused" })
         final Join<Requisition, User> JoinSellers = (Join) root.fetch("seller");
+
+        // load the itens
+        root.fetch("requisitionItens", JoinType.LEFT);
 
         criteriaQuery.where(builder.equal(root.get("id"), id));
 

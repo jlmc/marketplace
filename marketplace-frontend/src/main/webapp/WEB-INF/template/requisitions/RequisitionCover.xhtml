@@ -33,16 +33,16 @@
 			value="#{requisitionSaverBean.requisition.status.description}" />
 
 
-		 <p:outputLabel value="Seller" for="vendedor"/>
+		<p:outputLabel value="Seller" for="vendedor" />
 		<p:autoComplete id="vendedor" size="40" dropdown="true"
 			style="margin-right:15px; padding-right: 10px;"
 			value="#{requisitionSaverBean.requisition.seller}"
 			completeMethod="#{requisitionSaverBean.completeSeller}" var="s"
 			itemLabel="#{s.username}" itemValue="#{s}" forceSelection="true" />
-		 
-		 
-      
-        
+
+
+
+
 
 
 
@@ -56,7 +56,8 @@
 
 
 		<p:outputLabel value="Payment method" for="paymentMethod" />
-		<p:selectOneMenu id="paymentMethod" value="#{requisitionSaverBean.requisition.paymentMethod}">
+		<p:selectOneMenu id="paymentMethod"
+			value="#{requisitionSaverBean.requisition.paymentMethod}">
 			<f:selectItem itemLabel="select one..." />
 			<f:selectItems value="#{requisitionSaverBean.paymentMethods}"
 				var="pm" itemValue="#{pm}" itemLabel="#{pm.description}" />
@@ -68,6 +69,12 @@
 			styleClass="currency"
 			value="#{requisitionSaverBean.requisition.shippingValue}">
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+
+			<p:ajax event="change" process="@this" update="totalreq"
+				listener="#{requisitionSaverBean.calcTotals}" />
+
+
+
 		</p:inputText>
 
 
@@ -76,7 +83,11 @@
 
 		<p:outputLabel value="Sub-Total" style="font-weight: bold"
 			for="sub-total" />
-		<h:outputText value="€ 0,00" style="font-weight: bold" id="sub-total" />
+		<h:outputText
+			value="#{requisitionSaverBean.requisition.subTotalValue}"
+			style="font-weight: bold" id="sub-total">
+			<f:convertNumber type="currency" />
+		</h:outputText>
 
 
 		<p:outputLabel value="Discount Value" for="discount-value" />
@@ -84,14 +95,15 @@
 			styleClass="currency"
 			value="#{requisitionSaverBean.requisition.rebateValue}">
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+			<p:ajax event="change" process="@this" update="totalreq"
+				listener="#{requisitionSaverBean.calcTotals}" />
 		</p:inputText>
 
 
-		<p:outputLabel value="Total Order" for="total-order"
+		<p:outputLabel value="Total Order" for="totalreq"
 			style="font-weight: bold; font-size: 1.1em" />
 		<h:outputText style="font-weight: bold; font-size: 1.1em"
-			id="total-order"
-			value="#{requisitionSaverBean.requisition.totalValue}">
+			id="totalreq" value="#{requisitionSaverBean.requisition.totalValue}">
 			<f:convertNumber type="currency" />
 		</h:outputText>
 

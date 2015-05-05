@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -133,6 +134,15 @@ public class Requisition implements Serializable {
         this.paymentMethod = paymentMethod;
         this.deliveryAddress = deliveryAddress;
         this.requisitionItens = requisitionItens;
+    }
+
+    /**
+     * Gets the sub total value.
+     * @return the sub total value
+     */
+    @Transient
+    public BigDecimal getSubTotalValue() {
+        return getTotalValue().subtract(this.shippingValue).add(getRebateValue());
     }
 
     /**
