@@ -10,8 +10,8 @@
 
 
 	<p:dataTable id="tabelaItens"
-		value="#{requisitionSaverBean.requisition.requisitionItens}" rowIndexVar="lineIndex"
-		var="item">
+		value="#{requisitionSaverBean.requisition.requisitionItens}"
+		rowIndexVar="lineIndex" var="item">
 
 
 
@@ -53,10 +53,6 @@
 
 
 		</p:column>
-		<!-- 		req-form -->
-
-		<!-- sub-total -->
-		<!-- totalreq -->
 
 
 		<p:column headerText="Unit Value"
@@ -68,15 +64,26 @@
 
 		</p:column>
 		<p:column headerText="Qty" style="text-align: center; width: 100px">
-			<p:inputText size="8" value="#{item.qty}" >
-				<p:ajax process="@this" 
-				update="tabelaItens :req-form:sub-total :req-form:totalreq :req-form:requisition-form-msg"
-				listener="#{requisitionSaverBean.updateQty(item,lineIndex)}"/>
-			
+			<p:inputText size="8" value="#{item.qty}">
+				<p:ajax process="@this"
+					update="tabelaItens :req-form:sub-total :req-form:totalreq :req-form:requisition-form-msg"
+					listener="#{requisitionSaverBean.updateQty(item,lineIndex)}" />
+
 			</p:inputText>
 		</p:column>
 		<p:column headerText="Stock" style="text-align: center; width: 100px">
-			<h:outputText value="#{item.product.stockQty}" />
+			<h:outputText value="#{item.product.stockQty}"
+				style="#{item.stockNotAvailable ? 'color: red' : ''}" />
+
+			<h:graphicImage library="images" name="alert.png"
+				styleClass="alerticon"
+			
+							rendered="#{item.stockNotAvailable}" id="noStockImg" />
+
+
+			<p:tooltip for="noStockImg" value="No Stock Available"
+				rendered="#{item.stockNotAvailable}" />
+
 		</p:column>
 		<p:column headerText="Total" style="text-align: right; width: 100px">
 			<h:outputText value="#{item.totalValue}">

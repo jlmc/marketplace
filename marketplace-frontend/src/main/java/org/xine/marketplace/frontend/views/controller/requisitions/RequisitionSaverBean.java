@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Produces;
 import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -47,6 +48,8 @@ public class RequisitionSaverBean implements Serializable {
     //
     // -------------------------------------------------------------------------
     /** The requisition. */
+    // @Produces
+    // @RequisitionEditer
     private Requisition requisition;
 
     /** The editable line product. */
@@ -67,6 +70,15 @@ public class RequisitionSaverBean implements Serializable {
     @PostConstruct
     public void postConstruct() {
         clean();
+    }
+
+    @Produces
+    @RequisitionEditer
+    public Requisition requisitionProducer() {
+        // we can't save the firts item
+        removeEmptyrequisitionItem();
+
+        return this.requisition;
     }
 
     /**

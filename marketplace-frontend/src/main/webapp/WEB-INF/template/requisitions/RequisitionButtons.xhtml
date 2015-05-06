@@ -13,7 +13,8 @@
 			<p:commandButton value="Save" action="#{requisitionSaverBean.save}" update="@form"/>
 		</p:toolbarGroup>
 		<p:toolbarGroup align="right">
-			<p:commandButton value="Launch" />
+			<p:commandButton value="Issue"  action="#{issueRequisitionBean.issue}"
+				process="@form" update="@form"/>
 			<p:commandButton value="Cancel" />
 			<p:commandButton value="Send by e-mail" />
 			<p:separator />

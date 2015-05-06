@@ -412,4 +412,30 @@ public class Requisition implements Serializable {
                 + ", requisitionItens=" + this.requisitionItens + "]";
     }
 
+    /**
+     * Checks if is issued.
+     * @return true, if is issued
+     */
+    @Transient
+    public boolean isBudget() {
+        return RequisitionStatus.BUDGET.equals(getStatus());
+    }
+
+    /**
+     * Checks if is issueble.
+     * @return true, if is issueble
+     */
+    @Transient
+    public boolean isIssueble() {
+        return getId() != null && isBudget();
+    }
+
+    /**
+     * Checks if is not issueble.
+     * @return true, if is not issueble
+     */
+    @Transient
+    public boolean isNotIssueble() {
+        return !isIssueble();
+    }
 }

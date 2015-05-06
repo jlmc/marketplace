@@ -118,20 +118,22 @@ h1 {
 }
 
 .system-menu .ui-menu-parent>a .ui-menuitem-text, .menu-sistema>.ui-menu-list>.ui-menuitem>a>.ui-menuitem-text
-	{
+{
 	color: #ffffff !important;
 }
 
 .system-menu .ui-icon-triangle-1-s {
-	background: url(#{ resource [ 'images:arrow_down.png' ]
+	background: url(#{resource ['images:arrow_down.png' ]})no-repeat;
 }
-)
-no-repeat
-;
 
 
-}
 
 /*
 * end of system menu
 */
+
+
+.alerticon{
+ 	vertical-align: bottom;
+	 margin-left: 5px;
+}

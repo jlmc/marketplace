@@ -168,4 +168,24 @@ public class RequisitionItem implements Serializable {
         return getUnitValue().multiply(new BigDecimal(getQty().intValue()));
     }
 
+    /**
+     * Checks if is stock available.
+     * @return true, if is stock available
+     */
+    @SuppressWarnings("boxing")
+    @Transient
+    public boolean isStockAvailable() {
+        return getRequisition().isBudget() || getProduct().getId() == null
+                || getProduct().getStockQty() >= getQty();
+    }
+
+    /**
+     * Checks if is stock not available.
+     * @return true, if is stock not available
+     */
+    @Transient
+    public boolean isStockNotAvailable() {
+        return !isStockAvailable();
+    }
+
 }
