@@ -1,17 +1,5 @@
 package org.xine.marketplace.frontend.views.controller.requisitions;
 
-import org.xine.marketplace.business.services.RequisitionService;
-import org.xine.marketplace.frontend.views.util.helpers.Strings;
-import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
-import org.xine.marketplace.model.entities.Client;
-import org.xine.marketplace.model.entities.PaymentMethod;
-import org.xine.marketplace.model.entities.Product;
-import org.xine.marketplace.model.entities.Requisition;
-import org.xine.marketplace.model.entities.RequisitionItem;
-import org.xine.marketplace.model.entities.RequisitionStatus;
-import org.xine.marketplace.model.entities.User;
-import org.xine.marketplace.validator.constraints.SKU;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +10,17 @@ import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.xine.marketplace.business.services.RequisitionService;
+import org.xine.marketplace.frontend.views.util.helpers.Strings;
+import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
+import org.xine.marketplace.model.entities.Client;
+import org.xine.marketplace.model.entities.PaymentMethod;
+import org.xine.marketplace.model.entities.Product;
+import org.xine.marketplace.model.entities.Requisition;
+import org.xine.marketplace.model.entities.RequisitionItem;
+import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.validator.constraints.SKU;
 
 /**
  * The Class RequisitionSaverBean.
@@ -48,8 +47,8 @@ public class RequisitionSaverBean implements Serializable {
     //
     // -------------------------------------------------------------------------
     /** The requisition. */
-    // @Produces
-    // @RequisitionEditer
+    @Produces
+    @RequisitionEditer
     private Requisition requisition;
 
     /** The editable line product. */
@@ -72,15 +71,6 @@ public class RequisitionSaverBean implements Serializable {
         clean();
     }
 
-    @Produces
-    @RequisitionEditer
-    public Requisition requisitionProducer() {
-        // we can't save the firts item
-        removeEmptyrequisitionItem();
-
-        return this.requisition;
-    }
-
     /**
      * Initialize.
      * @param e
@@ -93,7 +83,7 @@ public class RequisitionSaverBean implements Serializable {
                 clean();
             }
 
-            addEmptyRequisitionItem();
+            RequisitionEditionHelper.addEmptyRequisitionItem(this.requisition);
 
             calcTotals();
         }
@@ -104,7 +94,7 @@ public class RequisitionSaverBean implements Serializable {
      */
     private void clean() {
         this.requisition = new Requisition();
-        addEmptyRequisitionItem();
+        RequisitionEditionHelper.addEmptyRequisitionItem(this.requisition);
     }
 
     // -------------------------------------------------------------------------
@@ -146,7 +136,7 @@ public class RequisitionSaverBean implements Serializable {
      */
     public void save() {
         // we can't save the firts item
-        removeEmptyrequisitionItem();
+        RequisitionEditionHelper.removeEmptyRequisitionItem(this.requisition);
 
         try {
             this.requisition = this.requisitionService.save(this.requisition);
@@ -154,7 +144,7 @@ public class RequisitionSaverBean implements Serializable {
             FacesUtil.addInfoMessage("The requisition has been saved successfully!");
         } finally {
             // after save the requisition we have to add the empty line that
-            addEmptyRequisitionItem();
+            RequisitionEditionHelper.addEmptyRequisitionItem(this.requisition);
         }
     }
 
@@ -192,25 +182,22 @@ public class RequisitionSaverBean implements Serializable {
      * Load editable item product.
      */
     public void loadEditableItemProduct() {
-        final RequisitionItem item = getEditableRequisitionItem();
+        final RequisitionItem item = RequisitionEditionHelper.getEditableRequisitionItem(this.requisition);
         if (item != null && this.editableLineProduct != null) {
 
             // if the product exists on the list do nothing
-            final Optional<RequisitionItem> exists = this.requisition.getRequisitionItens()
-                    .stream().filter(ri -> {
-                        return this.editableLineProduct.equals(ri.getProduct());
-                    }).findAny();
+            final Optional<RequisitionItem> exists = this.requisition.getRequisitionItens().stream().filter(ri -> {
+                return this.editableLineProduct.equals(ri.getProduct());
+            }).findAny();
 
             if (exists.isPresent()) {
-                FacesUtil.addErrorMessage("requisition-form-msg", String.format(
-                        "The Product '%s' is already in your the List!",
-                        this.editableLineProduct.getName()));
+                FacesUtil.addErrorMessage("requisition-form-msg", String.format("The Product '%s' is already in your the List!", this.editableLineProduct.getName()));
             } else {
 
                 item.setProduct(this.editableLineProduct);
                 item.setUnitValue(this.editableLineProduct.getUnitValue());
 
-                addEmptyRequisitionItem();
+                RequisitionEditionHelper.addEmptyRequisitionItem(this.requisition);
                 this.editableLineProduct = null;
                 this.sku = null;
 
@@ -277,55 +264,35 @@ public class RequisitionSaverBean implements Serializable {
         return !isEdit();
     }
 
-    /**
-     * Adds the empty requisition item.
-     */
-    private void addEmptyRequisitionItem() {
-        if (isBudget()) {
-            final Product product = new Product();
-            final RequisitionItem requisitionItem = new RequisitionItem();
-            requisitionItem.setQty(Integer.valueOf(1));
+    // private void addEmptyRequisitionItem() {
+    // if (this.requisition.isBudget()) {
+    // final Product product = new Product();
+    // final RequisitionItem requisitionItem = new RequisitionItem();
+    // requisitionItem.setQty(Integer.valueOf(1));
+    //
+    // requisitionItem.setProduct(product);
+    // requisitionItem.setRequisition(this.requisition);
+    // this.requisition.getRequisitionItens().add(0, requisitionItem);
+    // }
+    // }
 
-            requisitionItem.setProduct(product);
-            requisitionItem.setRequisition(this.requisition);
-            this.requisition.getRequisitionItens().add(0, requisitionItem);
-        }
-    }
+    // private void removeEmptyrequisitionItem() {
+    // if (this.requisition.isBudget()) {
+    //
+    // final RequisitionItem firtsItems = getEditableRequisitionItem();
+    // if (firtsItems != null && (firtsItems.getProduct() == null || firtsItems.getProduct().getId() == null)) {
+    // this.requisition.getRequisitionItens().remove(0);
+    // }
+    //
+    // }
+    // }
 
-    /**
-     * Removes the emptyrequisition item.
-     */
-    private void removeEmptyrequisitionItem() {
-        if (isBudget()) {
-
-            final RequisitionItem firtsItems = getEditableRequisitionItem();
-            if (firtsItems != null
-                    && (firtsItems.getProduct() == null || firtsItems.getProduct().getId() == null)) {
-                this.requisition.getRequisitionItens().remove(0);
-            }
-
-        }
-    }
-
-    /**
-     * Checks if is budget.
-     * @return true, if is budget
-     */
-    private boolean isBudget() {
-        return this.requisition != null
-                && RequisitionStatus.BUDGET.equals(this.requisition.getStatus());
-    }
-
-    /**
-     * Gets the editable requisition item.
-     * @return the editable requisition item
-     */
-    private RequisitionItem getEditableRequisitionItem() {
-        if (isBudget()) {
-            return this.requisition.getRequisitionItens().get(0);
-        }
-        return null;
-    }
+    // private RequisitionItem getEditableRequisitionItem() {
+    // if (this.requisition != null && this.requisition.isBudget()) {
+    // return this.requisition.getRequisitionItens().get(0);
+    // }
+    // return null;
+    // }
 
     /**
      * Gets the editable line product.

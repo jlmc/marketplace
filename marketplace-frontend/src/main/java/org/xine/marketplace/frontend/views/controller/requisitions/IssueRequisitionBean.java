@@ -1,14 +1,14 @@
 package org.xine.marketplace.frontend.views.controller.requisitions;
 
-import org.xine.marketplace.business.services.RequisitionService;
-import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
-import org.xine.marketplace.model.entities.Requisition;
-
 import java.io.Serializable;
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.xine.marketplace.business.services.RequisitionService;
+import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
+import org.xine.marketplace.model.entities.Requisition;
 
 /**
  * The Class IssueRequisitionBean.
@@ -38,6 +38,7 @@ public class IssueRequisitionBean implements Serializable {
     public void issue() {
         System.out.println("TODO issue requisition");
         if (this.requisition != null && this.requisitionService != null) {
+            RequisitionEditionHelper.removeEmptyRequisitionItem(this.requisition);
             try {
 
                 this.requisition = this.requisitionService.issue(this.requisition);
@@ -45,7 +46,7 @@ public class IssueRequisitionBean implements Serializable {
                 FacesUtil.addInfoMessage("Requisition Issue with success");
 
             } finally {
-
+                RequisitionEditionHelper.addEmptyRequisitionItem(this.requisition);
             }
         }
     }
