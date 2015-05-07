@@ -483,4 +483,22 @@ public class Requisition implements Serializable {
     public boolean isNotCancelable() {
         return !isCancelable();
     }
+
+    /**
+     * Checks if is not editable.
+     * @return true, if is not editable
+     */
+    @Transient
+    public boolean isNotEditable() {
+        return !isEditable();
+    }
+
+    /**
+     * Checks if is editable.
+     * @return true, if is editable
+     */
+    @Transient
+    public boolean isEditable() {
+        return isBudget();
+    }
 }

@@ -2,6 +2,7 @@ package org.xine.marketplace.repository.daos;
 
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.entities.Requisition;
+import org.xine.marketplace.model.entities.RequisitionItem;
 import org.xine.marketplace.model.entities.User;
 import org.xine.marketplace.model.filters.RequisitionFilter;
 import org.xine.marketplace.repository.daos.Helper.MatchMode;
@@ -161,7 +162,10 @@ public class RequisitionsRepository implements Serializable {
         final Join<Requisition, User> JoinSellers = (Join) root.fetch("seller");
 
         // load the itens
-        root.fetch("requisitionItens", JoinType.LEFT);
+        @SuppressWarnings({"unchecked", "rawtypes" })
+        final Join<Requisition, RequisitionItem> reqItens = (Join) root.fetch("requisitionItens",
+                JoinType.LEFT);
+        reqItens.fetch("product");
 
         criteriaQuery.where(builder.equal(root.get("id"), id));
 

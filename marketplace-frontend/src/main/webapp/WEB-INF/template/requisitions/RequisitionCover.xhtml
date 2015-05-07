@@ -38,7 +38,8 @@
 			style="margin-right:15px; padding-right: 10px;"
 			value="#{requisitionSaverBean.requisition.seller}"
 			completeMethod="#{requisitionSaverBean.completeSeller}" var="s"
-			itemLabel="#{s.username}" itemValue="#{s}" forceSelection="true" />
+			itemLabel="#{s.username}" itemValue="#{s}" forceSelection="true"
+			disabled="#{requisitionSaverBean.requisition.notEditable}" />
 
 
 
@@ -52,12 +53,13 @@
 			style="margin-right:15px; padding-right: 10px;"
 			value="#{requisitionSaverBean.requisition.client}"
 			completeMethod="#{requisitionSaverBean.completeClient}" var="c"
-			itemLabel="#{c.name}" itemValue="#{c}" forceSelection="true" />
-
+			itemLabel="#{c.name}" itemValue="#{c}" forceSelection="true"
+			disabled="#{requisitionSaverBean.requisition.notEditable}" />
 
 		<p:outputLabel value="Payment method" for="paymentMethod" />
 		<p:selectOneMenu id="paymentMethod"
-			value="#{requisitionSaverBean.requisition.paymentMethod}">
+			value="#{requisitionSaverBean.requisition.paymentMethod}"
+			disabled="#{requisitionSaverBean.requisition.notEditable}">
 			<f:selectItem itemLabel="select one..." />
 			<f:selectItems value="#{requisitionSaverBean.paymentMethods}"
 				var="pm" itemValue="#{pm}" itemLabel="#{pm.description}" />
@@ -67,7 +69,8 @@
 		<p:outputLabel value="Shipping Value" for="shipping-value" />
 		<p:inputText id="shipping-value" size="10" maxlength="10"
 			styleClass="currency"
-			value="#{requisitionSaverBean.requisition.shippingValue}">
+			value="#{requisitionSaverBean.requisition.shippingValue}"
+			disabled="#{requisitionSaverBean.requisition.notEditable}">
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 
 			<p:ajax event="blur" process="@this" update="totalreq"
@@ -86,14 +89,15 @@
 		<h:outputText
 			value="#{requisitionSaverBean.requisition.subTotalValue}"
 			style="font-weight: bold" id="sub-total">
-			<f:convertNumber type="currency" currencySymbol="€" locale="pt-PT"/>
+			<f:convertNumber type="currency" currencySymbol="€" locale="pt-PT" />
 		</h:outputText>
 
 
 		<p:outputLabel value="Discount Value" for="discount-value" />
 		<p:inputText id="discount-value" size="10" maxlength="10"
 			styleClass="currency"
-			value="#{requisitionSaverBean.requisition.rebateValue}">
+			value="#{requisitionSaverBean.requisition.rebateValue}" 
+			disabled="#{requisitionSaverBean.requisition.notEditable}">
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 			<p:ajax event="blur" process="@this" update="totalreq"
 				listener="#{requisitionSaverBean.calcTotals}" />
@@ -104,7 +108,7 @@
 			style="font-weight: bold; font-size: 1.1em" />
 		<h:outputText style="font-weight: bold; font-size: 1.1em"
 			id="totalreq" value="#{requisitionSaverBean.requisition.totalValue}">
-			<f:convertNumber type="currency" currencySymbol="€" locale="pt-PT"/>
+			<f:convertNumber type="currency" currencySymbol="€" locale="pt-PT" />
 		</h:outputText>
 
 	</p:panelGrid>

@@ -12,14 +12,17 @@
 			<p:button value="Create"
 				outcome="/requisition/RequisitionRegistration" />
 			<p:commandButton value="Save" action="#{requisitionSaverBean.save}"
-				update="@form" />
+				update="@form"
+				disabled="#{requisitionSaverBean.requisition.editable}" />
 		</p:toolbarGroup>
 		<p:toolbarGroup align="right">
 			<p:commandButton value="Issue" action="#{issueRequisitionBean.issue}"
-				process="@form" update="@form" />
+				process="@form" update="@form"
+				disabled="#{requisitionSaverBean.requisition.notIssueble}" />
 			<p:commandButton value="Cancel"
 				action="#{requisitionCancelBean.cancel}" process="@this"
-				update="@form" />
+				update="@form"
+				disabled="#{requisitionSaverBean.requisition.notCancelable}" />
 			<p:commandButton value="Send by e-mail" />
 			<p:separator />
 			<p:button value="Search" outcome="/requisition/RequisitionSearch" />

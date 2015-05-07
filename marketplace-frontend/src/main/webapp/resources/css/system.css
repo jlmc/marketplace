@@ -123,7 +123,7 @@ h1 {
 }
 
 .system-menu .ui-icon-triangle-1-s {
-	background: url(#{resource ['images:arrow_down.png' ]})no-repeat;
+	background: url(#{resource ['images:arrow_down.png']})no-repeat;
 }
 
 
@@ -136,4 +136,8 @@ h1 {
 .alerticon{
  	vertical-align: bottom;
 	 margin-left: 5px;
+}
+
+.ui-state-disabled{
+	opacity: .80;
 }

@@ -75,6 +75,11 @@ public class RequisitionService implements Serializable {
                 requisition.setStatus(RequisitionStatus.BUDGET);
             }
 
+            if (requisition.isNotEditable()) {
+                throw new BusinessException("The Requisition can not be Editable in the State "
+                        + requisition.getStatus().getDescription() + ".");
+            }
+
             // Business RULE : can't save a requisition without Requisition Lines
             if (requisition.getRequisitionItens() == null
                     || requisition.getRequisitionItens().isEmpty()) {

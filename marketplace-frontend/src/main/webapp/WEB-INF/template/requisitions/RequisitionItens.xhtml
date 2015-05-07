@@ -64,7 +64,7 @@
 
 		</p:column>
 		<p:column headerText="Qty" style="text-align: center; width: 100px">
-			<p:inputText size="8" value="#{item.qty}">
+			<p:inputText size="8" value="#{item.qty}" disabled="#{requisitionSaverBean.requisition.notEditable}">
 				<p:ajax process="@this"
 					update="tabelaItens :req-form:sub-total :req-form:totalreq :req-form:requisition-form-msg"
 					listener="#{requisitionSaverBean.updateQty(item,lineIndex)}" />
