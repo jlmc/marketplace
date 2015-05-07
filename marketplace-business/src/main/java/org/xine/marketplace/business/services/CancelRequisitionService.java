@@ -39,7 +39,7 @@ public class CancelRequisitionService implements Serializable {
         // do the next line because the parameters could not be managed yet
         final Requisition req = this.requisitionsRepository.getById(requisition.getId());
 
-        if (req.isCancelable()) {
+        if (req.isNotCancelable()) {
             throw new BusinessException("Requisition can not be canceled in the state "
                     + req.getStatus().getDescription() + ".");
         }

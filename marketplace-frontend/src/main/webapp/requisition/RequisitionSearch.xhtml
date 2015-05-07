@@ -93,7 +93,7 @@
 				<p:column headerText="Total Value"
 					style="text-align: right; width: 120px">
 					<h:outputText value="#{req.totalValue}">
-						<f:convertNumber type="currency" />
+						<f:convertNumber type="currency" currencySymbol="€" locale="pt-PT" />
 					</h:outputText>
 				</p:column>
 				<p:column headerText="Status" style="width: 100px">
