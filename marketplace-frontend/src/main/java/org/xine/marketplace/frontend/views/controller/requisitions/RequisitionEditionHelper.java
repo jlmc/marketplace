@@ -15,8 +15,7 @@ public final class RequisitionEditionHelper {
     /**
      * Instantiates a new requisition edition helper.
      */
-    private RequisitionEditionHelper() {
-    }
+    private RequisitionEditionHelper() {}
 
     /**
      * Adds the empty requisition item.
@@ -25,6 +24,10 @@ public final class RequisitionEditionHelper {
      */
     protected static void addEmptyRequisitionItem(final Requisition requisition) {
         if (requisition != null && requisition.isBudget()) {
+            if (emptyisAlreadyIn(requisition)) {
+                return;
+            }
+
             final Product product = new Product();
             final RequisitionItem requisitionItem = new RequisitionItem();
             requisitionItem.setQty(Integer.valueOf(1));
@@ -44,11 +47,21 @@ public final class RequisitionEditionHelper {
         if (requisition != null && requisition.isBudget()) {
 
             final RequisitionItem firtsItems = getEditableRequisitionItem(requisition);
-            if (firtsItems != null && (firtsItems.getProduct() == null || firtsItems.getProduct().getId() == null)) {
+            if (firtsItems != null
+                    && (firtsItems.getProduct() == null || firtsItems.getProduct().getId() == null)) {
                 requisition.getRequisitionItens().remove(EDITABLE_LINE_INDEX);
             }
 
         }
+    }
+
+    private static boolean emptyisAlreadyIn(final Requisition requisition) {
+        final RequisitionItem firts = getEditableRequisitionItem(requisition);
+        if (firts != null && firts.getProduct().getId() == null) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -58,7 +71,9 @@ public final class RequisitionEditionHelper {
      * @return the editable requisition item
      */
     protected static RequisitionItem getEditableRequisitionItem(final Requisition requisition) {
-        if (requisition != null && requisition.isBudget()) {
+        if (requisition != null && requisition.isBudget()
+                && requisition.getRequisitionItens() != null
+                && !requisition.getRequisitionItens().isEmpty()) {
             return requisition.getRequisitionItens().get(EDITABLE_LINE_INDEX);
         }
         return null;

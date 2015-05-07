@@ -13,7 +13,7 @@
 				outcome="/requisition/RequisitionRegistration" />
 			<p:commandButton value="Save" action="#{requisitionSaverBean.save}"
 				update="@form"
-				disabled="#{requisitionSaverBean.requisition.editable}" />
+				disabled="#{requisitionSaverBean.requisition.notEditable}" />
 		</p:toolbarGroup>
 		<p:toolbarGroup align="right">
 			<p:commandButton value="Issue" action="#{issueRequisitionBean.issue}"

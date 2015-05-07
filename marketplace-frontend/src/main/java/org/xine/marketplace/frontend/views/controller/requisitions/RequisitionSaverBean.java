@@ -83,9 +83,8 @@ public class RequisitionSaverBean implements Serializable {
 
             if (this.requisition == null) {
                 clean();
+                RequisitionEditionHelper.addEmptyRequisitionItem(this.requisition);
             }
-
-            RequisitionEditionHelper.addEmptyRequisitionItem(this.requisition);
 
             calcTotals();
         }

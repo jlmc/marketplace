@@ -139,5 +139,5 @@ h1 {
 }
 
 .ui-state-disabled{
-	opacity: .80;
+	opacity: .80 !important;
 }
