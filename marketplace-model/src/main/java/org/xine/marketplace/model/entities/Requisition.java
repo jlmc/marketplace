@@ -413,7 +413,7 @@ public class Requisition implements Serializable {
     }
 
     /**
-     * Checks if is issued.
+     * Checks if the status is BUDGET .
      * @return true, if is issued
      */
     @Transient
@@ -422,12 +422,39 @@ public class Requisition implements Serializable {
     }
 
     /**
+     * Checks if the status is CANCELLED .
+     * @return true, if is cancelled
+     */
+    @Transient
+    public boolean isCancelled() {
+        return RequisitionStatus.CANCELLED.equals(getStatus());
+    }
+
+    /**
+     * Checks if the status is ISSUED .
+     * @return true, if is issued
+     */
+    @Transient
+    public boolean isIssued() {
+        return RequisitionStatus.ISSUED.equals(getStatus());
+    }
+
+    /**
      * Checks if is issueble.
      * @return true, if is issueble
      */
     @Transient
     public boolean isIssueble() {
-        return getId() != null && isBudget();
+        return isExistent() && isBudget();
+    }
+
+    /**
+     * Checks if is existent.
+     * @return true, if is existent
+     */
+    @Transient
+    public boolean isExistent() {
+        return getId() != null;
     }
 
     /**
@@ -437,5 +464,23 @@ public class Requisition implements Serializable {
     @Transient
     public boolean isNotIssueble() {
         return !isIssueble();
+    }
+
+    /**
+     * Checks if is cancelable.
+     * @return true, if is cancelable
+     */
+    @Transient
+    public boolean isCancelable() {
+        return isExistent() && !isCancelled();
+    }
+
+    /**
+     * Checks if is not cancelable.
+     * @return true, if is not cancelable
+     */
+    @Transient
+    public boolean isNotCancelable() {
+        return !isCancelable();
     }
 }

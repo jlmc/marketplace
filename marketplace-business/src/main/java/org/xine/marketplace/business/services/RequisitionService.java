@@ -51,9 +51,6 @@ public class RequisitionService implements Serializable {
     @Inject
     private ProductsRepository productsRepository;
 
-    @Inject
-    private StockService stockService;
-
     /**
      * Search.
      * @param filter
@@ -183,28 +180,4 @@ public class RequisitionService implements Serializable {
         return requisition;
     }
 
-    /**
-     * Issue the requisition.
-     * @param requisition
-     *            the requisition
-     * @return the requisition
-     */
-    @Transactional
-    public Requisition issue(final Requisition requisition) {
-        Requisition req = save(requisition);
-
-        // requisition != null && requisition.id != null
-        if (req.isNotIssueble()) {
-            throw new BusinessException("the Requisition can't be issue");
-        }
-
-        // down Stock
-        this.stockService.updateStock(req);
-
-        req.setStatus(RequisitionStatus.ISSUED);
-
-        req = this.requisitionsRepository.save(req);
-
-        return req;
-    }
 }
