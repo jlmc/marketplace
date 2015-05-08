@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+    <permission id="1" name="Admin" description="a" />
+    <permission id="2" name="Client" description="a" />
+    <permission id="3" name="Seller" description="a" />
+    <permission id="4" name="Guest" description="a" />
+
+    <user id="1" username="abcde" password="test" email="emailOne@" />
+    <user id="2" username="XXXAbcZZZZ" password="test" email="emailTwo@" />
+    <user id="3" username="AbcYYYY" password="test" email="emailThree@" />
+    <user id="4" username="userFour" password="test" email="emailFour@" />
+
+
+    <user_permission user_id="1" permission_id="1" />
+    <user_permission user_id="1" permission_id="2" />
+    <user_permission user_id="1" permission_id="4" />
+
+    <user_permission user_id="3" permission_id="4" />
+    <user_permission user_id="2" permission_id="3" />
+
+
+
+    <client id="1" name="manuel Cesario  1" email="client1@xine.org" client_type="PERSON" cnjp="1234"/>
+    <client id="2" name="Client 2" email="client2@xine.org" client_type="PERSON" cnjp="2345"/>
+    <client id="3" name="Client 3" email="client3@xine.org" client_type="FOUNDATION" cnjp="3456"/>
+    <client id="4" name="Client 4" email="client4@xine.org" client_type="FOUNDATION" cnjp="4567"/>
+    <client_address id="1" client_id="1" street="abc" doorNumber="12" zipCode="3130" city="Lisboa" country="Portugal"/>
+    <client_address id="2" client_id="1" street="bcd" doorNumber="123" zipCode="5412" city="Outro" country="Portugal"/>
+
+
+    <requisition id="1" creation_Date="2015-01-01" 
+        Payment_Method="CASH" 
+        rebate_value="12"
+        status="BUDGET" 
+        total_value="2" 
+        shipping_value ="1"
+        client_id="1"
+        seller_id="2"
+        delivery_city="PP" 
+        delivery_country="Portugal"
+        delivery_Name="xto ta" 
+        delivery_number_door="123" 
+        delivery_street="Rua 25 de Abril"
+        delivery_zip_code="3256-678" 
+        delivery_date="2015-03-24" />
+ 
+    <requisition id="2" 
+        creation_Date="2015-01-02" 
+        Payment_Method="CASH" 
+        rebate_value="12"
+        status="BUDGET" 
+        total_value="2" 
+        shipping_value ="1"
+        client_id="1"
+        seller_id="2"
+        delivery_city="PP" 
+        delivery_country="Portugal"
+        delivery_Name="xto ta" 
+        delivery_number_door="123" 
+        delivery_street="Rua 25 de Abril"
+        delivery_zip_code="3256-678" 
+        delivery_date="2015-03-24" />
+    
+    <requisition id="3" creation_Date="2015-01-03" Payment_Method="CASH" rebate_value="12"
+        status="BUDGET" 
+        total_value="2"
+        shipping_value ="1" 
+        client_id="2"
+        seller_id="2"
+        delivery_city="PP" delivery_country="Portugal"
+        delivery_Name="xto ta" delivery_number_door="123" delivery_street="Rua 25 de Abril"
+        delivery_zip_code="3256-678" delivery_date="2015-03-24" />
+    
+    <requisition id="4" 
+        creation_Date="2015-01-04" 
+        Payment_Method="CASH" 
+        rebate_value="12"
+        status="BUDGET" 
+        total_value="2" 
+        shipping_value ="1"
+        client_id="2"
+        seller_id="2"
+        delivery_city="PP" delivery_country="Portugal"
+        delivery_Name="xto ta" delivery_number_door="123" delivery_street="Rua 25 de Abril"
+        delivery_zip_code="3256-678" delivery_date="2015-03-24" />
+
+    <requisition id="5" creation_Date="2015-01-05" 
+        Payment_Method="CASH" 
+        rebate_value="12"
+        status="BUDGET" 
+        total_value="2" 
+        shipping_value ="1"
+        client_id="3"
+        seller_id="2"
+        delivery_city="PP" delivery_country="Portugal"
+        delivery_Name="xto ta" delivery_number_door="123" delivery_street="Rua 25 de Abril"
+        delivery_zip_code="3256-678" delivery_date="2015-03-24" />
+
+
+
+</dataset>
+
