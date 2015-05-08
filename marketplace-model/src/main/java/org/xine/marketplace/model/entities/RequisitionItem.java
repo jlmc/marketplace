@@ -58,16 +58,6 @@ public class RequisitionItem implements Serializable {
     }
 
     /**
-     * Gets the totalvalue.
-     * @return the totalvalue
-     */
-    @SuppressWarnings("boxing")
-    @Transient
-    public BigDecimal getTotalvalue() {
-        return getUnitValue().multiply(new BigDecimal(getQty()));
-    }
-
-    /**
      * Sets the requisition.
      * @param requisition
      *            the requisition to set

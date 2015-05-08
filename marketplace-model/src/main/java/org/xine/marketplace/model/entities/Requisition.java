@@ -501,4 +501,22 @@ public class Requisition implements Serializable {
     public boolean isEditable() {
         return isBudget();
     }
+
+    /**
+     * Checks if is mailable.
+     * @return true, if is mailable
+     */
+    @Transient
+    public boolean isMailable() {
+        return isExistent() && !isCancelled();
+    }
+
+    /**
+     * Checks if is not mailable.
+     * @return true, if is not mailable
+     */
+    @Transient
+    public boolean isNotMailable() {
+        return !isMailable();
+    }
 }

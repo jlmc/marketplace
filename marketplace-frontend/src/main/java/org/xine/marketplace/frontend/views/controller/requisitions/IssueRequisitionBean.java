@@ -1,6 +1,6 @@
 package org.xine.marketplace.frontend.views.controller.requisitions;
 
-import org.xine.marketplace.business.services.CheckoutRequisitionService;
+import org.xine.marketplace.business.services.requisitions.CheckoutRequisitionService;
 import org.xine.marketplace.frontend.views.controller.requisitions.events.RequisitionChangedEvent;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Requisition;

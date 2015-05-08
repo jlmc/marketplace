@@ -1,6 +1,6 @@
 package org.xine.marketplace.frontend.views.controller.requisitions;
 
-import org.xine.marketplace.business.services.CancelRequisitionService;
+import org.xine.marketplace.business.services.requisitions.CancelRequisitionService;
 import org.xine.marketplace.frontend.views.controller.requisitions.events.RequisitionChangedEvent;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Requisition;

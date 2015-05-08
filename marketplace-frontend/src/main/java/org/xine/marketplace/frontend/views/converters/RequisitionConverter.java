@@ -1,6 +1,6 @@
 package org.xine.marketplace.frontend.views.converters;
 
-import org.xine.marketplace.business.services.RequisitionService;
+import org.xine.marketplace.business.services.requisitions.RequisitionService;
 import org.xine.marketplace.frontend.views.util.helpers.Strings;
 import org.xine.marketplace.model.entities.Requisition;
 

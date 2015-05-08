@@ -1,6 +1,6 @@
 package org.xine.marketplace.frontend.views.controller.clients;
 
-import org.xine.marketplace.business.services.ClientService;
+import org.xine.marketplace.business.services.clients.ClientService;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.filters.ClientFilter;

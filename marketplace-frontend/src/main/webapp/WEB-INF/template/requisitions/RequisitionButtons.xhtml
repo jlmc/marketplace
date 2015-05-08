@@ -23,7 +23,10 @@
 				action="#{requisitionCancelBean.cancel}" process="@this"
 				update="@form"
 				disabled="#{requisitionSaverBean.requisition.notCancelable}" />
-			<p:commandButton value="Send by e-mail" />
+			<p:commandButton value="Send by e-mail" 
+				action="#{sendEmailRequisitionBean.sendEmail}"
+				process="@this" update="requisition-form-msg"
+				disabled="#{requisitionSaverBean.requisition.notMailable}"/>
 			<p:separator />
 			<p:button value="Search" outcome="/requisition/RequisitionSearch" />
 		</p:toolbarGroup>

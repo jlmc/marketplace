@@ -1,4 +1,4 @@
-package org.xine.marketplace.business.services;
+package org.xine.marketplace.business.services.users;
 
 import java.io.Serializable;
 import java.util.List;

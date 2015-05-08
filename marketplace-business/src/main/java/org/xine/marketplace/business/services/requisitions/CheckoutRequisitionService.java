@@ -1,9 +1,10 @@
 /**
  *
  */
-package org.xine.marketplace.business.services;
+package org.xine.marketplace.business.services.requisitions;
 
 import org.xine.marketplace.business.BusinessException;
+import org.xine.marketplace.business.services.stock.StockService;
 import org.xine.marketplace.model.entities.Requisition;
 import org.xine.marketplace.model.entities.RequisitionStatus;
 import org.xine.marketplace.repository.daos.RequisitionsRepository;

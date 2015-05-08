@@ -1,6 +1,6 @@
 package org.xine.marketplace.frontend.views.controller.users;
 
-import org.xine.marketplace.business.services.UserService;
+import org.xine.marketplace.business.services.users.UserService;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Permission;
 import org.xine.marketplace.model.entities.User;

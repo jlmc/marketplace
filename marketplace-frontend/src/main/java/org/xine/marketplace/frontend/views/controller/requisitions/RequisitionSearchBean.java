@@ -1,6 +1,6 @@
 package org.xine.marketplace.frontend.views.controller.requisitions;
 
-import org.xine.marketplace.business.services.RequisitionService;
+import org.xine.marketplace.business.services.requisitions.RequisitionService;
 import org.xine.marketplace.model.entities.Requisition;
 import org.xine.marketplace.model.entities.RequisitionStatus;
 import org.xine.marketplace.model.filters.RequisitionFilter;

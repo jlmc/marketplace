@@ -1,0 +1,41 @@
+<html>
+	<body>
+        <table>
+            <tr>
+                <td style="width: 100px">Number:</td>
+                <td>$req.id</td>
+            </tr>
+            <tr>
+                <td>Client:</td>
+                <td>$req.client.name</td>
+            </tr>
+            <tr>
+                <td>Total:</td>
+                <td>$numberTool.format("¤ #0.00", $req.totalValue, $locale)</td>
+            </tr>
+        </table>
+        
+        <br/>
+       
+        
+         <table border="1" cellspacing="0" cellpadding="3">
+            <tr>
+                <th>Product</th>
+                <th>Unit Value</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+            #foreach ($item in $req.requisitionItens)
+            	#if ($item.product.id)
+	            <tr>
+	                <td>$item.product.name</td>
+	                <td>$numberTool.format("¤ #0.00", $item.product.unitValue, $locale)</td>
+	                <td>$item.quantidade</td>
+	                <td>$numberTool.format("¤ #0.00", $item.totalValue, $locale)</td>
+	            </tr>
+	            #end
+            #end
+        </table>
+        
+    </body>
+</html>

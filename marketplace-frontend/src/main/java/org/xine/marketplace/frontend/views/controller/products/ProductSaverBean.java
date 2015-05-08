@@ -1,6 +1,6 @@
 package org.xine.marketplace.frontend.views.controller.products;
 
-import org.xine.marketplace.business.services.ProductService;
+import org.xine.marketplace.business.services.products.ProductService;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Category;
 import org.xine.marketplace.model.entities.Product;

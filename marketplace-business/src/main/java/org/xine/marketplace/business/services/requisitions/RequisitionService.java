@@ -1,4 +1,4 @@
-package org.xine.marketplace.business.services;
+package org.xine.marketplace.business.services.requisitions;
 
 import org.xine.marketplace.business.BusinessException;
 import org.xine.marketplace.model.entities.Client;
@@ -176,7 +176,7 @@ public class RequisitionService implements Serializable {
 
             for (final RequisitionItem item : requisition.getRequisitionItens()) {
                 if (item.getProduct() != null && item.getProduct().getId() != null) {
-                    total = total.add(item.getTotalvalue());
+                    total = total.add(item.getTotalValue());
                 }
             }
 

@@ -1,4 +1,4 @@
-package org.xine.marketplace.business.services;
+package org.xine.marketplace.business.services.stock;
 
 import org.xine.marketplace.business.BusinessException;
 import org.xine.marketplace.model.entities.Requisition;

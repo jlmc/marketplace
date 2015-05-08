@@ -1,3 +1,10 @@
+-- THIS FILE WAS BEEN GENERATED USING REVERSE ENGENERING, THE COMMAND USED IS THE FOWLING
+-- > mysqldump -u root -p --databases marketplacerepository > 0_create_data_base.sql
+-- > # mysqldump -u root -p[root_password] [database_name] > dumpfilename.sql
+
+-- TO RESTORE THE DATA BASE USING THIS DUMP FILE WE CAN USE THE NEXT COMMAND
+-- > # mysql -u root -p[root_password] [database_name] < dumpfilename.sql
+ 
 -- MySQL dump 10.13  Distrib 5.6.23, for Win32 (x86)
 --
 -- Host: localhost    Database: marketplacerepository
