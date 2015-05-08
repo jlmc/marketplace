@@ -1,18 +1,17 @@
 package org.xine.marketplace.business.services.requisitions;
 
 import org.apache.velocity.tools.generic.NumberTool;
+import org.xine.email.api.MailMessage;
+import org.xine.email.impl.templating.velocity.VelocityTemplate;
 import org.xine.marketplace.business.BusinessException;
 import org.xine.marketplace.business.util.mail.Mailer;
 import org.xine.marketplace.model.entities.Requisition;
 
-import com.outjected.email.api.MailMessage;
-import com.outjected.email.impl.templating.velocity.VelocityTemplate;
-
-import java.io.Serializable;
 import java.util.Locale;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import java.io.Serializable;
 
 /**
  * The Class SendRequisitionEmailService.
@@ -40,8 +39,8 @@ public class SendRequisitionEmailService implements Serializable {
                     .bodyHtml(
                             new VelocityTemplate(getClass().getResourceAsStream(
                                     "/emails/requisitionDetails.template")))
-                                    .put("req", requisition).put("numberTool", new NumberTool())
-                                    .put("locale", new Locale("pt", "PT"));
+                    .put("req", requisition).put("numberTool", new NumberTool())
+                    .put("locale", new Locale("pt", "PT"));
 
             message.send();
         } catch (final Exception e) {

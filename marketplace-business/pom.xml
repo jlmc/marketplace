@@ -1,95 +1,110 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.xine</groupId>
-		<artifactId>marketplace</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	<artifactId>marketplace-business</artifactId>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.xine</groupId>
+        <artifactId>marketplace</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>marketplace-business</artifactId>
 
-	<dependencies>
-       
-		<dependency>
-			<groupId>org.jboss.weld.servlet</groupId>
-			<artifactId>weld-servlet</artifactId>
-			<version>2.2.9.Final</version>
-			<scope>provided</scope>
-		</dependency>
+    <dependencies>
+        <!-- 
+            CDI API and speficication dependencies
+         -->
+        <dependency>
+            <groupId>org.jboss.weld.servlet</groupId>
+            <artifactId>weld-servlet</artifactId>
+            <version>2.2.9.Final</version>
+            <scope>provided</scope>
+        </dependency>
 
-		<!-- Weld depende do Jandex -->
-		<dependency>
-			<groupId>org.jboss</groupId>
-			<artifactId>jandex</artifactId>
-			<version>1.2.2.Final</version>
-			<scope>provided</scope>
-		</dependency>
+        <!-- Weld depende do Jandex -->
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jandex</artifactId>
+            <version>1.2.2.Final</version>
+            <scope>provided</scope>
+        </dependency>
 
-
-		<!-- E-MAIL com\outjected\simple-email\0.2.1 -->
-		<dependency>
-			<groupId>com.outjected</groupId>
-			<artifactId>simple-email</artifactId>
-			<version>0.2.1</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.7</version>
-			<scope>compile</scope>
-		</dependency>
-		<!-- to use templates in emails -->
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.7</version>
-			<scope>compile</scope>
-		</dependency>
-		<!-- to format numbers in templates -->
-		<dependency>
-			<groupId>velocity-tools</groupId>
-			<artifactId>velocity-tools-generic</artifactId>
-			<version>1.1</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- / E-MAIL com\outjected\simple-email\0.2.1 -->
-
-
-		<dependency>
-			<groupId>org.xine</groupId>
-			<artifactId>marketplace-model</artifactId>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.xine</groupId>
-			<artifactId>marketplace-repository</artifactId>
-			<scope>compile</scope>
-		</dependency>
         
         
+        <!-- 
+            MAIL
         
-         <!-- Junit for Unit Test -->
+            org.xine simple-email is another project on github page of JLMC: 
+            https://github.com/jlmc/simple-email
+            
+            That API was created in order to facilitate sending emails, this project is very 
+            good opportunity to use it
+        -->
+        <dependency>
+            <groupId>org.xine</groupId>
+            <artifactId>simple-email</artifactId>
+            <version>0.1.1</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- to use templates in emails -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- to format numbers in templates -->
+        <dependency>
+            <groupId>velocity-tools</groupId>
+            <artifactId>velocity-tools-generic</artifactId>
+            <version>1.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+
+        <!-- 
+            Internal Project Dependencies
+         -->
+        <dependency>
+            <groupId>org.xine</groupId>
+            <artifactId>marketplace-model</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.xine</groupId>
+            <artifactId>marketplace-repository</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+
+        <!-- 
+            TESTING DEPENDENCIES 
+        -->
+        <!-- Junit for Unit Test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        
-	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

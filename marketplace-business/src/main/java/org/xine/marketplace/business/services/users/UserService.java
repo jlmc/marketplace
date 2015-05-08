@@ -1,13 +1,8 @@
 package org.xine.marketplace.business.services.users;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Locale;
-
-import javax.enterprise.inject.Default;
-import javax.inject.Inject;
-
 import org.apache.velocity.tools.generic.NumberTool;
+import org.xine.email.api.MailMessage;
+import org.xine.email.impl.templating.velocity.VelocityTemplate;
 import org.xine.marketplace.business.BusinessException;
 import org.xine.marketplace.business.util.mail.Mailer;
 import org.xine.marketplace.model.entities.Permission;
@@ -18,8 +13,12 @@ import org.xine.marketplace.repository.daos.UsersRepository;
 import org.xine.marketplace.repository.exceptions.RepositoryException;
 import org.xine.marketplace.repository.util.Transactional;
 
-import com.outjected.email.api.MailMessage;
-import com.outjected.email.impl.templating.velocity.VelocityTemplate;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Locale;
+
+import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 
 /**
  * The Class UserService.
@@ -60,7 +59,8 @@ public class UserService implements Serializable {
             // We can check if the email avariable.
             // BR: 2 the email must be unique
             if (this.userRepository.getUserByEmail(user.getEmail()) != null) {
-                throw new BusinessException(String.format("Email '%s'  Already in use.", user.getEmail()));
+                throw new BusinessException(String.format("Email '%s'  Already in use.",
+                        user.getEmail()));
             }
 
             final User createdUser = this.userRepository.save(user);
@@ -110,9 +110,15 @@ public class UserService implements Serializable {
         if (this.mailer != null) {
 
             final MailMessage mailMessage = this.mailer.createMesage();
-            mailMessage.to(user.getEmail()).subject("User creation sucess")
-            // .bodyHtml("O user foi criado com sucesso")
-                    .bodyHtml(new VelocityTemplate(this.getClass().getResourceAsStream("/emails/createdUser.template"))).put("user", user).put("numberTool", new NumberTool()).put("locale", new Locale("pt", "PT")).send();
+            mailMessage
+                    .to(user.getEmail())
+                    .subject("User creation sucess")
+                    // .bodyHtml("O user foi criado com sucesso")
+            .bodyHtml(
+                            new VelocityTemplate(this.getClass().getResourceAsStream(
+                                    "/emails/createdUser.template"))).put("user", user)
+                    .put("numberTool", new NumberTool()).put("locale", new Locale("pt", "PT"))
+                    .send();
 
         } else {
             System.out.println("No email System configurated");

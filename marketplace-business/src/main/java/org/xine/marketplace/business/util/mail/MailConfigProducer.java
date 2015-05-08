@@ -1,7 +1,7 @@
 package org.xine.marketplace.business.util.mail;
 
-import com.outjected.email.api.SessionConfig;
-import com.outjected.email.impl.SimpleMailConfig;
+import org.xine.email.api.SessionConfig;
+import org.xine.email.impl.SimpleMailConfig;
 
 import java.io.IOException;
 import java.util.Properties;

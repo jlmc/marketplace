@@ -1,8 +1,8 @@
 package org.xine.marketplace.business.util.mail;
 
-import com.outjected.email.api.MailMessage;
-import com.outjected.email.api.SessionConfig;
-import com.outjected.email.impl.MailMessageImpl;
+import org.xine.email.api.MailMessage;
+import org.xine.email.api.SessionConfig;
+import org.xine.email.impl.MailMessageImpl;
 
 import java.io.Serializable;
 
