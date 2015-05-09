@@ -1,8 +1,19 @@
 package org.xine.marketplace.repository.integration;
 
+import org.dbunit.DatabaseUnitException;
+import org.hibernate.HibernateException;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.xine.marketplace.model.entities.Client;
+import org.xine.marketplace.model.entities.Requisition;
+import org.xine.marketplace.model.filters.RequisitionActivityFilter;
+import org.xine.marketplace.repository.daos.RequisitionsRepository;
+import org.xine.marketplace.repository.integration.helper.AbstractDbUnitJpaTest;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Tuple;
@@ -10,14 +21,6 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
-import org.dbunit.DatabaseUnitException;
-import org.hibernate.HibernateException;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.xine.marketplace.model.entities.Client;
-import org.xine.marketplace.model.entities.Requisition;
-import org.xine.marketplace.repository.integration.helper.AbstractDbUnitJpaTest;
 
 public class ProjectionsTest extends AbstractDbUnitJpaTest {
     /**
@@ -59,7 +62,8 @@ public class ProjectionsTest extends AbstractDbUnitJpaTest {
 
         final Root<Requisition> req = criteriaQuery.from(Requisition.class);
 
-        criteriaQuery.multiselect(req.<Date> get("creationDate"), req.<BigDecimal> get("totalValue"));
+        criteriaQuery.multiselect(req.<Date> get("creationDate"),
+                req.<BigDecimal> get("totalValue"));
 
         final TypedQuery<Object[]> typedQuery = em.createQuery(criteriaQuery);
 
@@ -83,7 +87,8 @@ public class ProjectionsTest extends AbstractDbUnitJpaTest {
 
         final Root<Requisition> req = criteriaQuery.from(Requisition.class);
 
-        criteriaQuery.multiselect(req.<Date> get("creationDate"), builder.sum(req.<BigDecimal> get("totalValue")));
+        criteriaQuery.multiselect(req.<Date> get("creationDate"),
+                builder.sum(req.<BigDecimal> get("totalValue")));
 
         criteriaQuery.where(builder.equal(req.get("client"), client));
 
@@ -113,7 +118,8 @@ public class ProjectionsTest extends AbstractDbUnitJpaTest {
 
         final Root<Requisition> req = criteriaQuery.from(Requisition.class);
 
-        criteriaQuery.multiselect(req.<Date> get("creationDate").alias("D"), builder.sum(req.<BigDecimal> get("totalValue")).alias("T"));
+        criteriaQuery.multiselect(req.<Date> get("creationDate").alias("D"),
+                builder.sum(req.<BigDecimal> get("totalValue")).alias("T"));
 
         criteriaQuery.where(builder.equal(req.get("client"), client));
 
@@ -139,7 +145,8 @@ public class ProjectionsTest extends AbstractDbUnitJpaTest {
 
         final EntityManager em = getEntityManager();
         final CriteriaBuilder builder = em.getCriteriaBuilder();
-        final CriteriaQuery<ChartDateValue> criteriaQuery = builder.createQuery(ChartDateValue.class);
+        final CriteriaQuery<ChartDateValue> criteriaQuery = builder
+                .createQuery(ChartDateValue.class);
 
         final Root<Requisition> req = criteriaQuery.from(Requisition.class);
 
@@ -162,6 +169,21 @@ public class ProjectionsTest extends AbstractDbUnitJpaTest {
         dates.forEach(a -> {
             System.out.println(String.format("%s \t %f", a.getDate(), a.getValue()));
         });
+
+    }
+
+    @Test
+    public void testRequisitionTotal() {
+        final RequisitionsRepository repository = new RequisitionsRepository();
+        repository.setEntityManager(getEntityManager());
+
+        final Map<Date, BigDecimal> result = repository
+                .getTotalByDate(new RequisitionActivityFilter(null, null, 15));
+
+        result.keySet()
+        .stream()
+        .forEachOrdered(
+                c -> System.out.println(String.format("%s \t %f", c, result.get(c))));
 
     }
 

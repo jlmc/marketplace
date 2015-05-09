@@ -139,7 +139,6 @@ public class UsersRepository implements Serializable {
      *            the filter
      * @return the list
      */
-    @SuppressWarnings("null")
     public List<User> search(final UserFilter filter) {
         final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
         final CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);

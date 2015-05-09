@@ -4,15 +4,22 @@ import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.entities.Requisition;
 import org.xine.marketplace.model.entities.RequisitionItem;
 import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.model.filters.RequisitionActivityFilter;
 import org.xine.marketplace.model.filters.RequisitionFilter;
+import org.xine.marketplace.model.vo.DateValue;
 import org.xine.marketplace.repository.daos.Helper.MatchMode;
+import org.xine.marketplace.repository.helpers.DateUtils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -174,6 +181,74 @@ public class RequisitionsRepository implements Serializable {
         // query.getSingleResult();
         final Requisition req = Helper.getSingleResultUncheck(query);
         return req;
+    }
+
+    /**
+     * Gets the total by date.
+     * @param filter
+     *            the filter
+     * @return the total by date
+     */
+    @SuppressWarnings("boxing")
+    public Map<Date, BigDecimal> getTotalByDate(final RequisitionActivityFilter filter) {
+
+        final LocalDate endAt = LocalDate.now();
+        final LocalDate startAt = endAt.minusDays(filter.getNumberOfDays());
+        final Map<Date, BigDecimal> map = createEmptyDateMap(filter.getNumberOfDays(), startAt);
+
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<DateValue> criteriaQuery = builder.createQuery(DateValue.class);
+
+        final Root<Requisition> req = criteriaQuery.from(Requisition.class);
+
+        criteriaQuery.select(builder.construct(DateValue.class, req.<Date> get("creationDate"),
+                builder.sum(req.<BigDecimal> get("totalValue"))));
+
+        final List<Predicate> restrictions = new ArrayList<>();
+
+        if (filter.isSeller()) {
+            restrictions.add(builder.equal(req.get("seller"), filter.getSeller()));
+        }
+        if (filter.isClient()) {
+            restrictions.add(builder.equal(req.get("client"), filter.getClient()));
+        }
+        if (filter.isNumberOfDays()) {
+            // final ParameterExpression<Date> start = builder.parameter(Date.class, "_dt1");
+            // final ParameterExpression<Date> end = builder.parameter(Date.class, "_dt2");
+            restrictions.add(builder.between(req.<Date> get("creationDate"),
+                    DateUtils.asDate(startAt), DateUtils.asDate(endAt)));
+        }
+
+        criteriaQuery.where(restrictions.toArray(new Predicate[0]));
+
+        criteriaQuery.groupBy(req.<Date> get("creationDate"));
+        criteriaQuery.orderBy(builder.asc(req.<Date> get("creationDate")));
+
+        final TypedQuery<DateValue> typedQuery = this.entityManager.createQuery(criteriaQuery);
+        final List<DateValue> results = typedQuery.getResultList();
+
+        results.forEach(dv -> map.put(dv.getDate(), dv.getValue()));
+
+        return map;
+    }
+
+    /**
+     * Creates the empty date map.
+     * @param numberOfDays
+     *            the number of days
+     * @param startAt
+     *            the start at
+     * @return the map
+     */
+    private static Map<Date, BigDecimal> createEmptyDateMap(final Integer numberOfDays,
+            final LocalDate startAt) {
+        final Map<Date, BigDecimal> map = new TreeMap<>();
+        LocalDate s = startAt;
+        for (int i = 0; i < numberOfDays.intValue(); i++) {
+            map.put(DateUtils.asDate(s), BigDecimal.ZERO);
+            s = s.plusDays(1);
+        }
+        return map;
     }
 
     /**

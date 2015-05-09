@@ -5,17 +5,18 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+
 	<ui:define name="titulo">Dashboard</ui:define>
 	<ui:define name="contentBody">
-		<br />
-		<br />
-		<br />
-		<br />
-		<span> Ola Mundo ${msgs.welcome}</span>
-		<br />
-		<br />
-		<br />
-		<br />
+
+
+		<p:chart type="line" style="width: 100%; height:300px;"
+			model="#{chartRequisitionActivityBean.dateModel}"  />
+			
+				
+
+
 	</ui:define>
 </ui:composition>

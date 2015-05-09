@@ -46,7 +46,7 @@
         delivery_date="2015-03-24" />
  
     <requisition id="2" 
-        creation_Date="2015-01-02" 
+        creation_Date="2015-01-01" 
         Payment_Method="CASH" 
         rebate_value="12"
         status="BUDGET" 
