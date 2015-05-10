@@ -16,15 +16,17 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * import javax.enterprise.context.RequestScoped;
+ * javax.faces.view.ViewScoped
  * The Class ChartRequisitionActivityBean.
  */
 @Named
+// @javax.faces.view.ViewScoped
 @RequestScoped
 public class ChartRequisitionActivityBean implements Serializable {
 
@@ -52,6 +54,8 @@ public class ChartRequisitionActivityBean implements Serializable {
     /** The date model. */
     private LineChartModel dateModel;
 
+    private boolean shouldRender = false;
+
     // -------------------------------------------------------------------------
     //
     // Single operation
@@ -61,10 +65,10 @@ public class ChartRequisitionActivityBean implements Serializable {
     /**
      * Inits the.
      */
-    @PostConstruct
-    private void init() {
-        createDateModel();
-    }
+    // @PostConstruct
+    // private void init() {
+    // execute();
+    // }
 
     // --------------------------------------------------------------------------
     //
@@ -76,7 +80,7 @@ public class ChartRequisitionActivityBean implements Serializable {
      * Creates the date model.
      */
     @SuppressWarnings("boxing")
-    private void createDateModel() {
+    public void execute() {
         final RequisitionActivity requisitionActivity = this.requisitionActivityService
                 .getRequisitionActivity(new RequisitionActivityFilter());
 
@@ -89,6 +93,7 @@ public class ChartRequisitionActivityBean implements Serializable {
 
         if (requisitionActivity != null && requisitionActivity.getGlobalTotals() != null) {
             final Map<Date, BigDecimal> map = requisitionActivity.getGlobalTotals();
+
             map.keySet().forEach(dv -> series1.set(sdf.format(dv), map.get(dv)));
         }
 
@@ -103,11 +108,11 @@ public class ChartRequisitionActivityBean implements Serializable {
         final DateAxis axis = new DateAxis("Dates");
         axis.setTickAngle(-50);
 
-        axis.setMax(sdf.format(DateUtils.asDate(LocalDate.now())));
+        axis.setMax(sdf.format(DateUtils.asDate(LocalDate.now().plusDays(1))));
         axis.setTickFormat("%b %#d, %y");
 
         this.dateModel.getAxes().put(AxisType.X, axis);
-
+        this.shouldRender = true;
     }
 
     // --------------------------------------------------------------------------
@@ -130,6 +135,13 @@ public class ChartRequisitionActivityBean implements Serializable {
      */
     public LineChartModel getDateModel() {
         return this.dateModel;
+    }
+
+    /**
+     * @return the shouldRender
+     */
+    public boolean isShouldRender() {
+        return this.shouldRender;
     }
 
 }

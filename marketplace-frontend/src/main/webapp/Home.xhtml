@@ -10,13 +10,17 @@
 
 	<ui:define name="titulo">Dashboard</ui:define>
 	<ui:define name="contentBody">
-
-
-		<p:chart type="line" style="width: 100%; height:300px;"
-			model="#{chartRequisitionActivityBean.dateModel}"  />
-			
-				
-
-
+		
+		<h:form id="chart-form">
+			<p:remoteCommand autoRun="true" name="lazyload" 
+				update=":chart-form:lazypanel"
+				process="@this"
+				actionListener="#{chartRequisitionActivityBean.execute}" />
+			<p:outputPanel id="lazypanel" layout="block">
+				<p:chart type="line" style="width: 100%; height:300px;"
+					model="#{chartRequisitionActivityBean.dateModel}"
+					rendered="#{chartRequisitionActivityBean.shouldRender}" />
+			</p:outputPanel>
+		</h:form>
 	</ui:define>
 </ui:composition>
