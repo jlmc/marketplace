@@ -1,6 +1,7 @@
 package org.xine.marketplace.repository.daos;
 
 import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.model.entities.User_;
 import org.xine.marketplace.model.filters.UserFilter;
 import org.xine.marketplace.repository.exceptions.RepositoryException;
 
@@ -99,7 +100,8 @@ public class UsersRepository implements Serializable {
         final Root<User> root = criteriaQuery.from(User.class);
 
         criteriaQuery.select(root);
-        criteriaQuery.where(builder.equal(builder.upper(root.get("email")), email.toUpperCase()));
+        criteriaQuery
+        .where(builder.equal(builder.upper(root.get(User_.email)), email.toUpperCase()));
 
         try {
             final TypedQuery<User> userQuery = this.entityManager.createQuery(criteriaQuery);
@@ -146,7 +148,7 @@ public class UsersRepository implements Serializable {
 
         if (isToLoadPermissions(filter)) {
             criteriaQuery.select(root).distinct(true);
-            root.fetch("permissions", JoinType.LEFT);
+            root.fetch(User_.permissions, JoinType.LEFT);
         } else {
             criteriaQuery.select(root);
         }
@@ -157,25 +159,26 @@ public class UsersRepository implements Serializable {
         final List<Predicate> predicates = new ArrayList<>();
 
         if (haveName(filter)) {
-            final Expression<String> nameParam = builder.parameter(String.class, "_name");
-            predicates.add(builder.like(builder.upper(root.get("username")), nameParam));
+            final Expression<String> nameParam = builder.parameter(String.class, "_paramName");
+            predicates.add(builder.like(builder.upper(root.get(User_.username)), nameParam));
 
-            paramValues.put("_name",
-                    Helper.MatchMode.ANYWHERE.toMatchString(filter.getName().toUpperCase()));
+            paramValues
+            .put("_paramName", CriteriaHelper.MatchMode.ANYWHERE.toMatchString(filter
+                    .getName().toUpperCase()));
         }
         if (haveEmail(filter)) {
-            final Expression<String> email = builder.parameter(String.class, "_email");
-            predicates.add(builder.equal(builder.upper(root.get("email")), email));
+            final Expression<String> email = builder.parameter(String.class, "_paramEmail");
+            predicates.add(builder.equal(builder.upper(root.get(User_.email)), email));
 
-            paramValues.put("_email", filter.getEmail().toUpperCase());
+            paramValues.put("_paramEmail", filter.getEmail().toUpperCase());
         }
 
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
         // INF:: add Orders to criteriaQuery
 
-        criteriaQuery.orderBy(builder.asc(builder.upper(root.get("username"))),
-                builder.asc(root.get("id")));
+        criteriaQuery.orderBy(builder.asc(builder.upper(root.get(User_.username))),
+                builder.asc(root.get(User_.id)));
 
         final TypedQuery<User> typedQuery = this.entityManager.createQuery(criteriaQuery);
         // INFO:: add parameters to typedQuery

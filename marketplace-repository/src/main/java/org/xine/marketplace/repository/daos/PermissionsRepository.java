@@ -1,6 +1,7 @@
 package org.xine.marketplace.repository.daos;
 
 import org.xine.marketplace.model.entities.Permission;
+import org.xine.marketplace.model.entities.Permission_;
 
 import java.io.Serializable;
 import java.util.List;
@@ -35,7 +36,7 @@ public class PermissionsRepository implements Serializable {
 
         criteriaQuery.select(root);
 
-        criteriaQuery.orderBy(builder.asc(builder.upper(root.get("name"))));
+        criteriaQuery.orderBy(builder.asc(builder.upper(root.get(Permission_.name))));
 
         final TypedQuery<Permission> typedQuery = this.entityManager.createQuery(criteriaQuery);
         return typedQuery.getResultList();

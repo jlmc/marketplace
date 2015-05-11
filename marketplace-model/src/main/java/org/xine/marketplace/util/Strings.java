@@ -1,14 +1,9 @@
-package org.xine.marketplace.frontend.views.util.helpers;
+package org.xine.marketplace.util;
 
 /**
  * The Class Strings.
  */
 public final class Strings {
-
-    /**
-     * Instantiates a new strings.
-     */
-    private Strings() {}
 
     /**
      * Checks if is null or blank.
@@ -29,5 +24,4 @@ public final class Strings {
     public static boolean isNotNullOrBlank(final String str) {
         return !isNullOrBlank(str);
     }
-
 }

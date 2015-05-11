@@ -7,14 +7,14 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 
 /**
- * The Class Helper.
+ * The Class CriteriaHelper.
  */
-final class Helper {
+final class CriteriaHelper {
 
     /**
      * Instantiates a new helper.
      */
-    private Helper() {
+    private CriteriaHelper() {
         //
     }
 

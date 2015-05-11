@@ -1,7 +1,9 @@
 package org.xine.marketplace.repository.daos;
 
 import org.xine.marketplace.model.entities.Category;
+import org.xine.marketplace.model.entities.Category_;
 import org.xine.marketplace.model.entities.Product;
+import org.xine.marketplace.model.entities.Product_;
 import org.xine.marketplace.model.filters.ProductFilter;
 import org.xine.marketplace.repository.exceptions.RepositoryException;
 
@@ -77,10 +79,10 @@ public class ProductsRepository implements Serializable {
         final Root<Product> root = criteriaQuery.from(Product.class);
 
         @SuppressWarnings({"unchecked", "rawtypes" })
-        final Join<Product, Category> joiner = (Join) root.fetch("category");
+        final Join<Product, Category> joiner = (Join) root.fetch(Product_.category);
 
         @SuppressWarnings({"unchecked", "rawtypes", "unused" })
-        final Join<Category, Category> catJoin = (Join) joiner.fetch("masterCategory");
+        final Join<Category, Category> catJoin = (Join) joiner.fetch(Category_.masterCategory);
 
         criteriaQuery.select(root);
 
@@ -88,29 +90,29 @@ public class ProductsRepository implements Serializable {
 
         if (haveName(filter)) {
             // where name like '%texto%'
-            final Expression<String> name = builder.parameter(String.class, "NAME");
-            predicates.add(builder.like(builder.upper(root.get("name")), name));
+            final Expression<String> name = builder.parameter(String.class, "paramName");
+            predicates.add(builder.like(builder.upper(root.get(Product_.name)), name));
         }
 
         if (haveSKU(filter)) {
-            final Expression<String> sku = builder.parameter(String.class, "SKU");
-            predicates.add(builder.equal(root.get("sku"), sku));
+            final Expression<String> sku = builder.parameter(String.class, "paramSku");
+            predicates.add(builder.equal(root.get(Product_.sku), sku));
         }
 
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
         // adding order
         final List<Order> ordersBys = new ArrayList<>();
-        ordersBys.add(builder.asc(root.get("name")));
+        ordersBys.add(builder.asc(root.get(Product_.name)));
         criteriaQuery.orderBy(ordersBys);
 
         final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
 
         if (haveName(filter)) {
-            query.setParameter("NAME", "%" + filter.getName().toUpperCase().trim() + "%");
+            query.setParameter("paramName", "%" + filter.getName().toUpperCase().trim() + "%");
         }
         if (haveSKU(filter)) {
-            query.setParameter("SKU", filter.getSku());
+            query.setParameter("paramSku", filter.getSku());
         }
 
         final List<Product> products = query.getResultList();
@@ -133,7 +135,8 @@ public class ProductsRepository implements Serializable {
             criteriaQuery.select(root);
             // criteriaQuery.where(builder.like(builder.upper(root.get("sku")),
             // (sku.toUpperCase())));
-            criteriaQuery.where(builder.equal(builder.upper(root.get("sku")), (sku.toUpperCase())));
+            criteriaQuery.where(builder.equal(builder.upper(root.get(Product_.sku)),
+                    (sku.toUpperCase())));
 
             final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
             final Product p = query.getSingleResult();
@@ -182,15 +185,15 @@ public class ProductsRepository implements Serializable {
         final CriteriaQuery<Product> criteriaQuery = builder.createQuery(Product.class);
         final Root<Product> root = criteriaQuery.from(Product.class);
         @SuppressWarnings({"unchecked", "rawtypes", })
-        final Join<Product, Category> productsCategoryJoin = (Join) root.fetch("category");
+        final Join<Product, Category> productsCategoryJoin = (Join) root.fetch(Product_.category);
         @SuppressWarnings({"unused", "unchecked", "rawtypes" })
         final Join<Category, Category> categorysJoin = (Join) productsCategoryJoin
-        .fetch("masterCategory");
+        .fetch(Category_.masterCategory);
 
         criteriaQuery.select(root);
         // criteriaQuery.where(builder.like(builder.upper(root.get("sku")),
         // (sku.toUpperCase())));
-        criteriaQuery.where(builder.equal(root.get("id"), id));
+        criteriaQuery.where(builder.equal(root.get(Product_.id), id));
 
         final TypedQuery<Product> query = this.manager.createQuery(criteriaQuery);
         final Product product = query.getSingleResult();

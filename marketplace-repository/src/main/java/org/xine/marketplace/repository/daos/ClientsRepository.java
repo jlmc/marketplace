@@ -2,8 +2,10 @@ package org.xine.marketplace.repository.daos;
 
 import org.xine.marketplace.model.entities.Address;
 import org.xine.marketplace.model.entities.Client;
+import org.xine.marketplace.model.entities.Client_;
 import org.xine.marketplace.model.filters.ClientFilter;
 import org.xine.marketplace.repository.exceptions.RepositoryException;
+import org.xine.marketplace.util.Strings;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -65,15 +67,15 @@ public class ClientsRepository implements Serializable {
         // we must set JoinType.LEFT because of the clients that don't have
         // addresses defined
         @SuppressWarnings({"unchecked", "rawtypes", "unused" })
-        final Join<Client, Address> joiner = (Join) root.fetch("addresses", JoinType.LEFT);
+        final Join<Client, Address> joiner = (Join) root.fetch(Client_.addresses, JoinType.LEFT);
 
         criteriaQuery.select(root);
-        criteriaQuery.where(criteriaBuilder.equal(root.get("id"), id));
+        criteriaQuery.where(criteriaBuilder.equal(root.get(Client_.id), id));
 
         final TypedQuery<Client> query = this.entityManager.createQuery(criteriaQuery);
 
         // query.getSingleResult();
-        final Client c = Helper.getSingleResultUncheck(query);
+        final Client c = CriteriaHelper.getSingleResultUncheck(query);
 
         return c;
     }
@@ -109,15 +111,15 @@ public class ClientsRepository implements Serializable {
 
         if (filter != null) {
             if (!Strings.isNullOrBlank(filter.getName())) {
-                predicates.add(builder.like(builder.upper(root.get("name")), nameExpression));
+                predicates.add(builder.like(builder.upper(root.get(Client_.name)), nameExpression));
             }
             if (!Strings.isNullOrBlank(filter.getCode())) {
-                predicates.add(builder.like(builder.upper(root.get("cnjp")), codeExpression));
+                predicates.add(builder.like(builder.upper(root.get(Client_.cnjp)), codeExpression));
             }
             if (!filter.getTypes().isEmpty()) {
                 final ArrayList<Predicate> typesOrs = new ArrayList<>();
                 filter.getTypes().forEach(
-                        t -> typesOrs.add(builder.equal(root.get("clientType"), t)));
+                        t -> typesOrs.add(builder.equal(root.get(Client_.clientType), t)));
 
                 predicates.add(builder.or(typesOrs.toArray(new Predicate[0])));
             }
@@ -163,10 +165,10 @@ public class ClientsRepository implements Serializable {
         final Expression<String> codeExpression = builder.parameter(String.class, "_Code");
 
         if (!Strings.isNullOrBlank(email)) {
-            predicates.add(builder.like(builder.upper(root.get("email")), nameExpression));
+            predicates.add(builder.like(builder.upper(root.get(Client_.email)), nameExpression));
         }
         if (!Strings.isNullOrBlank(code)) {
-            predicates.add(builder.like(builder.upper(root.get("cnjp")), codeExpression));
+            predicates.add(builder.like(builder.upper(root.get(Client_.cnjp)), codeExpression));
         }
 
         cQuery.where(builder.or(predicates.toArray(new Predicate[0])));

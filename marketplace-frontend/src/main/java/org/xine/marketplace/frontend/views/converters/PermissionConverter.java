@@ -1,8 +1,8 @@
 package org.xine.marketplace.frontend.views.converters;
 
 import org.xine.marketplace.business.services.users.UserService;
-import org.xine.marketplace.frontend.views.util.helpers.Strings;
 import org.xine.marketplace.model.entities.Permission;
+import org.xine.marketplace.util.Strings;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

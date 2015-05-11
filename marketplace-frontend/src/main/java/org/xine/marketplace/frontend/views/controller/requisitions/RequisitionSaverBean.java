@@ -2,7 +2,6 @@ package org.xine.marketplace.frontend.views.controller.requisitions;
 
 import org.xine.marketplace.business.services.requisitions.RequisitionService;
 import org.xine.marketplace.frontend.views.controller.requisitions.events.RequisitionChangedEvent;
-import org.xine.marketplace.frontend.views.util.helpers.Strings;
 import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.entities.PaymentMethod;
@@ -10,6 +9,7 @@ import org.xine.marketplace.model.entities.Product;
 import org.xine.marketplace.model.entities.Requisition;
 import org.xine.marketplace.model.entities.RequisitionItem;
 import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.util.Strings;
 import org.xine.marketplace.validator.constraints.SKU;
 
 import java.io.Serializable;

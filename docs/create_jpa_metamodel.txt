@@ -1,57 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.xine</groupId>
-        <artifactId>marketplace</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
-    <artifactId>marketplace-model</artifactId>
+Instruções para criar o JPA METAMODEL 
+
+1. ADICIONAR A DEPENDENCIA NECESSÁRIA:
+
+	<dependency>
+	            <groupId>org.hibernate</groupId>
+	            <artifactId>hibernate-jpamodelgen</artifactId>
+	            <version>4.3.9.Final</version>
+	            <scope>compile</scope>
+	 </dependency>
+
+2. ADICIONANDO A DEPENDENCIA, O METAMODEL É JÁ GERADO, NO ENTATNTO ELE É GERARADO NA PASTA \target\generateclass. 
+	Será melhor se o Metamodel fosse enviado para uma pasta espefifica apenas para ele. Isso conseguesse atraves da 
+	configuração dos seguintes plugins.
+
+3. CONFIGURAÇÃO DOS PLUGINS
 
 
-    <dependencies>
-       
-
-
-        <!-- Hibernate dependencies -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <scope>compile</scope>
-        </dependency>
-
-         <!-- Metamodel -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jpamodelgen</artifactId>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- Bean Validation -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <scope>compile</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.glassfish.web</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>2.2.4</version>
-            <scope>test</scope>
-        </dependency>
-
-    </dependencies>
-    
-    
-    <build>
+  <build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -155,5 +120,4 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-    </build>
-</project>
+    </build>  

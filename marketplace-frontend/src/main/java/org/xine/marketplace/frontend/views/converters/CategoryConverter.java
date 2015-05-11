@@ -1,9 +1,9 @@
 package org.xine.marketplace.frontend.views.converters;
 
 import org.xine.marketplace.frontend.views.util.cdi.CDIServiceLocator;
-import org.xine.marketplace.frontend.views.util.helpers.Strings;
 import org.xine.marketplace.model.entities.Category;
 import org.xine.marketplace.repository.daos.CategorysRepository;
+import org.xine.marketplace.util.Strings;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
