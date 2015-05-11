@@ -25,6 +25,7 @@ import javax.persistence.criteria.Root;
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.entities.Requisition;
 import org.xine.marketplace.model.entities.RequisitionItem;
+import org.xine.marketplace.model.entities.Requisition_;
 import org.xine.marketplace.model.entities.User;
 import org.xine.marketplace.model.filters.RequisitionActivityFilter;
 import org.xine.marketplace.model.filters.RequisitionFilter;
@@ -197,26 +198,26 @@ public class RequisitionsRepository implements Serializable {
 
         final Root<Requisition> req = criteriaQuery.from(Requisition.class);
 
-        criteriaQuery.select(builder.construct(DateValue.class, req.<Date> get("creationDate"), builder.sum(req.<BigDecimal> get("totalValue"))));
+        criteriaQuery.select(builder.construct(DateValue.class, req.<Date> get(Requisition_.creationDate), builder.sum(req.<BigDecimal> get("totalValue"))));
 
         final List<Predicate> restrictions = new ArrayList<>();
 
         if (filter.isSeller()) {
-            restrictions.add(builder.equal(req.get("seller"), filter.getSeller()));
+            restrictions.add(builder.equal(req.get(Requisition_.seller), filter.getSeller()));
         }
         if (filter.isClient()) {
-            restrictions.add(builder.equal(req.get("client"), filter.getClient()));
+            restrictions.add(builder.equal(req.get(Requisition_.client), filter.getClient()));
         }
         if (filter.isNumberOfDays()) {
             // final ParameterExpression<Date> start = builder.parameter(Date.class, "_dt1");
             // final ParameterExpression<Date> end = builder.parameter(Date.class, "_dt2");
-            restrictions.add(builder.between(req.<Date> get("creationDate"), DateUtils.asDate(startAt), DateUtils.asDate(endAt)));
+            restrictions.add(builder.between(req.<Date> get(Requisition_.creationDate), DateUtils.asDate(startAt), DateUtils.asDate(endAt)));
         }
 
         criteriaQuery.where(restrictions.toArray(new Predicate[0]));
 
-        criteriaQuery.groupBy(req.<Date> get("creationDate"));
-        criteriaQuery.orderBy(builder.asc(req.<Date> get("creationDate")));
+        criteriaQuery.groupBy(req.<Date> get(Requisition_.creationDate));
+        criteriaQuery.orderBy(builder.asc(req.<Date> get(Requisition_.creationDate)));
 
         final TypedQuery<DateValue> typedQuery = this.entityManager.createQuery(criteriaQuery);
         final List<DateValue> results = typedQuery.getResultList();

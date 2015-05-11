@@ -30,7 +30,9 @@
 
 
     <requisition id="1" creation_Date="2015-01-02" Payment_Method="CASH" rebate_value="12"
-        status="BUDGET" total_value="1234" 
+        status="BUDGET" 
+        shipping_value="1"
+        total_value="1234" 
         client_id="1"
         seller_id="2"
         
