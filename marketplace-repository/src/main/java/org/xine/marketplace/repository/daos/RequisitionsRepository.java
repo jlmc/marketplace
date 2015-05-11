@@ -1,15 +1,5 @@
 package org.xine.marketplace.repository.daos;
 
-import org.xine.marketplace.model.entities.Client;
-import org.xine.marketplace.model.entities.Requisition;
-import org.xine.marketplace.model.entities.RequisitionItem;
-import org.xine.marketplace.model.entities.User;
-import org.xine.marketplace.model.filters.RequisitionActivityFilter;
-import org.xine.marketplace.model.filters.RequisitionFilter;
-import org.xine.marketplace.model.vo.DateValue;
-import org.xine.marketplace.repository.daos.Helper.MatchMode;
-import org.xine.marketplace.repository.helpers.DateUtils;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -31,6 +21,16 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import org.xine.marketplace.model.entities.Client;
+import org.xine.marketplace.model.entities.Requisition;
+import org.xine.marketplace.model.entities.RequisitionItem;
+import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.model.filters.RequisitionActivityFilter;
+import org.xine.marketplace.model.filters.RequisitionFilter;
+import org.xine.marketplace.model.vo.DateValue;
+import org.xine.marketplace.repository.daos.Helper.MatchMode;
+import org.xine.marketplace.util.DateUtils;
 
 /**
  * The Class RequisitionsRepository.
@@ -114,17 +114,14 @@ public class RequisitionsRepository implements Serializable {
                 // predicates.add(builder.like(builder.upper(JoinSellers.get("username")), sn));
                 // parameters.put("_sn", "%" + filter.getSellerName().trim().toUpperCase());
 
-                predicates.add(Helper.ilike(builder, JoinSellers.get("username"),
-                        filter.getSellerName(), MatchMode.ANYWHERE));
+                predicates.add(Helper.ilike(builder, JoinSellers.get("username"), filter.getSellerName(), MatchMode.ANYWHERE));
             }
             if (!Strings.isNullOrBlank(filter.getClientName())) {
-                predicates.add(Helper.ilike(builder, joinerClients.get("name"),
-                        filter.getClientName(), MatchMode.ANYWHERE));
+                predicates.add(Helper.ilike(builder, joinerClients.get("name"), filter.getClientName(), MatchMode.ANYWHERE));
             }
             if (filter.getStatus() != null && filter.getStatus().length > 0) {
                 final List<Predicate> sts = new ArrayList<>();
-                Arrays.stream(filter.getStatus()).forEach(
-                        s -> sts.add(builder.equal(root.get("status"), s)));
+                Arrays.stream(filter.getStatus()).forEach(s -> sts.add(builder.equal(root.get("status"), s)));
                 final Predicate statusPredicate = builder.or(sts.toArray(new Predicate[0]));
                 predicates.add(statusPredicate);
             }
@@ -170,8 +167,7 @@ public class RequisitionsRepository implements Serializable {
 
         // load the itens
         @SuppressWarnings({"unchecked", "rawtypes" })
-        final Join<Requisition, RequisitionItem> reqItens = (Join) root.fetch("requisitionItens",
-                JoinType.LEFT);
+        final Join<Requisition, RequisitionItem> reqItens = (Join) root.fetch("requisitionItens", JoinType.LEFT);
         reqItens.fetch("product");
 
         criteriaQuery.where(builder.equal(root.get("id"), id));
@@ -201,8 +197,7 @@ public class RequisitionsRepository implements Serializable {
 
         final Root<Requisition> req = criteriaQuery.from(Requisition.class);
 
-        criteriaQuery.select(builder.construct(DateValue.class, req.<Date> get("creationDate"),
-                builder.sum(req.<BigDecimal> get("totalValue"))));
+        criteriaQuery.select(builder.construct(DateValue.class, req.<Date> get("creationDate"), builder.sum(req.<BigDecimal> get("totalValue"))));
 
         final List<Predicate> restrictions = new ArrayList<>();
 
@@ -215,8 +210,7 @@ public class RequisitionsRepository implements Serializable {
         if (filter.isNumberOfDays()) {
             // final ParameterExpression<Date> start = builder.parameter(Date.class, "_dt1");
             // final ParameterExpression<Date> end = builder.parameter(Date.class, "_dt2");
-            restrictions.add(builder.between(req.<Date> get("creationDate"),
-                    DateUtils.asDate(startAt), DateUtils.asDate(endAt)));
+            restrictions.add(builder.between(req.<Date> get("creationDate"), DateUtils.asDate(startAt), DateUtils.asDate(endAt)));
         }
 
         criteriaQuery.where(restrictions.toArray(new Predicate[0]));
@@ -240,8 +234,7 @@ public class RequisitionsRepository implements Serializable {
      *            the start at
      * @return the map
      */
-    private static Map<Date, BigDecimal> createEmptyDateMap(final Integer numberOfDays,
-            final LocalDate startAt) {
+    private static Map<Date, BigDecimal> createEmptyDateMap(final Integer numberOfDays, final LocalDate startAt) {
         final Map<Date, BigDecimal> map = new TreeMap<>();
         LocalDate s = startAt;
         for (int i = 0; i < numberOfDays.intValue(); i++) {

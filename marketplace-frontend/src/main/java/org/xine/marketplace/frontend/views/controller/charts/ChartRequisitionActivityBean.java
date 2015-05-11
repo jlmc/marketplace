@@ -1,14 +1,5 @@
 package org.xine.marketplace.frontend.views.controller.charts;
 
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.DateAxis;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
-import org.xine.marketplace.business.services.charts.vo.RequisitionActivity;
-import org.xine.marketplace.business.services.requisitions.RequisitionActivityService;
-import org.xine.marketplace.model.filters.RequisitionActivityFilter;
-import org.xine.marketplace.repository.helpers.DateUtils;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -19,6 +10,15 @@ import java.util.Map;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.DateAxis;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
+import org.xine.marketplace.business.services.charts.vo.RequisitionActivity;
+import org.xine.marketplace.business.services.requisitions.RequisitionActivityService;
+import org.xine.marketplace.model.filters.RequisitionActivityFilter;
+import org.xine.marketplace.util.DateUtils;
 
 /**
  * import javax.enterprise.context.RequestScoped;
@@ -81,8 +81,7 @@ public class ChartRequisitionActivityBean implements Serializable {
      */
     @SuppressWarnings("boxing")
     public void execute() {
-        final RequisitionActivity requisitionActivity = this.requisitionActivityService
-                .getRequisitionActivity(new RequisitionActivityFilter());
+        final RequisitionActivity requisitionActivity = this.requisitionActivityService.getRequisitionActivity(new RequisitionActivityFilter());
 
         this.dateModel = new LineChartModel();
 

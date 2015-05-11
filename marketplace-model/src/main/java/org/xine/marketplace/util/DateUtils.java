@@ -1,4 +1,4 @@
-package org.xine.marketplace.repository.helpers;
+package org.xine.marketplace.util;
 
 import java.time.Instant;
 import java.time.LocalDate;
