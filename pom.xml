@@ -10,6 +10,7 @@
         <module>marketplace-model</module>
         <module>marketplace-repository</module>
         <module>marketplace-business</module>
+        <module>marketplace-report</module>
     </modules>
 
 
