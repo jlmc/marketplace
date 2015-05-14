@@ -1,44 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1"
-	xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-	<persistence-unit name="marketplace-repository"
-		transaction-type="RESOURCE_LOCAL">
-		
-		<class>org.xine.marketplace.model.entities.User</class>
-		<class>org.xine.marketplace.model.entities.Permission</class>
-		<class>org.xine.marketplace.model.entities.Product</class>
-		<class>org.xine.marketplace.model.entities.Category</class>
-		<class>org.xine.marketplace.model.entities.Client</class>
-		<class>org.xine.marketplace.model.entities.Address</class>
-		<class>org.xine.marketplace.model.entities.RequisitionItem</class>
-		<class>org.xine.marketplace.model.entities.Requisition</class>
-		
-		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/marketplacerepository" />
-			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="password" />
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-			
-            
-            
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="marketplace-repository" transaction-type="RESOURCE_LOCAL">
+
+        <class>org.xine.marketplace.model.entities.User</class>
+        <class>org.xine.marketplace.model.entities.Permission</class>
+        <class>org.xine.marketplace.model.entities.Product</class>
+        <class>org.xine.marketplace.model.entities.Category</class>
+        <class>org.xine.marketplace.model.entities.Client</class>
+        <class>org.xine.marketplace.model.entities.Address</class>
+        <class>org.xine.marketplace.model.entities.RequisitionItem</class>
+        <class>org.xine.marketplace.model.entities.Requisition</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/marketplacerepository" />
+            <property name="javax.persistence.jdbc.user" value="root" />
+            <property name="javax.persistence.jdbc.password" value="password" />
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+
+            <!--
+                values:
+                none - (nothing) No schema creation or deletion will take place.
+                create - The provider will create the database artifacts on application deployment. The artifacts will remain unchanged after application redeployment.
+                drop-and-create - Any artifacts in the database will be deleted, and the provider will create the database artifacts on deployment
+                drop - Any artifacts in the database will be deleted on application deployment.
+            -->
+            <property name="javax.persistence.schema-generation.database.action" value="none" />
+			<property name="javax.persistence.schema-generation.create-source" value="metadata" />
+			<property name="javax.persistence.schema-generation.drop-source" value="metadata" />
+            <!--<property name="javax.persistence.schema-generation.create-script-source"  value="META-INF/sql/create-script-source.sql"/> -->
+            <!--<property name="javax.persistence.schema-generation.drop-script-source" value="META-INF/sql/drop-script-source.sql"/> -->
+                    
+			<property name="javax.persistence.sql-load-script-source" value="META-INF/sql/load-script-source.sql"/>
+            <!--metadata|script|metadata-then-script|script-then-metadata -->
+            <!-- <property name="javax.persistence.schema-generation.create-source" value="metadata" /> -->
+            <!--<property name="javax.persistence.sql-load-script-source" value="META-INF/sql/load.sql" /> -->
+
+
             <!-- validate | update | create | create-drop -->
-			<property name="hibernate.hbm2ddl.auto" value="update" />
-			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.format_sql" value="true" />
+            <!--<property name="hibernate.hbm2ddl.auto" value="update" /> -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
-            
-            <!-- C3P0 pool connection configuration -->
-            <property name="hibernate.connection.provider_class" 
-				value="org.hibernate.connection.C3P0ConnectionProvider" />
+
+            <!-- C3P0 pool connection configuration - use this in production -->
+            <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
             <property name="hibernate.c3p0.max_size" value="20" />
             <property name="hibernate.c3p0.min_size" value="5" />
             <property name="hibernate.c3p0.acquire_increment" value="1" />
             <property name="hibernate.c3p0.idle_test_period" value="300" />
             <property name="hibernate.c3p0.max_statements" value="50" />
             <property name="hibernate.c3p0.timeout" value="300" />
-            
-            
-		</properties>
-	</persistence-unit>
+
+
+        </properties>
+    </persistence-unit>
 </persistence>
