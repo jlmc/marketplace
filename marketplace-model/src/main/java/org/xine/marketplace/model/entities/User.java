@@ -1,7 +1,5 @@
 package org.xine.marketplace.model.entities;
 
-import org.xine.marketplace.validator.constraints.Email;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,16 +10,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.xine.marketplace.validator.constraints.Email;
 
 /**
  * The Class User.
  */
 @Entity
+@Table(name = "user", indexes = {@Index(columnList = "username", unique = true) })
 public class User implements Serializable {
 
     /** The Constant serialVersionUID. */
@@ -45,7 +48,8 @@ public class User implements Serializable {
     /**
      * Instantiates a new user.
      */
-    public User() {}
+    public User() {
+    }
 
     /**
      * Instantiates a new user.
