@@ -42,27 +42,30 @@
 		<div style="float: right; margin-right: 110px;">
 			<span
 				style="float: left; height: 30px; line-height: 30px; margin-right: 60px;">
-				Hello #{securityBean.username}! 
-			</span>
+				Hello #{securityBean.username}! </span>
 
 			<h:form style="display: inline-block">
 				<p:menubar styleClass="system-menu">
 					<p:submenu label="Registers">
-						<p:menuitem value="Clients" 
-									outcome="/clients/ClientRegistration" />
-						<p:menuitem value="Users"
-									outcome="/users/UserRegistration" />
+						<p:menuitem value="Clients" outcome="/clients/ClientRegistration" />
+						<p:menuitem value="Users" outcome="/users/UserRegistration" />
 						<p:separator />
 						<p:menuitem value="Category" />
-						<p:menuitem value="Products" 
-									outcome="/products/ProductRegistration" />
+						<p:menuitem value="Products"
+							outcome="/products/ProductRegistration" />
 					</p:submenu>
 					<p:submenu label="Requisitions">
-						<p:menuitem value="Create" 
-									outcome="/requisition/RequisitionRegistration" />
-						<p:menuitem value="Search Orders" 
-									outcome="/requisition/RequisitionSearch" />
+						<p:menuitem value="Create"
+							outcome="/requisition/RequisitionRegistration" />
+						<p:menuitem value="Search Orders"
+							outcome="/requisition/RequisitionSearch" />
 					</p:submenu>
+					<p:submenu label="Reports">
+						<p:menuitem value="Issue Requisition"
+							outcome="/reports/RequisitionReport.xhtml" />
+
+					</p:submenu>
+
 					<p:menuitem value="Logout" />
 				</p:menubar>
 			</h:form>
