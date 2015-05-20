@@ -10,7 +10,7 @@
 
 
     <dependencies>
-       
+
 
 
         <!-- Hibernate dependencies -->
@@ -20,7 +20,7 @@
             <scope>compile</scope>
         </dependency>
 
-         <!-- Metamodel -->
+        <!-- Metamodel -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-jpamodelgen</artifactId>
@@ -34,13 +34,16 @@
             <scope>compile</scope>
         </dependency>
 
-
+        <!--
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            APIs TEST
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+        -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>javax.el</artifactId>
@@ -49,8 +52,8 @@
         </dependency>
 
     </dependencies>
-    
-    
+
+
     <build>
         <plugins>
             <plugin>
@@ -59,7 +62,8 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <!-- necessary to generate the Metamodel, with this we compile the anotations just one time -->
+                    <!-- necessary to generate the Metamodel, with this we compile the anotations just 
+                        one time -->
                     <compilerArgument>-proc:none</compilerArgument>
                 </configuration>
             </plugin>
@@ -104,7 +108,7 @@
         </plugins>
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no 
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no
                     influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>

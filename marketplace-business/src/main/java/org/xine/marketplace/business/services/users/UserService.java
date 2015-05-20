@@ -91,6 +91,16 @@ public class UserService implements Serializable {
     }
 
     /**
+     * Gets the user by email.
+     * @param email
+     *            the email
+     * @return the user by email
+     */
+    public User getUserByEmail(final String email) {
+        return this.userRepository.getUserByEmail(email, true);
+    }
+
+    /**
      * Search.
      * @param filter
      *            the filter

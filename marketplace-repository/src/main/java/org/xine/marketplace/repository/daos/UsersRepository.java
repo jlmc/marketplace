@@ -13,8 +13,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -95,24 +93,41 @@ public class UsersRepository implements Serializable {
      * @return the user by username
      */
     public User getUserByEmail(final String email) {
+
         final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
         final CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
         final Root<User> root = criteriaQuery.from(User.class);
 
         criteriaQuery.select(root);
         criteriaQuery
-        .where(builder.equal(builder.upper(root.get(User_.email)), email.toUpperCase()));
+                .where(builder.equal(builder.upper(root.get(User_.email)), email.toUpperCase()));
 
-        try {
-            final TypedQuery<User> userQuery = this.entityManager.createQuery(criteriaQuery);
-            final User user = userQuery.getSingleResult();
+        final TypedQuery<User> userQuery = this.entityManager.createQuery(criteriaQuery);
+        return CriteriaHelper.getSingleResultUncheck(userQuery);
+    }
 
-            return user;
-        } catch (final NoResultException e) {
-            return null;
-        } catch (final NonUniqueResultException e) {
-            return null;
+    /**
+     * Gets the user by email.
+     * @param email
+     *            the email
+     * @param fetchPermissions
+     *            the fetch permissions
+     * @return the user by email
+     */
+    public User getUserByEmail(final String email, final boolean fetchPermissions) {
+        final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+        final CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+        final Root<User> root = criteriaQuery.from(User.class);
+
+        if (fetchPermissions) {
+            root.fetch(User_.permissions, JoinType.LEFT);
         }
+
+        criteriaQuery.select(root).where(
+                builder.equal(builder.upper(root.get(User_.email)), email.trim().toUpperCase()));
+
+        final TypedQuery<User> userQuery = this.entityManager.createQuery(criteriaQuery);
+        return CriteriaHelper.getSingleResultUncheck(userQuery);
     }
 
     /**
@@ -163,8 +178,8 @@ public class UsersRepository implements Serializable {
             predicates.add(builder.like(builder.upper(root.get(User_.username)), nameParam));
 
             paramValues
-            .put("_paramName", CriteriaHelper.MatchMode.ANYWHERE.toMatchString(filter
-                    .getName().toUpperCase()));
+                    .put("_paramName", CriteriaHelper.MatchMode.ANYWHERE.toMatchString(filter
+                            .getName().toUpperCase()));
         }
         if (haveEmail(filter)) {
             final Expression<String> email = builder.parameter(String.class, "_paramEmail");
@@ -200,4 +215,5 @@ public class UsersRepository implements Serializable {
     private static boolean isToLoadPermissions(final UserFilter filter) {
         return filter != null && filter.isLoadPermissions();
     }
+
 }

@@ -10,7 +10,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mysql-connector.version>5.1.25</mysql-connector.version>
         <dbunit.version>2.5.0</dbunit.version>
     </properties>
 
@@ -18,7 +17,6 @@
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
-            <version>${cdi-api.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -33,7 +31,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -41,7 +38,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <version>${hibernate.version}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -51,7 +47,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector.version}</version>
             <scope>compile</scope>
         </dependency>
 

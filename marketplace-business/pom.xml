@@ -15,15 +15,12 @@
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet</artifactId>
-            <version>2.2.9.Final</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Weld depende do Jandex -->
+        <!-- Weld depende do Jandex we need jandex because weld-servlet dependends of him-->
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jandex</artifactId>
-            <version>1.2.2.Final</version>
             <scope>provided</scope>
         </dependency>
 
@@ -41,28 +38,24 @@
         <dependency>
             <groupId>org.xine</groupId>
             <artifactId>simple-email</artifactId>
-            <version>0.1.1</version>
             <scope>compile</scope>
         </dependency>
         
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
-            <version>1.4.7</version>
             <scope>compile</scope>
         </dependency>
         <!-- to use templates in emails -->
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
-            <version>1.7</version>
             <scope>compile</scope>
         </dependency>
         <!-- to format numbers in templates -->
         <dependency>
             <groupId>velocity-tools</groupId>
             <artifactId>velocity-tools-generic</artifactId>
-            <version>1.1</version>
             <scope>compile</scope>
         </dependency>
 

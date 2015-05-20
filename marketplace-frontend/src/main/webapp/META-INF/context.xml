@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- this file is required when we don't are using jee server -->
+<!--CDI this file is required when we don't are using jee server -->
 <!DOCTYPE xml>
 <Context>
     <!-- disables storage of sessions across restarts -->

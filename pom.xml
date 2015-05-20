@@ -16,22 +16,17 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.12</junit.version>
         <cdi-api.version>1.2</cdi-api.version>
         <hibernate.version>4.3.8.Final</hibernate.version>
         <hibernate-validator.version>5.1.3.Final</hibernate-validator.version>
         <hibernate-jpamodelgen.version>4.3.9.Final</hibernate-jpamodelgen.version>
-
+        <mysql-connector.version>5.1.25</mysql-connector.version>
+        <spring-security.version>4.0.1.RELEASE</spring-security.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- <dependency> -->
-            <!-- <groupId>javax.enterprise</groupId> -->
-            <!-- <artifactId>cdi-api</artifactId> -->
-            <!-- <version>${cdi-api.version}</version> -->
-            <!-- <scope>provided</scope> -->
-            <!-- </dependency> -->
             <dependency>
                 <groupId>org.xine</groupId>
                 <artifactId>marketplace-model</artifactId>
@@ -51,14 +46,12 @@
                 <scope>compile</scope>
             </dependency>
 
+            <!--
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+                APIs HIBERNATE
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            -->
 
-
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
 
             <!-- Hibernate dependencies -->
             <dependency>
@@ -67,7 +60,20 @@
                 <version>${hibernate.version}</version>
                 <scope>compile</scope>
             </dependency>
-            <!-- Hibernate validator dependencies -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${hibernate.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <!-- conection pool -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-c3p0</artifactId>
+                <version>${hibernate.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <!-- Hibernate validator dependencies Bean Validation -->
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
@@ -82,6 +88,126 @@
                 <scope>compile</scope>
             </dependency>
 
+            <!--
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+                APIs JDBC
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            -->
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+            <!--
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+                APIs CDI
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            -->
+
+
+            <dependency>
+                <groupId>javax.enterprise</groupId>
+                <artifactId>cdi-api</artifactId>
+                <version>${cdi-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- <dependency> -->
+            <!-- <groupId>javax.enterprise</groupId> -->
+            <!-- <artifactId>cdi-api</artifactId> -->
+            <!-- <version>${cdi-api.version}</version> -->
+            <!-- <scope>provided</scope> -->
+            <!-- </dependency> -->
+
+            <!-- CDI API and speficication dependencies -->
+            <dependency>
+                <groupId>org.jboss.weld.servlet</groupId>
+                <artifactId>weld-servlet</artifactId>
+                <version>2.2.9.Final</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- Weld depende do Jandex -->
+            <dependency>
+                <groupId>org.jboss</groupId>
+                <artifactId>jandex</artifactId>
+                <version>1.2.2.Final</version>
+                <scope>provided</scope>
+            </dependency>
+
+
+            <!--
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+                APIs for E-MAIL
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            -->
+
+
+            <dependency>
+                <groupId>org.xine</groupId>
+                <artifactId>simple-email</artifactId>
+                <version>0.1.1</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>1.4.7</version>
+                <scope>compile</scope>
+            </dependency>
+            <!-- to use templates in emails -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>1.7</version>
+                <scope>compile</scope>
+            </dependency>
+            <!-- to format numbers in templates -->
+            <dependency>
+                <groupId>velocity-tools</groupId>
+                <artifactId>velocity-tools-generic</artifactId>
+                <version>1.1</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <!--
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+                APIs SPRING
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            -->
+            <!-- Spring -->
+<!--             <dependency> -->
+<!--                 <groupId>org.springframework.security</groupId> -->
+<!--                 <artifactId>spring-security-web</artifactId> -->
+<!--                 <version>4.0.1.RELEASE</version> -->
+<!--                 <scope>compile</scope> -->
+<!--             </dependency> -->
+
+
+            <!--
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+                APIs TEST
+                ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            -->
+
+            <!-- TEST -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- jIntegrity -->
+            <dependency>
+                <groupId>com.jintegrity</groupId>
+                <artifactId>jintegrity</artifactId>
+                <version>0.1.2</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
