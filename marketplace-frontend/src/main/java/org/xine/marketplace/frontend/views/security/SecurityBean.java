@@ -1,9 +1,12 @@
 package org.xine.marketplace.frontend.views.security;
 
+import java.io.Serializable;
 import java.security.Principal;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,9 +16,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
  */
 @Named
 @RequestScoped
-public class SecurityBean {
+public class SecurityBean implements Serializable {
 
-    // TODO:: missing SecurityBean provider
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
+
+    /** The external context. */
+    @Inject
+    private ExternalContext externalContext;
 
     /**
      * Gets the username.
@@ -31,6 +39,10 @@ public class SecurityBean {
         return username;
     }
 
+    /**
+     * Gets the session user.
+     * @return the session user
+     */
     @SuppressWarnings("static-method")
     private SystemUser getSessionUser() {
         final Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
@@ -41,6 +53,22 @@ public class SecurityBean {
         }
 
         return null;
+    }
+
+    /**
+     * Can issue requisition.
+     * @return true, if successful
+     */
+    public boolean isPermissionToIssueRequisition() {
+        return this.externalContext.isUserInRole("ADMIN") || this.externalContext.isUserInRole("SELLER");
+    }
+
+    /**
+     * Can cancel requisition.
+     * @return true, if successful
+     */
+    public boolean isPermissionToCancelRequisition() {
+        return this.externalContext.isUserInRole("ADMIN") || this.externalContext.isUserInRole("SELLER");
     }
 
 }

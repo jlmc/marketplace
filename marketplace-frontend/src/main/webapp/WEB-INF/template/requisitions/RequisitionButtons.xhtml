@@ -17,12 +17,14 @@
 		</p:toolbarGroup>
 		<p:toolbarGroup align="right">
 			<p:commandButton value="Issue" action="#{issueRequisitionBean.issue}"
-				process="@form" update="@form"
-				disabled="#{requisitionSaverBean.requisition.notIssueble}" />
-			<p:commandButton value="Cancel"
-				action="#{requisitionCancelBean.cancel}" process="@this"
+				process="@form" 
 				update="@form"
-				disabled="#{requisitionSaverBean.requisition.notCancelable}" />
+				disabled="#{requisitionSaverBean.requisition.notIssueble or not securityBean.permissionToIssueRequisition}" />
+			<p:commandButton value="Cancel"
+				action="#{requisitionCancelBean.cancel}" 
+				process="@this"
+				update="@form"
+				disabled="#{requisitionSaverBean.requisition.notCancelable or not securityBean.permissionToCancelRequisition}" />
 			<p:commandButton value="Send by e-mail" 
 				action="#{sendEmailRequisitionBean.sendEmail}"
 				process="@this" update="requisition-form-msg"
