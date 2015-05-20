@@ -12,10 +12,18 @@
 	<ui:define name="title">#{productSaverBean.edit ? 'Edit Product' : 'New Product'}</ui:define>
 
 	<ui:define name="contentBody">
-
+		<!-- 
+			in This page i change the f_event to f_viewAction
+			
+			because using that is call more ligth, is call before the render of the page
+			the init method in this case could return a String  OUTCOME, for exemple Denie Access
+			
+			the default  f_viewAction is not PostBack and so i dont have to worry about the 
+			Postback calls in init method
+		 -->
 		<f:metadata>
 			<o:viewParam name="product" value="#{productSaverBean.product}"/>
-			<f:event listener="#{productSaverBean.init}" type="preRenderView" />
+			<f:viewAction action="{productSaverBean.init}"/>
 		</f:metadata>
 
 		<h:form id="nprdform">

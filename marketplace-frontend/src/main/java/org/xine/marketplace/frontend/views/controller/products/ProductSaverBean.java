@@ -59,15 +59,15 @@ public class ProductSaverBean implements Serializable {
      *            the event
      */
     public void init(final ComponentSystemEvent event) {
-        if (FacesUtil.isNotPostback()) {
-            if (this.product == null) {
-                clean();
-            }
-            // do the operation here
-            if (this.categoryMaster != null) {
-                loadChildCategorys();
-            }
+        // if (FacesUtil.isNotPostback()) {
+        if (this.product == null) {
+            clean();
         }
+        // do the operation here
+        if (this.categoryMaster != null) {
+            loadChildCategorys();
+        }
+        // }
     }
 
     /**
