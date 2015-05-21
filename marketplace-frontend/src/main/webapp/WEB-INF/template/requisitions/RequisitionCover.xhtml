@@ -59,9 +59,13 @@
 			disabled="#{requisitionSaverBean.requisition.notEditable}" />
 			
 			<p:commandButton icon="ui-icon-search" title="search" process="@this" update="@none"
-			 action="#{selectClientBean.openDialog}"
-			 disabled="#{requisitionSaverBean.requisition.notEditable}" 
-			 ignoreAutoUpdate="true"/>
+				 action="#{selectClientBean.openDialog}"
+				 disabled="#{requisitionSaverBean.requisition.notEditable}" 
+				 ignoreAutoUpdate="true">
+			 	
+			 	<p:ajax event="dialogReturn" update="client" ignoreAutoUpdate="true" listener="#{requisitionSaverBean.clientSelected}"/>
+			 
+			 </p:commandButton>
 			
 		</h:panelGroup>
 

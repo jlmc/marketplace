@@ -1,17 +1,5 @@
 package org.xine.marketplace.frontend.views.controller.requisitions;
 
-import org.xine.marketplace.business.services.requisitions.RequisitionService;
-import org.xine.marketplace.frontend.views.controller.requisitions.events.RequisitionChangedEvent;
-import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
-import org.xine.marketplace.model.entities.Client;
-import org.xine.marketplace.model.entities.PaymentMethod;
-import org.xine.marketplace.model.entities.Product;
-import org.xine.marketplace.model.entities.Requisition;
-import org.xine.marketplace.model.entities.RequisitionItem;
-import org.xine.marketplace.model.entities.User;
-import org.xine.marketplace.util.Strings;
-import org.xine.marketplace.validator.constraints.SKU;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +11,19 @@ import javax.faces.event.ComponentSystemEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.event.SelectEvent;
+import org.xine.marketplace.business.services.requisitions.RequisitionService;
+import org.xine.marketplace.frontend.views.controller.requisitions.events.RequisitionChangedEvent;
+import org.xine.marketplace.frontend.views.util.jsf.FacesUtil;
+import org.xine.marketplace.model.entities.Client;
+import org.xine.marketplace.model.entities.PaymentMethod;
+import org.xine.marketplace.model.entities.Product;
+import org.xine.marketplace.model.entities.Requisition;
+import org.xine.marketplace.model.entities.RequisitionItem;
+import org.xine.marketplace.model.entities.User;
+import org.xine.marketplace.util.Strings;
+import org.xine.marketplace.validator.constraints.SKU;
 
 /**
  * The Class RequisitionSaverBean.
@@ -160,6 +161,16 @@ public class RequisitionSaverBean implements Serializable {
     }
 
     /**
+     * Handler Client selected on Dialod Box returns.
+     * @param event
+     *            the event
+     */
+    public void clientSelected(final SelectEvent event) {
+        final Client selectedClient = (Client) event.getObject();
+        this.requisition.setClient(selectedClient);
+    }
+
+    /**
      * Complete seller.
      * @param sellerName
      *            the seller name
@@ -183,20 +194,16 @@ public class RequisitionSaverBean implements Serializable {
      * Load editable item product.
      */
     public void loadEditableItemProduct() {
-        final RequisitionItem item = RequisitionEditionHelper
-                .getEditableRequisitionItem(this.requisition);
+        final RequisitionItem item = RequisitionEditionHelper.getEditableRequisitionItem(this.requisition);
         if (item != null && this.editableLineProduct != null) {
 
             // if the product exists on the list do nothing
-            final Optional<RequisitionItem> exists = this.requisition.getRequisitionItens()
-                    .stream().filter(ri -> {
-                        return this.editableLineProduct.equals(ri.getProduct());
-                    }).findAny();
+            final Optional<RequisitionItem> exists = this.requisition.getRequisitionItens().stream().filter(ri -> {
+                return this.editableLineProduct.equals(ri.getProduct());
+            }).findAny();
 
             if (exists.isPresent()) {
-                FacesUtil.addErrorMessage("requisition-form-msg", String.format(
-                        "The Product '%s' is already in your the List!",
-                        this.editableLineProduct.getName()));
+                FacesUtil.addErrorMessage("requisition-form-msg", String.format("The Product '%s' is already in your the List!", this.editableLineProduct.getName()));
             } else {
 
                 item.setProduct(this.editableLineProduct);

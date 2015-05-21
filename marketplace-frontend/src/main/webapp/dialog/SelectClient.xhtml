@@ -11,7 +11,7 @@
 
 
 <h:head>
-	<title>Insert title here</title>
+	<title>Select Client</title>
 	
 	<h:outputStylesheet library="css" name="system.css" />
 </h:head>
@@ -24,7 +24,7 @@
 	<h:form id="select-client-form">
 
 
-		<div style="margin-top: 5px">
+		<div style="margin-top: 5px; margin-bottom: 5px;" >
 			<p:inputText id="name" size="40" placeholder="client name" value="#{selectClientBean.name}" />
 			<p:spacer width="10px" />
 			<p:commandButton value="search" action="#{selectClientBean.search}" process="select-client-form:name @this" 
@@ -34,7 +34,7 @@
 		<p:dataTable value="#{selectClientBean.clients}" id="grid"
 					 var="client"
 					 paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
-					 style="text-align: center; width:40x;">
+					 style="margin-top: 20px; width:100%;">
 		
 		
 			<p:column headerText="Code" style="text-align: center; width: 40px">
@@ -44,7 +44,8 @@
 				<h:outputLabel value="#{client.name}"/>
 			</p:column>
 			<p:column style="width: 30px; text-align: center">
-    			<p:commandButton icon="ui-icon-check" title="Selecionar" />
+    			<p:commandButton icon="ui-icon-check" title="Selecionar" process="@this"
+    								action="#{selectClientBean.selectOne(client)}"/>
 			</p:column>
 		</p:dataTable>
 
