@@ -17,6 +17,8 @@ import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import org.xine.marketplace.business.services.charts.vo.RequisitionActivity;
 import org.xine.marketplace.business.services.requisitions.RequisitionActivityService;
+import org.xine.marketplace.frontend.views.security.SessionSystemUser;
+import org.xine.marketplace.frontend.views.security.SystemUser;
 import org.xine.marketplace.model.filters.RequisitionActivityFilter;
 import org.xine.marketplace.util.DateUtils;
 
@@ -25,8 +27,8 @@ import org.xine.marketplace.util.DateUtils;
  * javax.faces.view.ViewScoped
  * The Class ChartRequisitionActivityBean.
  */
-@Named
 // @javax.faces.view.ViewScoped
+@Named
 @RequestScoped
 public class ChartRequisitionActivityBean implements Serializable {
 
@@ -47,6 +49,9 @@ public class ChartRequisitionActivityBean implements Serializable {
     // Model properties
     //
     // -------------------------------------------------------------------------
+    @Inject
+    @SessionSystemUser
+    private SystemUser sessionUser;
 
     /** The line model2. */
     private LineChartModel lineModel2;

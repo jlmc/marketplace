@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.security.Principal;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -44,6 +45,8 @@ public class SecurityBean implements Serializable {
      * @return the session user
      */
     @SuppressWarnings("static-method")
+    @Produces
+    @SessionSystemUser
     private SystemUser getSessionUser() {
         final Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
         final UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) principal;
