@@ -60,7 +60,8 @@
 			
 			<p:commandButton icon="ui-icon-search" title="search" process="@this" update="@none"
 			 action="#{selectClientBean.openDialog}"
-			 disabled="#{requisitionSaverBean.requisition.notEditable}"/>
+			 disabled="#{requisitionSaverBean.requisition.notEditable}" 
+			 ignoreAutoUpdate="true"/>
 			
 		</h:panelGroup>
 
