@@ -49,12 +49,20 @@
 
 
 		<p:outputLabel value="Client" for="client" />
+		
+		<h:panelGroup >
 		<p:autoComplete id="client" size="40" dropdown="true"
 			style="margin-right:15px; padding-right: 10px;"
 			value="#{requisitionSaverBean.requisition.client}"
 			completeMethod="#{requisitionSaverBean.completeClient}" var="c"
 			itemLabel="#{c.name}" itemValue="#{c}" forceSelection="true"
 			disabled="#{requisitionSaverBean.requisition.notEditable}" />
+			
+			<p:commandButton icon="ui-icon-search" title="search" process="@this" update="@none"
+			 action="#{selectClientBean.openDialog}"
+			 disabled="#{requisitionSaverBean.requisition.notEditable}"/>
+			
+		</h:panelGroup>
 
 		<p:outputLabel value="Payment method" for="paymentMethod" />
 		<p:selectOneMenu id="paymentMethod"

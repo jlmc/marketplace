@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+
+
+<h:head>
+	<title>Insert title here</title>
+	
+	<h:outputStylesheet library="css" name="system.css" />
+</h:head>
+
+
+
+<h:body>
+
+
+	<h:form id="select-client-form">
+
+
+		<div style="margin-top: 5px">
+			<p:inputText id="name" size="40" placeholder="client name" value="#{selectClientBean.name}" />
+			<p:spacer width="10px" />
+			<p:commandButton value="search" action="#{selectClientBean.search}" process="select-client-form:name @this" 
+			update="select-client-form:grid"/>
+		</div>
+		
+		<p:dataTable value="#{selectClientBean.clients}" id="grid"
+					 var="client"
+					 paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+					 style="text-align: center; width:40x;">
+		
+		
+			<p:column headerText="Code" style="text-align: center; width: 40px">
+				<h:outputLabel value="#{client.id}"/>
+			</p:column>
+			<p:column headerText="Name" >
+				<h:outputLabel value="#{client.name}"/>
+			</p:column>
+			<p:column style="width: 30px; text-align: center">
+    			<p:commandButton icon="ui-icon-check" title="Selecionar" />
+			</p:column>
+		</p:dataTable>
+
+
+	</h:form>
+
+
+</h:body>
+</html>
