@@ -44,29 +44,23 @@
 
 
 
-
-
-
-
 		<p:outputLabel value="Client" for="client" />
-		
-		<h:panelGroup >
-		<p:autoComplete id="client" size="40" dropdown="true"
-			style="margin-right:15px; padding-right: 10px;"
-			value="#{requisitionSaverBean.requisition.client}"
-			completeMethod="#{requisitionSaverBean.completeClient}" var="c"
-			itemLabel="#{c.name}" itemValue="#{c}" forceSelection="true"
-			disabled="#{requisitionSaverBean.requisition.notEditable}" />
-			
-			<p:commandButton icon="ui-icon-search" title="search" process="@this" update="@none"
-				 action="#{selectClientBean.openDialog}"
-				 disabled="#{requisitionSaverBean.requisition.notEditable}" 
-				 ignoreAutoUpdate="true">
-			 	
-			 	<p:ajax event="dialogReturn" update="client" ignoreAutoUpdate="true" listener="#{requisitionSaverBean.clientSelected}"/>
-			 
-			 </p:commandButton>
-			
+		<h:panelGroup>
+			<p:inputText id="client" size="40"
+				style="margin-right:15px; padding-right: 10px;"
+				value="#{requisitionSaverBean.clientName}"
+				readonly="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}" />
+
+			<p:commandButton icon="ui-icon-search" title="search" process="@this"
+				update="@none" action="#{selectClientBean.openDialog}"
+				disabled="#{requisitionSaverBean.requisition.notEditable}"
+				ignoreAutoUpdate="true">
+
+				<p:ajax event="dialogReturn" update="client" ignoreAutoUpdate="true"
+					listener="#{requisitionSaverBean.clientSelected}" />
+
+			</p:commandButton>
+
 		</h:panelGroup>
 
 		<p:outputLabel value="Payment method" for="paymentMethod" />
@@ -106,7 +100,7 @@
 		<p:outputLabel value="Discount Value" for="discount-value" />
 		<p:inputText id="discount-value" size="10" maxlength="10"
 			styleClass="currency"
-			value="#{requisitionSaverBean.requisition.rebateValue}" 
+			value="#{requisitionSaverBean.requisition.rebateValue}"
 			disabled="#{requisitionSaverBean.requisition.notEditable}">
 			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 			<p:ajax event="blur" process="@this" update="totalreq"

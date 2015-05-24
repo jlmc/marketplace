@@ -3,6 +3,11 @@
  */
 package org.xine.marketplace.frontend.views.controller.dialog;
 
+import org.primefaces.context.RequestContext;
+import org.xine.marketplace.business.services.clients.ClientService;
+import org.xine.marketplace.model.entities.Client;
+import org.xine.marketplace.model.filters.ClientFilter;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -11,11 +16,6 @@ import java.util.Map;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import org.primefaces.context.RequestContext;
-import org.xine.marketplace.business.services.clients.ClientService;
-import org.xine.marketplace.model.entities.Client;
-import org.xine.marketplace.model.filters.ClientFilter;
 
 /**
  * The Class SelectClientBean.
@@ -46,7 +46,8 @@ public class SelectClientBean implements Serializable {
     }
 
     /**
-     * call opendialog method from the view when we want to open the SelectClientDialog from some event view.
+     * call opendialog method from the view when we want to open the SelectClientDialog from some
+     * event view.
      */
     @SuppressWarnings({"boxing", "static-method" })
     public void openDialog() {
@@ -56,6 +57,7 @@ public class SelectClientBean implements Serializable {
         options.put("modal", true);
         options.put("resizable", false);
         options.put("contentHeight", 470);
+        options.put("contentWidth", 600);
 
         RequestContext.getCurrentInstance().openDialog("/dialog/SelectClient", options, null);
 

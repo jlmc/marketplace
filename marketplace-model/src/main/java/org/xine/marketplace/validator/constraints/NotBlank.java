@@ -8,24 +8,30 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.OverridesAttribute;
 import javax.validation.Payload;
+import javax.validation.ReportAsSingleViolation;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
- * Validate that the string has to be a well-formed email address.
- * @author Joao Costa
+ * Validate that the annotated string is not {@code null} or empty.
+ * The difference to {@code NotEmpty} is that trailing whitespaces are getting ignored.
+ * @author joao costa
  */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
-@Pattern(regexp = "([_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,5}))?")
-public @interface Email {
+@Pattern(regexp = "((?=\\s*\\S).*$)")
+@NotNull
+@ReportAsSingleViolation
+public @interface NotBlank {
+    // "^(?=\\s*\\S).*$"
 
     /**
      * Message.
      * @return the string
      */
     @OverridesAttribute(constraint = Pattern.class, name = "message")
-    String message() default "{org.xine.marketplace.validator.constraints.Email.message}";
+    String message() default "{org.xine.marketplace.validator.constraints.NotBlank.message}";
 
     /**
      * Groups.

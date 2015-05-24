@@ -142,3 +142,9 @@ h1 {
 .ui-state-disabled{
 	opacity: .80 !important;
 }
+
+
+.dialog{
+	max-width: 600px !important;
+	min-width: 600px !important;
+}
