@@ -17,7 +17,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * The Class ProductSaverBean.
+ * The Class ProductSaverBean. It is the controller of the Creation and Edition of Products.
+ * @author Joao Costa
  */
 @Named
 @ViewScoped

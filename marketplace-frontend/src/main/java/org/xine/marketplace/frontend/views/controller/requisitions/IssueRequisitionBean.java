@@ -17,7 +17,6 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
-// @ViewScoped
 public class IssueRequisitionBean implements Serializable {
 
     /** The Constant serialVersionUID. */

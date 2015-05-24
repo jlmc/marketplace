@@ -15,7 +15,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * The Class ClientSaverBean.
+ * The Class ClientSaverBean. It is the controller of the Creation and Edition of Clients.
+ * @author Joao Costa
  */
 @Named
 @ViewScoped

@@ -18,8 +18,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * The Class SelectClientBean.
- * @author xine
+ * The Class SelectClientBean. Controller of the Client Selection Dialog view.
+ * @author Joao Costa
  */
 @Named
 @ViewScoped
@@ -63,11 +63,6 @@ public class SelectClientBean implements Serializable {
 
     }
 
-    /**
-     * Select one.
-     * @param client
-     *            the client
-     */
     @SuppressWarnings("static-method")
     /**
      * Event to select the client record from teh view, will close the dialog

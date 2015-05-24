@@ -14,7 +14,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * The Class ClientSearchBean.
+ * The Class ClientSearchBean. It is the controller of the Search Clients view.
+ * That view also provides the functionality to eliminate Clients.
+ * @author Joao Costa
  */
 @Named
 @ViewScoped

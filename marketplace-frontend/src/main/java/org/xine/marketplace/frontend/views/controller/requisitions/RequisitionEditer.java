@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 import javax.inject.Qualifier;
 
 /**
- * The Interface RequisitionEditer.
+ * The RequisitionEditer Annotation is use to Qualifier the actual Requisitation in Use.
+ * @author Joao Costa
  */
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)

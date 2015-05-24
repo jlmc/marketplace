@@ -27,7 +27,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * The Class RequisitionSaverBean.
+ * The Class RequisitionSaverBean. It is a Controller of the creation and edit Requisitions.
+ * @author Joao Costa
  */
 @Named
 @ViewScoped
@@ -151,15 +152,9 @@ public class RequisitionSaverBean implements Serializable {
         }
     }
 
-    /**
-     * Complete client.
-     * @param clientName
-     *            the client name
-     * @return the list
-     */
-    public List<Client> completeClient(final String clientName) {
-        return this.requisitionService.searchClientByName(clientName);
-    }
+    // public List<Client> completeClient(final String clientName) {
+    // return this.requisitionService.searchClientByName(clientName);
+    // }
 
     /**
      * Handler Client selected on Dialod Box returns.
@@ -290,37 +285,6 @@ public class RequisitionSaverBean implements Serializable {
         return !isEdit();
     }
 
-    // private void addEmptyRequisitionItem() {
-    // if (this.requisition.isBudget()) {
-    // final Product product = new Product();
-    // final RequisitionItem requisitionItem = new RequisitionItem();
-    // requisitionItem.setQty(Integer.valueOf(1));
-    //
-    // requisitionItem.setProduct(product);
-    // requisitionItem.setRequisition(this.requisition);
-    // this.requisition.getRequisitionItens().add(0, requisitionItem);
-    // }
-    // }
-
-    // private void removeEmptyrequisitionItem() {
-    // if (this.requisition.isBudget()) {
-    //
-    // final RequisitionItem firtsItems = getEditableRequisitionItem();
-    // if (firtsItems != null && (firtsItems.getProduct() == null ||
-    // firtsItems.getProduct().getId() == null)) {
-    // this.requisition.getRequisitionItens().remove(0);
-    // }
-    //
-    // }
-    // }
-
-    // private RequisitionItem getEditableRequisitionItem() {
-    // if (this.requisition != null && this.requisition.isBudget()) {
-    // return this.requisition.getRequisitionItens().get(0);
-    // }
-    // return null;
-    // }
-
     /**
      * Gets the editable line product.
      * @return the editableLineProduct
@@ -374,6 +338,8 @@ public class RequisitionSaverBean implements Serializable {
      * @param clientName
      *            the new client name
      */
-    public void setClientName(final String clientName) {}
+    public void setClientName(final String clientName) {
+        // don't need to do any thing, is just view have a getClientName Invokation
+    }
 
 }

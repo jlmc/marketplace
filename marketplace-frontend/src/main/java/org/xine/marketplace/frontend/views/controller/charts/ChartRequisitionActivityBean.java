@@ -1,16 +1,5 @@
 package org.xine.marketplace.frontend.views.controller.charts;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.Map;
-
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.DateAxis;
 import org.primefaces.model.chart.LineChartModel;
@@ -22,10 +11,20 @@ import org.xine.marketplace.frontend.views.security.SystemUser;
 import org.xine.marketplace.model.filters.RequisitionActivityFilter;
 import org.xine.marketplace.util.DateUtils;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Map;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
- * import javax.enterprise.context.RequestScoped;
- * javax.faces.view.ViewScoped
- * The Class ChartRequisitionActivityBean.
+ * The Class ChartRequisitionActivityBean. It is the controller of the chart on the Home Page.
+ * @author Joao Costa
  */
 // @javax.faces.view.ViewScoped
 @Named
@@ -86,7 +85,8 @@ public class ChartRequisitionActivityBean implements Serializable {
      */
     @SuppressWarnings("boxing")
     public void execute() {
-        final RequisitionActivity requisitionActivity = this.requisitionActivityService.getRequisitionActivity(new RequisitionActivityFilter());
+        final RequisitionActivity requisitionActivity = this.requisitionActivityService
+                .getRequisitionActivity(new RequisitionActivityFilter());
 
         this.dateModel = new LineChartModel();
 

@@ -15,7 +15,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
- * The Class SearchProductBean.
+ * The Class SearchProductBean. It is the controller of the Search Products view.
+ * That view also provides the functionality to delete products.
+ * @author Joao Costa
  */
 @Named
 @ViewScoped
