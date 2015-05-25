@@ -1,27 +1,5 @@
 package org.xine.marketplace.repository.daos;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 import org.xine.marketplace.model.entities.Client;
 import org.xine.marketplace.model.entities.Client_;
 import org.xine.marketplace.model.entities.Requisition;
@@ -37,8 +15,32 @@ import org.xine.marketplace.repository.daos.CriteriaHelper.MatchMode;
 import org.xine.marketplace.util.DateUtils;
 import org.xine.marketplace.util.Strings;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.TransactionRequiredException;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 /**
  * The Class RequisitionsRepository.
+ * @author Joao Costa
  */
 public class RequisitionsRepository implements Serializable {
 
@@ -50,20 +52,28 @@ public class RequisitionsRepository implements Serializable {
     private EntityManager entityManager;
 
     /**
-     * Save.
+     * Save or edite operation on a Requisition
      * @param requisition
      *            the requisition
      * @return the requisition
+     * @throws IllegalArgumentException
+     *             if instance is not an
+     *             entity or is a removed entity
+     * @throws TransactionRequiredException
+     *             if invoked on a
+     *             container-managed entity manager of type
+     *             <code>PersistenceContextType.TRANSACTION</code> and there is
+     *             no transaction
      */
     public Requisition save(final Requisition requisition) {
         return this.entityManager.merge(requisition);
     }
 
     /**
-     * Search.
+     * Search Requisition operation, using filter to builde the predicates.
      * @param filter
-     *            the filter
-     * @return the list
+     *            the filter with all the information necessary to build the predicates.
+     * @return the result list from the query.
      */
     public List<Requisition> search(final RequisitionFilter filter) {
 
@@ -77,9 +87,7 @@ public class RequisitionsRepository implements Serializable {
         @SuppressWarnings({"unchecked", "rawtypes" })
         final Join<Requisition, User> joinSellers = (Join) root.fetch(Requisition_.seller);
 
-        //
         final List<Predicate> predicates = new ArrayList<>();
-
         final LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
 
         if (filter != null) {
@@ -98,7 +106,8 @@ public class RequisitionsRepository implements Serializable {
             }
             if (filter.getCreationDateStart() != null) {
                 final Expression<Date> ds = builder.parameter(Date.class, "_ds");
-                predicates.add(builder.greaterThanOrEqualTo(root.get(Requisition_.creationDate), ds));
+                predicates
+                        .add(builder.greaterThanOrEqualTo(root.get(Requisition_.creationDate), ds));
 
                 parameters.put("_ds", filter.getCreationDateStart());
             }
@@ -109,26 +118,20 @@ public class RequisitionsRepository implements Serializable {
                 parameters.put("_de", filter.getCreationDateEnd());
             }
             if (!Strings.isNullOrBlank(filter.getSellerName())) {
-                // final Expression<String> sn = builder.parameter(String.class, "_sn");
-                // // it is possible use the root or the joinseller in this case, the result is
-                // will
-                // // be the same
-                // // predicates.add(builder.like(root.get("seller").get("username"), sn));
-                // predicates.add(builder.like(builder.upper(JoinSellers.get("username")), sn));
-                // parameters.put("_sn", "%" + filter.getSellerName().trim().toUpperCase());
-
-                predicates.add(CriteriaHelper.ilike(builder, joinSellers.get(User_.username), filter.getSellerName(), MatchMode.ANYWHERE));
+                predicates.add(CriteriaHelper.ilike(builder, joinSellers.get(User_.username),
+                        filter.getSellerName(), MatchMode.ANYWHERE));
             }
             if (!Strings.isNullOrBlank(filter.getClientName())) {
-                predicates.add(CriteriaHelper.ilike(builder, joinerClients.get(Client_.name), filter.getClientName(), MatchMode.ANYWHERE));
+                predicates.add(CriteriaHelper.ilike(builder, joinerClients.get(Client_.name),
+                        filter.getClientName(), MatchMode.ANYWHERE));
             }
             if (filter.getStatus() != null && filter.getStatus().length > 0) {
                 final List<Predicate> sts = new ArrayList<>();
-                Arrays.stream(filter.getStatus()).forEach(s -> sts.add(builder.equal(root.get(Requisition_.status), s)));
+                Arrays.stream(filter.getStatus()).forEach(
+                        s -> sts.add(builder.equal(root.get(Requisition_.status), s)));
                 final Predicate statusPredicate = builder.or(sts.toArray(new Predicate[0]));
                 predicates.add(statusPredicate);
             }
-
         }
 
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
@@ -137,25 +140,21 @@ public class RequisitionsRepository implements Serializable {
         final TypedQuery<Requisition> tquery = this.entityManager.createQuery(criteriaQuery);
         //
         // definition of the parameters
-
         parameters.keySet().forEach(key -> {
             tquery.setParameter(key, parameters.get(key));
         });
 
-        // for (final String key : parms.keySet()) {
-        // tquery.setParameter(key, "%" + parms.get(key));
-        // }
-        //
-        //
         return tquery.getResultList();
-
     }
 
     /**
-     * Gets the by id.
+     * Gets Requisition from the Data Base using the Id as filter.
+     * Carries with its request its client, seller, requisition items and the products associted
+     * with each item.
      * @param id
-     *            the id
-     * @return the by id
+     *            the primary key that identifies the requisition.
+     * @return the requisition corresponding to the parameter Id. If no requisition exist with ID
+     *         then returns {@code null}
      */
     public Requisition getById(final Long id) {
         final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
@@ -168,16 +167,15 @@ public class RequisitionsRepository implements Serializable {
         @SuppressWarnings({"unchecked", "rawtypes", "unused" })
         final Join<Requisition, User> JoinSellers = (Join) root.fetch(Requisition_.seller);
 
-        // load the itens
         @SuppressWarnings({"unchecked", "rawtypes" })
-        final Join<Requisition, RequisitionItem> reqItens = (Join) root.fetch(Requisition_.requisitionItens, JoinType.LEFT);
+        final Join<Requisition, RequisitionItem> reqItens = (Join) root.fetch(
+                Requisition_.requisitionItens, JoinType.LEFT);
         reqItens.fetch(RequisitionItem_.product);
 
         criteriaQuery.where(builder.equal(root.get(Requisition_.id), id));
 
         final TypedQuery<Requisition> query = this.entityManager.createQuery(criteriaQuery);
 
-        // query.getSingleResult();
         final Requisition req = CriteriaHelper.getSingleResultUncheck(query);
         return req;
     }
@@ -200,23 +198,24 @@ public class RequisitionsRepository implements Serializable {
 
         final Root<Requisition> req = criteriaQuery.from(Requisition.class);
 
-        criteriaQuery.select(builder.construct(DateValue.class, req.<Date> get(Requisition_.creationDate), builder.sum(req.<BigDecimal> get(Requisition_.totalValue))));
+        criteriaQuery.select(builder.construct(DateValue.class,
+                req.<Date> get(Requisition_.creationDate),
+                builder.sum(req.<BigDecimal> get(Requisition_.totalValue))));
 
-        final List<Predicate> restrictions = new ArrayList<>();
+        final List<Predicate> predicates = new ArrayList<>();
 
         if (filter.isSeller()) {
-            restrictions.add(builder.equal(req.get(Requisition_.seller), filter.getSeller()));
+            predicates.add(builder.equal(req.get(Requisition_.seller), filter.getSeller()));
         }
         if (filter.isClient()) {
-            restrictions.add(builder.equal(req.get(Requisition_.client), filter.getClient()));
+            predicates.add(builder.equal(req.get(Requisition_.client), filter.getClient()));
         }
         if (filter.isNumberOfDays()) {
-            // final ParameterExpression<Date> start = builder.parameter(Date.class, "_dt1");
-            // final ParameterExpression<Date> end = builder.parameter(Date.class, "_dt2");
-            restrictions.add(builder.between(req.<Date> get(Requisition_.creationDate), DateUtils.asDate(startAt), DateUtils.asDate(endAt)));
+            predicates.add(builder.between(req.<Date> get(Requisition_.creationDate),
+                    DateUtils.asDate(startAt), DateUtils.asDate(endAt)));
         }
 
-        criteriaQuery.where(restrictions.toArray(new Predicate[0]));
+        criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
         criteriaQuery.groupBy(req.<Date> get(Requisition_.creationDate));
         criteriaQuery.orderBy(builder.asc(req.<Date> get(Requisition_.creationDate)));
@@ -237,7 +236,8 @@ public class RequisitionsRepository implements Serializable {
      *            the start at
      * @return the map
      */
-    private static Map<Date, BigDecimal> createEmptyDateMap(final Integer numberOfDays, final LocalDate startAt) {
+    private static Map<Date, BigDecimal> createEmptyDateMap(final Integer numberOfDays,
+            final LocalDate startAt) {
         final Map<Date, BigDecimal> map = new TreeMap<>();
         LocalDate s = startAt;
         for (int i = 0; i < numberOfDays.intValue(); i++) {
@@ -271,7 +271,8 @@ public class RequisitionsRepository implements Serializable {
         final Join<Requisition, Client> joinerClients = root.join(Requisition_.client);
         final Join<Requisition, User> JoinSellers = root.join(Requisition_.seller);
 
-        criteriaQuery = filtersTypedQueryBuilder(filter, criteriaQuery, builder, root, joinerClients, JoinSellers);
+        criteriaQuery = filtersTypedQueryBuilder(filter, criteriaQuery, builder, root,
+                joinerClients, JoinSellers);
         criteriaQuery.select(builder.count(root));
 
         final TypedQuery<Long> typedQuery = this.entityManager.createQuery(criteriaQuery);
@@ -291,7 +292,6 @@ public class RequisitionsRepository implements Serializable {
      * @return the list
      */
     public List<Requisition> filters(final RequisitionFilter filter) {
-
         final CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Requisition> criteriaQuery = builder.createQuery(Requisition.class);
         final Root<Requisition> root = criteriaQuery.from(Requisition.class);
@@ -303,25 +303,33 @@ public class RequisitionsRepository implements Serializable {
 
         criteriaQuery.select(root);
 
-        criteriaQuery = filtersTypedQueryBuilder(filter, criteriaQuery, builder, root, joinerClients, joinSellers);
+        criteriaQuery = filtersTypedQueryBuilder(filter, criteriaQuery, builder, root,
+                joinerClients, joinSellers);
 
         if (filter != null) {
             if (filter.getOrderBy() != null && filter.getOrderBy().getOrderByType() != null) {
                 switch (filter.getOrderBy().getOrderByType()) {
                 case CLIENT_NAME:
-                    criteriaQuery.orderBy(CriteriaHelper.orderBy(builder, joinerClients.get(Client_.name), filter.getOrderBy().isDescendent()));
+                    criteriaQuery.orderBy(CriteriaHelper.orderBy(builder,
+                            joinerClients.get(Client_.name), filter.getOrderBy().isDescendent()));
                     break;
                 case SELLER_NAME:
-                    criteriaQuery.orderBy(CriteriaHelper.orderBy(builder, joinSellers.get(User_.username), filter.getOrderBy().isDescendent()));
+                    criteriaQuery.orderBy(CriteriaHelper.orderBy(builder,
+                            joinSellers.get(User_.username), filter.getOrderBy().isDescendent()));
                     break;
                 case CREATION_DATE:
-                    criteriaQuery.orderBy(CriteriaHelper.orderBy(builder, root.get(Requisition_.creationDate), filter.getOrderBy().isDescendent()));
+                    criteriaQuery
+                            .orderBy(CriteriaHelper.orderBy(builder, root
+                                    .get(Requisition_.creationDate), filter.getOrderBy()
+                                    .isDescendent()));
                     break;
                 case VALUE:
-                    criteriaQuery.orderBy(CriteriaHelper.orderBy(builder, root.get(Requisition_.totalValue), filter.getOrderBy().isDescendent()));
+                    criteriaQuery.orderBy(CriteriaHelper.orderBy(builder,
+                            root.get(Requisition_.totalValue), filter.getOrderBy().isDescendent()));
                     break;
                 default:
-                    criteriaQuery.orderBy(CriteriaHelper.orderBy(builder, root.get(Requisition_.id), filter.getOrderBy().isDescendent()));
+                    criteriaQuery.orderBy(CriteriaHelper.orderBy(builder,
+                            root.get(Requisition_.id), filter.getOrderBy().isDescendent()));
                     break;
                 }
             }
@@ -355,33 +363,40 @@ public class RequisitionsRepository implements Serializable {
      *            the join with the users or sellers
      * @return the criteria query
      */
-    private static <T> CriteriaQuery<T> filtersTypedQueryBuilder(final RequisitionFilter filter, final CriteriaQuery<T> criteriaQuery, final CriteriaBuilder builder, final Root<Requisition> root, final Join<Requisition, Client> joinerClients, final Join<Requisition, User> joinSellers) {
-
+    private static <T> CriteriaQuery<T> filtersTypedQueryBuilder(final RequisitionFilter filter,
+            final CriteriaQuery<T> criteriaQuery, final CriteriaBuilder builder,
+            final Root<Requisition> root, final Join<Requisition, Client> joinerClients,
+            final Join<Requisition, User> joinSellers) {
         final List<Predicate> predicates = new ArrayList<>();
 
         if (filter != null) {
-
             if (filter.getNumberStart() != null) {
-                predicates.add(builder.greaterThanOrEqualTo(root.get("id"), filter.getNumberStart()));
+                predicates
+                        .add(builder.greaterThanOrEqualTo(root.get("id"), filter.getNumberStart()));
             }
             if (filter.getNumberEnd() != null) {
                 predicates.add(builder.lessThanOrEqualTo(root.get("id"), filter.getNumberEnd()));
             }
             if (filter.getCreationDateStart() != null) {
-                predicates.add(builder.greaterThanOrEqualTo(root.get(Requisition_.creationDate), filter.getCreationDateStart()));
+                predicates.add(builder.greaterThanOrEqualTo(root.get(Requisition_.creationDate),
+                        filter.getCreationDateStart()));
             }
             if (filter.getCreationDateEnd() != null) {
-                predicates.add(builder.lessThanOrEqualTo(root.get(Requisition_.creationDate), filter.getCreationDateEnd()));
+                predicates.add(builder.lessThanOrEqualTo(root.get(Requisition_.creationDate),
+                        filter.getCreationDateEnd()));
             }
             if (!Strings.isNullOrBlank(filter.getSellerName())) {
-                predicates.add(CriteriaHelper.ilike(builder, joinSellers.get(User_.username), filter.getSellerName(), MatchMode.ANYWHERE));
+                predicates.add(CriteriaHelper.ilike(builder, joinSellers.get(User_.username),
+                        filter.getSellerName(), MatchMode.ANYWHERE));
             }
             if (!Strings.isNullOrBlank(filter.getClientName())) {
-                predicates.add(CriteriaHelper.ilike(builder, joinerClients.get(Client_.name), filter.getClientName(), MatchMode.ANYWHERE));
+                predicates.add(CriteriaHelper.ilike(builder, joinerClients.get(Client_.name),
+                        filter.getClientName(), MatchMode.ANYWHERE));
             }
             if (filter.getStatus() != null && filter.getStatus().length > 0) {
                 final List<Predicate> sts = new ArrayList<>();
-                Arrays.stream(filter.getStatus()).forEach(s -> sts.add(builder.equal(root.get(Requisition_.status), s)));
+                Arrays.stream(filter.getStatus()).forEach(
+                        s -> sts.add(builder.equal(root.get(Requisition_.status), s)));
                 final Predicate statusPredicate = builder.or(sts.toArray(new Predicate[0]));
                 predicates.add(statusPredicate);
             }
