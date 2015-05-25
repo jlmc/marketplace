@@ -4,6 +4,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 
 /**
@@ -94,8 +95,7 @@ final class CriteriaHelper {
      *            the pattern the pattern to use in the operation.
      * @return the predicate
      */
-    public static Predicate ilike(final CriteriaBuilder builder, final Expression<String> path,
-            final String pattern) {
+    public static Predicate ilike(final CriteriaBuilder builder, final Expression<String> path, final String pattern) {
         return ilike(builder, path, pattern, MatchMode.EXACT);
 
     }
@@ -114,8 +114,7 @@ final class CriteriaHelper {
      *            the exact, by default is used {@code MatchMode.EXACT} .
      * @return the predicate
      */
-    public static Predicate ilike(final CriteriaBuilder builder, final Expression<String> path,
-            final String pattern, final MatchMode exact) {
+    public static Predicate ilike(final CriteriaBuilder builder, final Expression<String> path, final String pattern, final MatchMode exact) {
         if (pattern == null) {
             throw new IllegalArgumentException("Comparison value passed to ilike cannot be null");
         }
@@ -124,4 +123,33 @@ final class CriteriaHelper {
         return builder.like(builder.upper(path), mode.toMatchString(pattern.trim().toUpperCase()));
     }
 
+    /**
+     * Builde order by of some expression.
+     * @param builder
+     *            the builder define the current criteria builder.
+     * @param expression
+     *            the expression - define the property to order by.
+     * @param isDescendent
+     *            the is descendent - define if is asc or desc, is desc if true, asc otherwise
+     * @return the order
+     */
+    public static Order orderBy(final CriteriaBuilder builder, final Expression<?> expression, final boolean isDescendent) {
+        if (isDescendent) {
+            return builder.desc(expression);
+
+        }
+        return builder.asc(expression);
+    }
+
+    /**
+     * Builde order by of some expression.
+     * @param builder
+     *            the builder define the current criteria builder.
+     * @param expression
+     *            the expression - define the property to order by.
+     * @return the order
+     */
+    public static Order orderBy(final CriteriaBuilder builder, final Expression<?> expression) {
+        return orderBy(builder, expression, false);
+    }
 }

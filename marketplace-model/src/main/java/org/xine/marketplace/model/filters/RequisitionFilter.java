@@ -1,9 +1,9 @@
 package org.xine.marketplace.model.filters;
 
-import org.xine.marketplace.model.entities.RequisitionStatus;
-
 import java.io.Serializable;
 import java.util.Date;
+
+import org.xine.marketplace.model.entities.RequisitionStatus;
 
 /**
  * The Class RequisitionFilter.
@@ -33,6 +33,16 @@ public class RequisitionFilter implements Serializable {
 
     /** The status. */
     private RequisitionStatus[] status;
+
+    // ////////////
+    /** The firts record. */
+    private int firstResult;
+
+    /** The number of records. */
+    private int maxResults;
+
+    /** The order by. */
+    private RequisitionFilterOrderBy orderBy;
 
     /**
      * Gets the number start.
@@ -151,6 +161,57 @@ public class RequisitionFilter implements Serializable {
      */
     public void setStatus(final RequisitionStatus[] status) {
         this.status = status;
+    }
+
+    /**
+     * Gets the first result.
+     * @return the first result
+     */
+    public int getFirstResult() {
+        return this.firstResult;
+    }
+
+    /**
+     * Sets the first result.
+     * @param firstResult
+     *            the new first result
+     */
+    public void setFirstResult(final int firstResult) {
+        this.firstResult = firstResult;
+    }
+
+    /**
+     * Gets the max results.
+     * @return the max results
+     */
+    public int getMaxResults() {
+        return this.maxResults;
+    }
+
+    /**
+     * Sets the max results.
+     * @param maxResults
+     *            the new max results
+     */
+    public void setMaxResults(final int maxResults) {
+        this.maxResults = maxResults;
+    }
+
+    /**
+     * Gets the order by.
+     * @return the order by
+     */
+    public RequisitionFilterOrderBy getOrderBy() {
+        return this.orderBy;
+    }
+
+    /**
+     * Sets the order by.
+     * @param orderBy
+     *            the new order by
+     */
+    public void setOrderBy(final RequisitionFilterOrderBy orderBy) {
+        this.orderBy = orderBy;
     }
 
 }
