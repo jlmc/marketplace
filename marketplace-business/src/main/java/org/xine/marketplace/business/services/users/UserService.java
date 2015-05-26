@@ -58,7 +58,7 @@ public class UserService implements Serializable {
 
             // We can check if the email avariable.
             // BR: 2 the email must be unique
-            if (this.userRepository.getUserByEmail(user.getEmail()) != null) {
+            if (isAdd && this.userRepository.getUserByEmail(user.getEmail()) != null) {
                 throw new BusinessException(String.format("Email '%s'  Already in use.",
                         user.getEmail()));
             }
@@ -71,6 +71,9 @@ public class UserService implements Serializable {
             }
             return createdUser;
         } catch (final RepositoryException e) {
+            if (RepositoryException.Type.CONCURRENCE.equals(e.getType())) {
+                throw new BusinessException(e.getMessage());
+            }
             throw new BusinessException("Could't not save the user.", e.getCause());
         }
     }
@@ -121,14 +124,14 @@ public class UserService implements Serializable {
 
             final MailMessage mailMessage = this.mailer.createMesage();
             mailMessage
-                    .to(user.getEmail())
-                    .subject("User creation sucess")
-                    // .bodyHtml("O user foi criado com sucesso")
-            .bodyHtml(
-                            new VelocityTemplate(this.getClass().getResourceAsStream(
-                                    "/emails/createdUser.template"))).put("user", user)
-                    .put("numberTool", new NumberTool()).put("locale", new Locale("pt", "PT"))
-                    .send();
+            .to(user.getEmail())
+            .subject("User creation sucess")
+            // .bodyHtml("O user foi criado com sucesso")
+                    .bodyHtml(
+                    new VelocityTemplate(this.getClass().getResourceAsStream(
+                            "/emails/createdUser.template"))).put("user", user)
+                            .put("numberTool", new NumberTool()).put("locale", new Locale("pt", "PT"))
+                            .send();
 
         } else {
             System.out.println("No email System configurated");

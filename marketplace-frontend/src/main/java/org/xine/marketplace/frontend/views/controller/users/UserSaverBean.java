@@ -119,9 +119,15 @@ public class UserSaverBean implements Serializable {
      * Save operation.
      */
     public void save() {
+        final boolean edition = isEdit();
+
         this.user = this.service.save(this.user);
 
-        FacesUtil.addInfoMessage("User created with sucess.");
+        if (edition) {
+            FacesUtil.addInfoMessage("User " + this.user.getEmail() + " edited with sucess.");
+        } else {
+            FacesUtil.addInfoMessage("User " + this.user.getEmail() + " created with sucess.");
+        }
         clean();
     }
 

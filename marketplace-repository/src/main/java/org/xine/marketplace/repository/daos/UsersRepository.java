@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -45,6 +46,10 @@ public class UsersRepository implements Serializable {
     public User save(final User user) throws RepositoryException {
         try {
             return this.entityManager.merge(user);
+        } catch (final OptimisticLockException e) {
+            throw new RepositoryException(
+                    "Concurrence error, the user has changed while you made the edit.", e,
+                    RepositoryException.Type.CONCURRENCE);
         } catch (final PersistenceException e) {
             throw new RepositoryException("username or e-mail alredy in use.", e);
         }

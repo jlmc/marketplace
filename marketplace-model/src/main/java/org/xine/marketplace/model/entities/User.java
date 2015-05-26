@@ -1,5 +1,7 @@
 package org.xine.marketplace.model.entities;
 
+import org.xine.marketplace.validator.constraints.Email;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,10 +17,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.xine.marketplace.validator.constraints.Email;
 
 /**
  * The Class User.
@@ -45,11 +46,13 @@ public class User implements Serializable {
     /** The permissions. */
     private Set<Permission> permissions = new HashSet<>();
 
+    /** The version. Lock Optimistic */
+    private Integer version;
+
     /**
      * Instantiates a new user.
      */
-    public User() {
-    }
+    public User() {}
 
     /**
      * Instantiates a new user.
@@ -163,6 +166,26 @@ public class User implements Serializable {
      */
     public void setPermissions(final Set<Permission> permissions) {
         this.permissions = permissions;
+    }
+
+    /**
+     * Gets the version.
+     * @return the version
+     */
+    @Version
+    @Column(name = "OPTLOCK")
+    protected Integer getVersion() {
+        return this.version;
+    }
+
+    /**
+     * Gets the version.
+     * @param version
+     *            the version
+     * @return the version
+     */
+    protected void setVersion(final Integer v) {
+        this.version = v;
     }
 
 }
