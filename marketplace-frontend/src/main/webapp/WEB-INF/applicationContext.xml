@@ -47,6 +47,12 @@
         
         <intercept-url pattern="/Home.xhtml" access="isAuthenticated()" />
         <intercept-url pattern="/dialog/**" access="isAuthenticated()"/>
+        
+        
+        
+        <intercept-url pattern="/reports/**" access="hasAnyRole('SELLER', 'ADMIN')" />
+        <intercept-url pattern="/users/**" access="hasAnyRole('ADMIN')" />
+        <intercept-url pattern="/clients/**" access="hasAnyRole('ADMIN')" />
         <intercept-url pattern="/products/**" access="hasAnyRole('ADMIN')" />
         <intercept-url pattern="/requisition/**" access="hasAnyRole('SELLER', 'ADMIN', 'CLIENT')" />
         <intercept-url pattern="/**" access="denyAll" />

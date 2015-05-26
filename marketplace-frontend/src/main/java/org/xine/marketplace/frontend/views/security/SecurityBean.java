@@ -13,7 +13,8 @@ import javax.inject.Named;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 /**
- * The Class SecurityBean.
+ * The Class Security Bean. It is a CDI Bean to retrive the current sesseion user.
+ * @author Joao Costa
  */
 @Named
 @RequestScoped

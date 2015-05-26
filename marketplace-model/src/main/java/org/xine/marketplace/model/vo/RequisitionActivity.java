@@ -1,4 +1,4 @@
-package org.xine.marketplace.business.services.charts.vo;
+package org.xine.marketplace.model.vo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
