@@ -23,6 +23,14 @@
 						action="#{requisitionSearchBean.search}" update="@form" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
+					<p:commandButton value="Export to XLS" ajax="false"
+						disabled="#{empty requisitionSearchBean.requisitions}">
+						<p:dataExporter type="xls" target="ordersTable"
+							fileName="requisition"
+							postProcessor="#{requisitionSearchBean.exportToXls}" />
+					</p:commandButton>
+
+
 					<p:button value="New"
 						outcome="/requisition/RequisitionRegistration" />
 				</p:toolbarGroup>

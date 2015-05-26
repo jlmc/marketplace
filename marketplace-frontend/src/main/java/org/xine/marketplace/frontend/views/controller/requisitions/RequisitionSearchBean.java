@@ -1,10 +1,5 @@
 package org.xine.marketplace.frontend.views.controller.requisitions;
 
-import org.xine.marketplace.business.services.requisitions.RequisitionService;
-import org.xine.marketplace.model.entities.Requisition;
-import org.xine.marketplace.model.entities.RequisitionStatus;
-import org.xine.marketplace.model.filters.RequisitionFilter;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,8 +8,20 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.xine.marketplace.business.services.requisitions.RequisitionService;
+import org.xine.marketplace.model.entities.Requisition;
+import org.xine.marketplace.model.entities.RequisitionStatus;
+import org.xine.marketplace.model.filters.RequisitionFilter;
+
 /**
  * The Class RequisitionSearchBean.
+ * @author Joao Costa
  */
 @Named
 @ViewScoped
@@ -23,19 +30,13 @@ public class RequisitionSearchBean implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    // -------------------------------------------------------------------------
-    //
-    // business services
-    //
-    // -------------------------------------------------------------------------
+    // ~ business services
+    // ========================================================================================================
     @Inject
     private RequisitionService requisitionService;
 
-    // -------------------------------------------------------------------------
-    //
-    // Model Variables
-    //
-    // -------------------------------------------------------------------------
+    // ~ Model Variables
+    // ========================================================================================================
 
     /** The requisitions. */
     private List<Requisition> requisitions;
@@ -45,11 +46,8 @@ public class RequisitionSearchBean implements Serializable {
 
     private RequisitionStatus[] requisitionStatus;
 
-    // -------------------------------------------------------------------------
-    //
-    // Constructors and it Callbacks
-    //
-    // -------------------------------------------------------------------------
+    // ~ Constructors and it Callbacks
+    // ========================================================================================================
 
     /**
      * Inits the.
@@ -59,24 +57,44 @@ public class RequisitionSearchBean implements Serializable {
         this.requisitionStatus = RequisitionStatus.values();
         this.filter = new RequisitionFilter();
 
-        // System.out.println("SearchOrdersBean PostConstruct");
-        // this.requisitions = new ArrayList<>();
-        // for (int i = 0; i < 50; i++) {
-        // this.requisitions.add(new Requisition(Long.valueOf(i + 1)));
-        // }
     }
 
-    // -------------------------------------------------------------------------
-    //
-    // Methods Handlers
-    //
-    // -------------------------------------------------------------------------
+    // ~ Methods Handlers
+    // ========================================================================================================
     /**
      * Search.
      */
     public void search() {
         System.out.println("Search operation");
         this.requisitions = this.requisitionService.search(this.filter);
+    }
+
+    /**
+     * define style of the XLS document
+     * @param document
+     *            document to define style
+     */
+    @SuppressWarnings("static-method")
+    public void exportToXls(final Object document) {
+        final HSSFWorkbook documentPoi = (HSSFWorkbook) document;
+
+        // getFirts page
+        final HSSFSheet firtsPage = documentPoi.getSheetAt(0);
+        final HSSFRow header = firtsPage.getRow(0);
+        final HSSFCellStyle style = documentPoi.createCellStyle();
+
+        final HSSFFont headerFont = documentPoi.createFont();
+        headerFont.setColor(IndexedColors.WHITE.getIndex());
+        headerFont.setBold(true);
+        headerFont.setFontHeightInPoints((short) 16);
+
+        style.setFont(headerFont);
+        style.setFillForegroundColor(IndexedColors.BLACK.getIndex());
+        style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+        for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
+            header.getCell(i).setCellStyle(style);
+        }
     }
 
     // -------------------------------------------------------------------------
