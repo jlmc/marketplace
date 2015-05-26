@@ -95,11 +95,8 @@ public class RequisitionSearchBean implements Serializable {
         }
     }
 
-    // -------------------------------------------------------------------------
-    //
-    // Getters and Setters properties
-    //
-    // -------------------------------------------------------------------------
+    // ~ Getters and Setters properties
+    // ========================================================================================================
     /**
      * Gets the requisitions.
      * @return the requisitions
