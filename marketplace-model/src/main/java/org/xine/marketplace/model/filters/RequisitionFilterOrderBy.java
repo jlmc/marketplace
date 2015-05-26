@@ -3,7 +3,8 @@ package org.xine.marketplace.model.filters;
 import java.io.Serializable;
 
 /**
- * The Class RequisitionFilterOrderBy, definition of the order by to use on the requisition filter operation.
+ * The Class RequisitionFilterOrderBy, definition of the order by to use on the requisition filter
+ * operation.
  * @author Joao Costa
  */
 public class RequisitionFilterOrderBy implements Serializable {
@@ -39,7 +40,8 @@ public class RequisitionFilterOrderBy implements Serializable {
      * @param descendent
      *            the ascendant
      */
-    public RequisitionFilterOrderBy(final RequisitionFilterOrderByType type, final boolean descendent) {
+    public RequisitionFilterOrderBy(final RequisitionFilterOrderByType type,
+            final boolean descendent) {
         super();
         this.orderByType = type;
         this.descendent = descendent;

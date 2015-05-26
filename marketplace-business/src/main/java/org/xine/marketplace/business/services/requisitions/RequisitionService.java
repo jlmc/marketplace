@@ -185,4 +185,24 @@ public class RequisitionService implements Serializable {
         return requisition;
     }
 
+    /**
+     * Filtrate.
+     * @param filter
+     *            the filter
+     * @return the list
+     */
+    public List<Requisition> filtrate(final RequisitionFilter filter) {
+        return this.requisitionsRepository.filters(filter);
+    }
+
+    /**
+     * Filtrate count.
+     * @param filter
+     *            the filter
+     * @return the int
+     */
+    public int filtrateCount(final RequisitionFilter filter) {
+        return this.requisitionsRepository.countFilters(filter).intValue();
+    }
+
 }

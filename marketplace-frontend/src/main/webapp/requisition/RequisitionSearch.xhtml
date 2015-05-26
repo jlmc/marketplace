@@ -20,11 +20,11 @@
 			<p:toolbar style="margin-top: 20px">
 				<p:toolbarGroup>
 					<p:commandButton value="Search" id="search-button"
-						action="#{requisitionSearchBean.search}" update="@form" />
+						 update="@form" />
+						
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
-					<p:commandButton value="Export to XLS" ajax="false"
-						disabled="#{empty requisitionSearchBean.requisitions}">
+					<p:commandButton value="Export to XLS" ajax="false">
 						<p:dataExporter type="xls" target="ordersTable"
 							fileName="requisition"
 							postProcessor="#{requisitionSearchBean.exportToXls}" />
@@ -77,37 +77,38 @@
 
 
 			<p:dataTable id="ordersTable"
-				value="#{requisitionSearchBean.requisitions}" var="req"
+				value="#{requisitionSearchBean.model}" var="req"
 				style="margin-top: 20px" emptyMessage="No Requisitions Found."
-				rows="20" paginator="true" paginatorAlwaysVisible="false"
-				paginatorPosition="bottom">
+				rows="10" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom"
+				lazy="true">
 
 				<p:column headerText="Number"
-					style="text-align: center; width: 100px">
+					style="text-align: center; width: 100px" sortBy="#{req.id}">
 					<h:outputText value="#{req.id}" />
 				</p:column>
-				<p:column headerText="Client">
+				<p:column headerText="Client" sortBy="#{req.client.name}">
 					<h:outputText value="#{req.client.name}" />
 				</p:column>
-				<p:column headerText="Seller">
+				<p:column headerText="Seller" sortBy="#{req.seller.username}">
 					<h:outputText value="#{req.seller.username}" />
 				</p:column>
 				<p:column headerText="Creation date"
-					style="text-align: center; width: 140px">
+					style="text-align: center; width: 140px" sortBy="#{req.creationDate}">
 					<h:outputText value="#{req.creationDate}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
 				<p:column headerText="Total Value"
-					style="text-align: right; width: 120px">
+					style="text-align: right; width: 120px" sortBy="#{req.totalValue}">
 					<h:outputText value="#{req.totalValue}">
-						<f:convertNumber type="currency" currencySymbol="€" locale="pt-PT" />
+						<f:convertNumber type="currency" currencySymbol="€" locale="pt" />
 					</h:outputText>
 				</p:column>
 				<p:column headerText="Status" style="width: 100px">
 					<h:outputText value="#{req.status.description}" />
 				</p:column>
-				<p:column style="text-align: center; width: 50px">
+				<p:column style="text-align: center; width: 50px" exportable="false">
 					<p:button icon="ui-icon-pencil" title="Editar"
 						outcome="/requisition/RequisitionRegistration">
 						<f:param name="requisition" value="#{req.id}" />

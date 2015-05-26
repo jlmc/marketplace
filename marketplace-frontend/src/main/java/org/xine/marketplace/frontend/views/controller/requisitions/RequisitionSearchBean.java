@@ -1,13 +1,5 @@
 package org.xine.marketplace.frontend.views.controller.requisitions;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -15,10 +7,23 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import org.xine.marketplace.business.services.requisitions.RequisitionService;
 import org.xine.marketplace.model.entities.Requisition;
 import org.xine.marketplace.model.entities.RequisitionStatus;
 import org.xine.marketplace.model.filters.RequisitionFilter;
+import org.xine.marketplace.model.filters.RequisitionFilterOrderBy;
+import org.xine.marketplace.model.filters.RequisitionFilterOrderBy.RequisitionFilterOrderByType;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * The Class RequisitionSearchBean.
@@ -33,19 +38,23 @@ public class RequisitionSearchBean implements Serializable {
 
     // ~ business services
     // ========================================================================================================
+    /** The requisition service. */
     @Inject
     private RequisitionService requisitionService;
 
     // ~ Model Variables
     // ========================================================================================================
 
-    /** The requisitions. */
-    private List<Requisition> requisitions;
+    // private List<Requisition> requisitions;
 
     /** The filter. */
     private RequisitionFilter filter;
 
+    /** The requisition status. */
     private RequisitionStatus[] requisitionStatus;
+
+    /** The model. */
+    private LazyDataModel<Requisition> model;
 
     // ~ Constructors and it Callbacks
     // ========================================================================================================
@@ -57,19 +66,72 @@ public class RequisitionSearchBean implements Serializable {
     private void postConstruct() {
         this.requisitionStatus = RequisitionStatus.values();
         this.filter = new RequisitionFilter();
+
+        this.model = new LazyDataModel<Requisition>() {
+
+            private static final long serialVersionUID = 1L;
+
+            private static final String ID = "id";
+            private static final String TOTAL_VALUE = "totalValue";
+            private static final String CREATION_DATE = "creationDate";
+            private static final String SELLER_USERNAME = "seller.username";
+            private static final String CLIENT_NAME = "client.name";
+
+            @SuppressWarnings("synthetic-access")
+            @Override
+            public List<Requisition> load(final int first, final int pageSize,
+                    final String sortField, final SortOrder sortOrder,
+                    final Map<String, Object> filters) {
+
+                getFilter().setFirstResult(first);
+                getFilter().setMaxResults(pageSize);
+
+                if (sortField != null) {
+                    getFilter().setOrderBy(new RequisitionFilterOrderBy());
+                    getFilter().getOrderBy().setDescendent(SortOrder.DESCENDING.equals(sortOrder));
+                    switch (sortField) {
+                    case ID:
+                        getFilter().getOrderBy().setOrderByType(RequisitionFilterOrderByType.ID);
+                        break;
+                    case CLIENT_NAME:
+                        getFilter().getOrderBy().setOrderByType(
+                                RequisitionFilterOrderByType.CLIENT_NAME);
+                        break;
+                    case SELLER_USERNAME:
+                        getFilter().getOrderBy().setOrderByType(
+                                RequisitionFilterOrderByType.SELLER_NAME);
+                        break;
+                    case CREATION_DATE:
+                        getFilter().getOrderBy().setOrderByType(
+                                RequisitionFilterOrderByType.CREATION_DATE);
+                        break;
+                    case TOTAL_VALUE:
+                        getFilter().getOrderBy().setOrderByType(RequisitionFilterOrderByType.VALUE);
+                        break;
+                    default:
+                        getFilter().getOrderBy().setOrderByType(null);
+                        break;
+                    }
+                }
+
+                final int count = RequisitionSearchBean.this.requisitionService
+                        .filtrateCount(getFilter());
+                setRowCount(count);
+                return RequisitionSearchBean.this.requisitionService.filtrate(getFilter());
+            }
+        };
+
     }
 
     // ~ Methods Handlers
     // ========================================================================================================
-    /**
-     * Search.
-     */
-    public void search() {
-        this.requisitions = this.requisitionService.search(this.filter);
-    }
+
+    // public void search() {
+    // // this.requisitions = this.requisitionService.search(this.filter);
+    // }
 
     /**
-     * define style of the XLS document
+     * define style of the XLS document.
      * @param document
      *            document to define style
      */
@@ -97,22 +159,13 @@ public class RequisitionSearchBean implements Serializable {
 
     // ~ Getters and Setters properties
     // ========================================================================================================
-    /**
-     * Gets the requisitions.
-     * @return the requisitions
-     */
-    public List<Requisition> getRequisitions() {
-        return this.requisitions;
-    }
+    // public List<Requisition> getRequisitions() {
+    // return this.requisitions;
+    // }
 
-    /**
-     * Sets the requisitions.
-     * @param requisitions
-     *            the new requisitions
-     */
-    public void setRequisitions(final List<Requisition> requisitions) {
-        this.requisitions = requisitions;
-    }
+    // public void setRequisitions(final List<Requisition> requisitions) {
+    // this.requisitions = requisitions;
+    // }
 
     /**
      * Gets the filter.
@@ -138,5 +191,28 @@ public class RequisitionSearchBean implements Serializable {
     public RequisitionStatus[] getRequisitionStatus() {
         return this.requisitionStatus;
     }
+
+    /**
+     * Gets the model.
+     * @return the model
+     */
+    public LazyDataModel<Requisition> getModel() {
+        return this.model;
+    }
+
+    /**
+     * Checks if is empty.
+     * @return true, if is empty
+     */
+    public boolean isModelEmpty() {
+        // #{empty requisitionSearchBean.requisitions}
+        return this.model.getRowCount() == 0;
+    }
+
+    /**
+     * Sets the size.
+     * @param value
+     *            the new size
+     */
 
 }

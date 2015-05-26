@@ -1,9 +1,9 @@
 package org.xine.marketplace.model.filters;
 
+import org.xine.marketplace.model.entities.RequisitionStatus;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import org.xine.marketplace.model.entities.RequisitionStatus;
 
 /**
  * The Class RequisitionFilter.
@@ -34,7 +34,6 @@ public class RequisitionFilter implements Serializable {
     /** The status. */
     private RequisitionStatus[] status;
 
-    // ////////////
     /** The firts record. */
     private int firstResult;
 
