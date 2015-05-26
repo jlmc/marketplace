@@ -110,7 +110,7 @@ public class RequisitionsRepository implements Serializable {
             if (filter.getCreationDateStart() != null) {
                 final Expression<Date> ds = builder.parameter(Date.class, "_ds");
                 predicates
-                .add(builder.greaterThanOrEqualTo(root.get(Requisition_.creationDate), ds));
+                        .add(builder.greaterThanOrEqualTo(root.get(Requisition_.creationDate), ds));
 
                 parameters.put("_ds", filter.getCreationDateStart());
             }
@@ -321,9 +321,9 @@ public class RequisitionsRepository implements Serializable {
                     break;
                 case CREATION_DATE:
                     criteriaQuery
-                    .orderBy(CriteriaHelper.orderBy(builder, root
-                            .get(Requisition_.creationDate), filter.getOrderBy()
-                            .isDescendent()));
+                            .orderBy(CriteriaHelper.orderBy(builder, root
+                                    .get(Requisition_.creationDate), filter.getOrderBy()
+                                    .isDescendent()));
                     break;
                 case VALUE:
                     criteriaQuery.orderBy(CriteriaHelper.orderBy(builder,
@@ -374,7 +374,7 @@ public class RequisitionsRepository implements Serializable {
         if (filter != null) {
             if (filter.getNumberStart() != null) {
                 predicates
-                .add(builder.greaterThanOrEqualTo(root.get("id"), filter.getNumberStart()));
+                        .add(builder.greaterThanOrEqualTo(root.get("id"), filter.getNumberStart()));
             }
             if (filter.getNumberEnd() != null) {
                 predicates.add(builder.lessThanOrEqualTo(root.get("id"), filter.getNumberEnd()));
