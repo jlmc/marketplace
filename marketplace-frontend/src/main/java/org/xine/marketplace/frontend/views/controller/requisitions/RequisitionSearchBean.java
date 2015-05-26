@@ -13,6 +13,7 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.xine.marketplace.business.services.requisitions.RequisitionService;
 import org.xine.marketplace.model.entities.Requisition;
@@ -78,7 +79,6 @@ public class RequisitionSearchBean implements Serializable {
     public void exportToXls(final Object document) {
         final HSSFWorkbook documentPoi = (HSSFWorkbook) document;
 
-        // getFirts page
         final HSSFSheet firtsPage = documentPoi.getSheetAt(0);
         final HSSFRow header = firtsPage.getRow(0);
         final HSSFCellStyle style = documentPoi.createCellStyle();
@@ -90,7 +90,7 @@ public class RequisitionSearchBean implements Serializable {
 
         style.setFont(headerFont);
         style.setFillForegroundColor(IndexedColors.BLACK.getIndex());
-        style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        style.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
         for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
             header.getCell(i).setCellStyle(style);

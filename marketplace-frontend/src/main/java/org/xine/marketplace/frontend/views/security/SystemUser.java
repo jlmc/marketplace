@@ -1,12 +1,14 @@
 package org.xine.marketplace.frontend.views.security;
 
+import java.util.Collection;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.xine.marketplace.model.entities.User;
 
-import java.util.Collection;
-
 /**
- * The Class SystemUser.
+ * The Class SystemUser. It is the representation of the Session user, using the spring security
+ * framework.
+ * @author Joao Costa
  */
 public class SystemUser extends org.springframework.security.core.userdetails.User {
 

@@ -1,13 +1,13 @@
 package org.xine.marketplace.business.services.requisitions;
 
-import org.xine.marketplace.business.services.charts.vo.RequisitionActivity;
-import org.xine.marketplace.model.filters.RequisitionActivityFilter;
-import org.xine.marketplace.repository.daos.RequisitionsRepository;
-
 import java.io.Serializable;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+
+import org.xine.marketplace.model.filters.RequisitionActivityFilter;
+import org.xine.marketplace.model.vo.RequisitionActivity;
+import org.xine.marketplace.repository.daos.RequisitionsRepository;
 
 /**
  * The Class RequisitionActivityService.
@@ -30,8 +30,7 @@ public class RequisitionActivityService implements Serializable {
      */
     public RequisitionActivity getRequisitionActivity(final RequisitionActivityFilter filter) {
 
-        final RequisitionActivityFilter f = (filter == null) ? new RequisitionActivityFilter()
-                : filter;
+        final RequisitionActivityFilter f = (filter == null) ? new RequisitionActivityFilter() : filter;
 
         final RequisitionActivity requisitionActivity = new RequisitionActivity();
         requisitionActivity.setGlobalTotals(this.requisitionsRepository.getTotalByDate(f));

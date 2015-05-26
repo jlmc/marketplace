@@ -15,6 +15,12 @@
 
 
     <dependencies>
+        <!--
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            APIs CDI
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+        -->
+
         <!-- CDI specification version -->
         <!-- <dependency> -->
         <!-- <groupId>javax.enterprise</groupId> -->
@@ -47,6 +53,26 @@
         </dependency>
 
         <!--
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            APIs JSF
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+        -->
+
+        <!-- Mojarra ( JSF 2 implementation reference) -->
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.faces</artifactId>
+            <version>2.2.10</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!--
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            APIs PRIMEFACES
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+        -->
+
+        <!--
             OmniFaces (utilitarios para JSF),
             useful JSF library,
             initially i used the version 1.5, but the version 2.0 now allows javax.faces.convert.Converter
@@ -59,16 +85,6 @@
             <scope>compile</scope>
         </dependency>
 
-
-        <!-- Mojarra ( JSF 2 implementation reference) -->
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.faces</artifactId>
-            <!-- <version>2.1.21</version> -->
-            <version>2.2.10</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!-- PrimeFaces (Compoments library) -->
         <dependency>
             <groupId>org.primefaces</groupId>
@@ -77,6 +93,12 @@
             <version>5.1</version>
         </dependency>
 
+
+        <!--
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            APIs LOGGER
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+        -->
 
 
         <!-- Logging API -->
