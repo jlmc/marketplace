@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * The Class LoginBean.
+ * The Class LoginBean. Bean to receve the login request.
  */
 @Named
 @SessionScoped
@@ -42,7 +42,7 @@ public class LoginBean implements Serializable {
     private HttpServletResponse response;
 
     /**
-     * Execute.
+     * Execute. Dispache the Login request to the Security API
      * @throws ServletException
      *             the servlet exception
      * @throws IOException

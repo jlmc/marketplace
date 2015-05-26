@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.xine</groupId>
         <artifactId>marketplace</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -117,6 +117,21 @@
             <artifactId>spring-security-config</artifactId>
             <version>3.2.5.RELEASE</version>
         </dependency>
+
+
+        <!--
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+            APIs EXPORT TO Exel if we need to generate pdf the dependency is itext
+            ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
+        -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.12</version>
+            <scope>compile</scope>
+        </dependency>
+
+
         <!--
             ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
             APIs MARKETPLACE

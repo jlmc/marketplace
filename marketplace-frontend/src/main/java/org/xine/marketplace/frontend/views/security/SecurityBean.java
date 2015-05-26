@@ -1,5 +1,7 @@
 package org.xine.marketplace.frontend.views.security;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import java.io.Serializable;
 import java.security.Principal;
 
@@ -10,10 +12,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
 /**
- * The Class SecurityBean.
+ * The Class Security Bean. It is a CDI Bean to retrive the current sesseion user.
+ * @author Joao Costa
  */
 @Named
 @RequestScoped
@@ -48,7 +49,8 @@ public class SecurityBean implements Serializable {
     @Produces
     @SessionSystemUser
     private SystemUser getSessionUser() {
-        final Principal principal = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal();
+        final Principal principal = FacesContext.getCurrentInstance().getExternalContext()
+                .getUserPrincipal();
         final UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) principal;
 
         if (auth != null && auth.getPrincipal() != null) {
@@ -63,7 +65,8 @@ public class SecurityBean implements Serializable {
      * @return true, if successful
      */
     public boolean isPermissionToIssueRequisition() {
-        return this.externalContext.isUserInRole("ADMIN") || this.externalContext.isUserInRole("SELLER");
+        return this.externalContext.isUserInRole("ADMIN")
+                || this.externalContext.isUserInRole("SELLER");
     }
 
     /**
@@ -71,7 +74,8 @@ public class SecurityBean implements Serializable {
      * @return true, if successful
      */
     public boolean isPermissionToCancelRequisition() {
-        return this.externalContext.isUserInRole("ADMIN") || this.externalContext.isUserInRole("SELLER");
+        return this.externalContext.isUserInRole("ADMIN")
+                || this.externalContext.isUserInRole("SELLER");
     }
 
 }

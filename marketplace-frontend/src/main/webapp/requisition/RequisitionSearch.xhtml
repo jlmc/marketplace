@@ -23,6 +23,13 @@
 						action="#{requisitionSearchBean.search}" update="@form" />
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
+				
+					<p:commandButton value="Export to XLS" ajax="false" 
+						disabled="#{empty requisitionSearchBean.requisitions}">
+						<p:dataExporter type="xls" target="ordersTable"
+							fileName="requisition" postProcessor="#{requisitionSearchBean.exportToXls}" />
+					</p:commandButton>
+				
 					<p:button value="New"
 						outcome="/requisition/RequisitionRegistration" />
 				</p:toolbarGroup>
@@ -99,7 +106,7 @@
 				<p:column headerText="Status" style="width: 100px">
 					<h:outputText value="#{req.status.description}" />
 				</p:column>
-				<p:column style="text-align: center; width: 50px">
+				<p:column style="text-align: center; width: 50px" exportable="false">
 					<p:button icon="ui-icon-pencil" title="Editar"
 						outcome="/requisition/RequisitionRegistration">
 						<f:param name="requisition" value="#{req.id}" />
