@@ -7,14 +7,16 @@ import java.time.ZoneId;
 import java.util.Date;
 
 /**
- * The Class DateUtils.
+ * The Class DateUtils, contains a lot of common methods considering convert {@code java.util.Date} to
+ * the {@code java.time.*} types from JDK 1.8.
  */
 public final class DateUtils {
 
     /**
      * Instantiates a new date utils.
      */
-    private DateUtils() {}
+    private DateUtils() {
+    }
 
     /**
      * As date, convert a LocalDate to Date.
@@ -53,8 +55,7 @@ public final class DateUtils {
      * @return the local date time
      */
     public static LocalDateTime asLocalDateTime(final Date date) {
-        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
+        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
 }
