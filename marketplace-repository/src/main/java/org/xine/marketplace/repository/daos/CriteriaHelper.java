@@ -95,7 +95,8 @@ final class CriteriaHelper {
      *            the pattern the pattern to use in the operation.
      * @return the predicate
      */
-    public static Predicate ilike(final CriteriaBuilder builder, final Expression<String> path, final String pattern) {
+    public static Predicate ilike(final CriteriaBuilder builder, final Expression<String> path,
+            final String pattern) {
         return ilike(builder, path, pattern, MatchMode.EXACT);
 
     }
@@ -114,7 +115,8 @@ final class CriteriaHelper {
      *            the exact, by default is used {@code MatchMode.EXACT} .
      * @return the predicate
      */
-    public static Predicate ilike(final CriteriaBuilder builder, final Expression<String> path, final String pattern, final MatchMode exact) {
+    public static Predicate ilike(final CriteriaBuilder builder, final Expression<String> path,
+            final String pattern, final MatchMode exact) {
         if (pattern == null) {
             throw new IllegalArgumentException("Comparison value passed to ilike cannot be null");
         }
@@ -133,7 +135,8 @@ final class CriteriaHelper {
      *            the is descendent - define if is asc or desc, is desc if true, asc otherwise
      * @return the order
      */
-    public static Order orderBy(final CriteriaBuilder builder, final Expression<?> expression, final boolean isDescendent) {
+    public static Order orderBy(final CriteriaBuilder builder, final Expression<?> expression,
+            final boolean isDescendent) {
         if (isDescendent) {
             return builder.desc(expression);
 
@@ -152,4 +155,19 @@ final class CriteriaHelper {
     public static Order orderBy(final CriteriaBuilder builder, final Expression<?> expression) {
         return orderBy(builder, expression, false);
     }
+
+    /**
+     * Cacheable.
+     * @param <X>
+     *            the generic type
+     * @param typedQuery
+     *            the typed query
+     * @return the typed query
+     */
+    public static <X> TypedQuery<X> cacheable(final TypedQuery<X> typedQuery) {
+        typedQuery.setHint("org.hibernate.cacheable", Boolean.TRUE);
+        // typedQuery.unwrap(org.hibernate.Query.class).setCacheable(true)
+        return typedQuery;
+    }
+
 }

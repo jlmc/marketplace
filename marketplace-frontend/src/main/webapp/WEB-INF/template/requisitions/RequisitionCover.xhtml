@@ -34,7 +34,7 @@
 
 
 		<p:outputLabel value="Seller" for="vendedor" />
-		<p:autoComplete id="vendedor" size="40" dropdown="true"
+		<p:autoComplete id="vendedor" size="35" dropdown="true"
 			style="margin-right:15px; padding-right: 10px;"
 			value="#{requisitionSaverBean.requisition.seller}"
 			completeMethod="#{requisitionSaverBean.completeSeller}" var="s"
@@ -45,8 +45,8 @@
 
 
 		<p:outputLabel value="Client" for="client" />
-		<h:panelGroup>
-			<p:inputText id="client" size="40"
+		<h:panelGroup style="white-space:nowrap;">
+			<p:inputText id="client" size="35"
 				style="margin-right:15px; padding-right: 10px;"
 				value="#{requisitionSaverBean.clientName}"
 				readonly="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}" />

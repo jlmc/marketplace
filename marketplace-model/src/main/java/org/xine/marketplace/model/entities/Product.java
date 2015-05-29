@@ -138,6 +138,8 @@ public class Product implements Serializable {
      * Gets the unit value.
      * @return the unit value
      */
+    @NotNull
+    @Min(value = 1)
     @Column(name = "Unit_Value", nullable = false, precision = 10, scale = 2)
     public BigDecimal getUnitValue() {
         return this.unitValue;
@@ -177,6 +179,7 @@ public class Product implements Serializable {
      * Gets the category.
      * @return the category
      */
+    @NotNull
     // @ManyToOne
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)

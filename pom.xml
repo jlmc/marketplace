@@ -88,6 +88,17 @@
                 <scope>compile</scope>
             </dependency>
 
+
+            <!-- JPA CaChe 2 level test version, don't use in production -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-testing</artifactId>
+                <version>${hibernate.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+
             <!--
                 ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
                 APIs JDBC
@@ -180,12 +191,12 @@
                 ««««»»»»»««««««««««««««««««««««««««««««««««««««««««««««
             -->
             <!-- Spring -->
-<!--             <dependency> -->
-<!--                 <groupId>org.springframework.security</groupId> -->
-<!--                 <artifactId>spring-security-web</artifactId> -->
-<!--                 <version>4.0.1.RELEASE</version> -->
-<!--                 <scope>compile</scope> -->
-<!--             </dependency> -->
+            <!-- <dependency> -->
+            <!-- <groupId>org.springframework.security</groupId> -->
+            <!-- <artifactId>spring-security-web</artifactId> -->
+            <!-- <version>4.0.1.RELEASE</version> -->
+            <!-- <scope>compile</scope> -->
+            <!-- </dependency> -->
 
 
             <!--

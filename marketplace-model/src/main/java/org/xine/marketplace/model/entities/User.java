@@ -1,5 +1,7 @@
 package org.xine.marketplace.model.entities;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.xine.marketplace.validator.constraints.Email;
 
 import java.io.Serializable;
@@ -24,6 +26,7 @@ import javax.validation.constraints.Size;
 /**
  * The Class User.
  */
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "user", indexes = {@Index(columnList = "username", unique = true) })
 public class User implements Serializable {
@@ -153,6 +156,7 @@ public class User implements Serializable {
      * Gets the permissions.
      * @return the permissions
      */
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @ManyToMany(cascade = {CascadeType.ALL })
     @JoinTable(name = "user_permission", joinColumns = {@JoinColumn(name = "user_id") }, inverseJoinColumns = {@JoinColumn(name = "permission_id") })
     public Set<Permission> getPermissions() {

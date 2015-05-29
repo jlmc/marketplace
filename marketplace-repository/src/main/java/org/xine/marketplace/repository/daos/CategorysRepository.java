@@ -50,6 +50,8 @@ public class CategorysRepository implements Serializable {
 
         // EXECUTE - get the query to execute
         final TypedQuery<Category> query = this.manager.createQuery(cq);
+        CriteriaHelper.cacheable(query);
+
         final List<Category> categorys = query.getResultList();
 
         return categorys;
@@ -78,6 +80,9 @@ public class CategorysRepository implements Serializable {
         final TypedQuery<Category> query = this.manager.createQuery(cq);
 
         query.setParameter("CATEGORY", father);
+
+        CriteriaHelper.cacheable(query);
+
         final List<Category> subCategories = query.getResultList();
         return subCategories;
     }

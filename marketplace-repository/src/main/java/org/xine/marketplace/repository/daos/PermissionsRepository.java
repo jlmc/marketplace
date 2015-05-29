@@ -39,6 +39,7 @@ public class PermissionsRepository implements Serializable {
         criteriaQuery.orderBy(builder.asc(builder.upper(root.get(Permission_.name))));
 
         final TypedQuery<Permission> typedQuery = this.entityManager.createQuery(criteriaQuery);
+        CriteriaHelper.cacheable(typedQuery);
         return typedQuery.getResultList();
     }
 

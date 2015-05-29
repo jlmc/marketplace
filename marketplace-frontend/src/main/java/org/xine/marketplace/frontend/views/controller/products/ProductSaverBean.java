@@ -78,7 +78,7 @@ public class ProductSaverBean implements Serializable {
 
         this.product = this.service.save(this.product);
 
-        FacesUtil.addInfoMessage("Produto savo com sucesso");
+        FacesUtil.addInfoMessage("Product " + this.product.getSku() + " saved.");
 
         if (!isEdit()) {
             clean();
@@ -144,17 +144,15 @@ public class ProductSaverBean implements Serializable {
 
     /**
      * Sets the product.
-     * @param product
+     * @param prod
      *            the new product
      */
-    public void setProduct(final Product product) {
-        this.product = product;
-
-        if (this.product != null) {
+    public void setProduct(final Product prod) {
+        if (prod != null) {
+            this.product = prod;
             // load the category
             if (this.product.getCategory() != null) {
                 this.categoryMaster = this.product.getCategory().getMasterCategory();
-
             }
         }
     }

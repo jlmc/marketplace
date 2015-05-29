@@ -1,5 +1,8 @@
 package org.xine.marketplace.model.entities;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -20,6 +23,7 @@ import javax.persistence.Table;
 /**
  * The Class Category.
  */
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Entity
 @Table(name = "category")
 public class Category implements Serializable {
@@ -80,7 +84,7 @@ public class Category implements Serializable {
      * Gets the master category.
      * @return the master category
      */
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "masterCategory")
     public Category getMasterCategory() {
         return this.masterCategory;
@@ -99,6 +103,7 @@ public class Category implements Serializable {
      * Gets the sub categories.
      * @return the sub categories
      */
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @OneToMany(mappedBy = "masterCategory", cascade = CascadeType.ALL)
     public Set<Category> getSubCategories() {
         return this.subCategories;

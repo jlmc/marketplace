@@ -1,5 +1,8 @@
 package org.xine.marketplace.model.entities;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,8 +18,9 @@ import javax.persistence.Table;
 /**
  * The Class Permission.
  */
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 @Entity
-@Table(name="permission")
+@Table(name = "permission")
 public class Permission implements Serializable {
 
     /** The Constant serialVersionUID. */
