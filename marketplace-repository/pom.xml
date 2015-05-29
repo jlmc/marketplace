@@ -36,11 +36,27 @@
         </dependency>
 
         <!--Cache 2 level hibernate test -->
+<!--         <dependency> -->
+<!--             <groupId>org.hibernate</groupId> -->
+<!--             <artifactId>hibernate-testing</artifactId> -->
+<!--             <scope>compile</scope> -->
+<!--         </dependency> -->
+
+        <!-- ehcache -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-testing</artifactId>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>2.6.11</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+
 
         <!-- connection pool -->
         <dependency>
