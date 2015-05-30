@@ -8,7 +8,7 @@ Caso 1: Quando se pretende se fala em actualizaço simultania, por exemplo conta
 
 ```
 
-//----------------------------------------------
+
 caso 2: enquanto se edita alguem apaga o registo
 -- select ... lock in share mode
 -- ou seja pode ler mas não editar ou apagar
