@@ -16,20 +16,36 @@ public final class CDIServiceLocator {
     /**
      * Instantiates a new CDI service locator.
      */
-    private CDIServiceLocator() {
-    }
+    private CDIServiceLocator() {}
 
     /**
      * Gets the bean manager.
      * @return the bean manager
      */
     private static BeanManager getBeanManager() {
-        try {
-            final InitialContext initialContext = new InitialContext();
-            return (BeanManager) initialContext.lookup("java:comp/env/BeanManager");
-        } catch (final NamingException e) {
-            throw new RuntimeException("Could not find BeanManager no JNDI.");
+        final String[] names = new String[] {"java:comp/env/BeanManager", "java:comp/BeanManager" };
+        for (final String name : names) {
+            try {
+                return lookup(name);
+            } catch (final NamingException e) {
+                //
+            }
         }
+        throw new RuntimeException("Could not find BeanManager no JNDI.");
+    }
+
+    /**
+     * Lookup.
+     * @param name
+     *            the name
+     * @return the t
+     * @throws NamingException
+     *             the naming exception
+     */
+    @SuppressWarnings("unchecked")
+    private static <T> T lookup(final String name) throws NamingException {
+        final InitialContext initialContext = new InitialContext();
+        return (T) initialContext.lookup(name);
     }
 
     /**

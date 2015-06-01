@@ -8,31 +8,47 @@
     </parent>
     <artifactId>marketplace-business</artifactId>
 
+    <developers>
+        <developer>
+            <name>Joao Costa</name>
+            <email>costajlmpp@gmail.com</email>
+            <url>https://github.com/jlmc</url>
+        </developer>
+    </developers>
+    <name>marketplace business layer</name>
+    <url>https://github.com/jlmc/marketplace/tree/master/marketplace-business</url>
+    <description>business layer using CDI 1.2</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
+
     <dependencies>
-        <!-- 
+        <!--
             CDI API and speficication dependencies
-         -->
+        -->
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- Weld depende do Jandex we need jandex because weld-servlet dependends of him-->
+        <!-- Weld depende do Jandex we need jandex because weld-servlet dependends of him -->
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jandex</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        
-        
-        <!-- 
+
+
+        <!--
             MAIL
-        
-            org.xine simple-email is another project on github page of JLMC: 
+
+            org.xine simple-email is another project on github page of JLMC:
             https://github.com/jlmc/simple-email
-            
-            That API was created in order to facilitate sending emails, this project is very 
+
+            That API was created in order to facilitate sending emails, this project is very
             good opportunity to use it
         -->
         <dependency>
@@ -40,7 +56,7 @@
             <artifactId>simple-email</artifactId>
             <scope>compile</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
@@ -60,9 +76,9 @@
         </dependency>
 
 
-        <!-- 
+        <!--
             Internal Project Dependencies
-         -->
+        -->
         <dependency>
             <groupId>org.xine</groupId>
             <artifactId>marketplace-model</artifactId>
@@ -76,8 +92,8 @@
         </dependency>
 
 
-        <!-- 
-            TESTING DEPENDENCIES 
+        <!--
+            TESTING DEPENDENCIES
         -->
         <!-- Junit for Unit Test -->
         <dependency>
@@ -100,4 +116,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

@@ -8,11 +8,22 @@
     </parent>
     <artifactId>marketplace-model</artifactId>
 
+    <developers>
+        <developer>
+            <name>Joao Costa</name>
+            <email>costajlmpp@gmail.com</email>
+            <url>https://github.com/jlmc</url>
+        </developer>
+    </developers>
+    <name>marketplace model layer</name>
+    <url>https://github.com/jlmc/marketplace/tree/master/marketplace-model</url>
+    <description>model layer</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
-
-
-
         <!-- Hibernate dependencies -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -62,7 +73,7 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                    <!-- necessary to generate the Metamodel, with this we compile the anotations just 
+                    <!-- necessary to generate the Metamodel, with this we compile the anotations just
                         one time -->
                     <compilerArgument>-proc:none</compilerArgument>
                 </configuration>

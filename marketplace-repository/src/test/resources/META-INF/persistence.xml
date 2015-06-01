@@ -19,6 +19,9 @@
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 		
+        
+                   <!-- Cache  2 level-->
+            <property name="hibernate.cache.use_second_level_cache" value="false"/>
 		</properties>
 	</persistence-unit>
 </persistence>
