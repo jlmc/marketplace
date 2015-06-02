@@ -17,7 +17,7 @@
             <url>https://github.com/jlmc</url>
         </developer>
     </developers>
-    <name>marketplace business layer</name>
+    <name>marketplace frontend layer</name>
     <url>https://github.com/jlmc/marketplace/tree/master/marketplace-frontend</url>
     <description>frontend layer using CDI 1.2, JSF 2 and and primefaces</description>
 
