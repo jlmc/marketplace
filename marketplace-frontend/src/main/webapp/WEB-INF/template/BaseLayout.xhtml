@@ -9,96 +9,126 @@
 	xmlns:p="http://primefaces.org/ui">
 
 
+<f:view contentType="text/html" locale="#{localeBean.currentLocale}">
 
-<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-	<title><ui:insert name="title">Sales Orders System</ui:insert>
-	</title>
+		<title><ui:insert name="title">Sales Orders System</ui:insert>
+		</title>
 
-	<h:outputStylesheet name="system.css" library="css" />
-	<h:outputScript library="js" name="jquery.maskMoney.js" />
+		<h:outputStylesheet name="system.css" library="css" />
+		<h:outputScript library="js" name="jquery.maskMoney.js" />
 
-</h:head>
-<h:body>
+	</h:head>
+	<h:body>
 
-	<p:ajaxStatus styleClass="ajaxstatus"
-		onsuccess="configurationCurrency()">
-		<f:facet name="start">
-			<h:graphicImage library="images" name="loading.gif" />
-		</f:facet>
-		<f:facet name="complete">
-			<h:outputText value="" />
-		</f:facet>
-	</p:ajaxStatus>
+		<p:ajaxStatus styleClass="ajaxstatus"
+			onsuccess="configurationCurrency()">
+			<f:facet name="start">
+				<h:graphicImage library="images" name="loading.gif" />
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
 
 
-	<header>
-		<div style="float: left;">
-			<h:link outcome="/Home">
-				<h:graphicImage library="images" name="logo-xine.png" />
-			</h:link>
+		<header>
+			<div style="float: left;">
+				<h:link outcome="/Home">
+					<h:graphicImage library="images" name="logo-xine.png" />
+				</h:link>
+			</div>
+			<div style="float: right; margin-right: 5px;">
+				<span
+					style="float: left; height: 30px; line-height: 30px; margin-right: 60px;">
+					 #{msg.hello} #{securityBean.username}! </span>
+
+				<h:form style="display: inline-block; margin-right: 50px;">
+
+
+
+					<p:menubar styleClass="system-menu">
+						<p:submenu label="Registers">
+							<p:menuitem value="Clients" outcome="/clients/ClientRegistration" />
+							<p:menuitem value="Users" outcome="/users/UserRegistration" />
+							<p:separator />
+
+							<p:menuitem value="Products"
+								outcome="/products/ProductRegistration" />
+						</p:submenu>
+						<p:submenu label="Requisitions">
+							<p:menuitem value="Create"
+								outcome="/requisition/RequisitionRegistration" />
+							<p:menuitem value="Search Orders"
+								outcome="/requisition/RequisitionSearch" />
+						</p:submenu>
+						<p:submenu label="Reports">
+							<p:menuitem value="Issue Requisition"
+								outcome="/reports/RequisitionReport.xhtml" />
+
+						</p:submenu>
+
+						<p:menuitem value="Logout" url="/j_spring_security_logout" />
+					</p:menubar>
+
+
+
+				</h:form>
+
+
+				<div
+					style="height: 30px; vertical-align: middle; width: 60px; float: right; margin: 5px;">
+					<h:form style="display: inline-block; ">
+						<h:panelGrid columns="2">
+							<p:commandLink title="en" action="#{localeBean.portugueseLocale}"
+								update="@all" style="padding:0 2 0 2 0;">
+								<h:graphicImage library="images" name="flag_4.gif"
+									id="ptFlagImg" />
+							</p:commandLink>
+
+							<p:commandLink title="en" action="#{localeBean.englishLocale}"
+								update="@all" style="padding:0 2 0 2 0;">
+								<h:graphicImage library="images" name="flag_5.gif"
+									id="enFlagImg" />
+							</p:commandLink>
+						</h:panelGrid>
+					</h:form>
+
+				</div>
+
+			</div>
+			<div style="clear: both;" />
+		</header>
+
+
+		<div id="content">
+			<ui:insert name="contentBody" />
 		</div>
-		<div style="float: right; margin-right: 110px;">
-			<span
-				style="float: left; height: 30px; line-height: 30px; margin-right: 60px;">
-				Hello #{securityBean.username}! </span>
-
-			<h:form style="display: inline-block">
-				<p:menubar styleClass="system-menu">
-					<p:submenu label="Registers">
-						<p:menuitem value="Clients" outcome="/clients/ClientRegistration" />
-						<p:menuitem value="Users" outcome="/users/UserRegistration" />
-						<p:separator />
-
-						<p:menuitem value="Products"
-							outcome="/products/ProductRegistration" />
-					</p:submenu>
-					<p:submenu label="Requisitions">
-						<p:menuitem value="Create"
-							outcome="/requisition/RequisitionRegistration" />
-						<p:menuitem value="Search Orders"
-							outcome="/requisition/RequisitionSearch" />
-					</p:submenu>
-					<p:submenu label="Reports">
-						<p:menuitem value="Issue Requisition"
-							outcome="/reports/RequisitionReport.xhtml" />
-
-					</p:submenu>
-
-					<p:menuitem value="Logout" url="/j_spring_security_logout" />
-				</p:menubar>
-			</h:form>
-		</div>
-		<div style="clear: both;" />
-	</header>
 
 
-	<div id="content">
-		<ui:insert name="contentBody" />
-	</div>
+		<p:separator style="margin-top: 20px" />
+		<footer>
+			Master Sales Orders System with JSF, CDI, JPA and Prime Faces - <a
+				href="https://github.com/jlmc" target="_blank">https://github.com/jlmc</a>
+		</footer>
 
 
-	<p:separator style="margin-top: 20px" />
-	<footer>
-		Master Sales Orders System with JSF, CDI, JPA and Prime Faces - <a
-			href="https://github.com/jlmc" target="_blank">https://github.com/jlmc</a>
-	</footer>
+		<script>
+			function configurationCurrency() {
+				$(".currency").maskMoney({
+					decimal : ",",
+					thousands : ".",
+					allowZero : true
+				});
+			}
 
-
-	<script>
-		function configurationCurrency() {
-			$(".currency").maskMoney({
-				decimal : ",",
-				thousands : ".",
-				allowZero : true
+			$(document).ready(function() {
+				configurationCurrency();
 			});
-		}
+		</script>
 
-		$(document).ready(function() {
-			configurationCurrency();
-		});
-	</script>
-
-</h:body>
+	</h:body>
+</f:view>
 </html>
