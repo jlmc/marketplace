@@ -47,7 +47,7 @@ public class LocaleBean implements Serializable {
      */
     public void portugueseLocale() {
         final UIViewRoot viewRoot = this.facesContext.getViewRoot();
-        this.currentLocale = new Locale("pt", "BR");
+        this.currentLocale = new Locale("pt");
         viewRoot.setLocale(this.currentLocale);
     }
 
