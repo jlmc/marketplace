@@ -1,10 +1,13 @@
 package org.xine.marketplace.frontend.views.controller.locale;
 
+import org.xine.marketplace.frontend.views.controller.locale.event.LocaleChangedEvent;
+
 import java.io.Serializable;
 import java.util.Locale;
 
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.enterprise.inject.Produces;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -28,6 +31,10 @@ public class LocaleBean implements Serializable {
     /** The current locale. */
     private Locale currentLocale = Locale.ENGLISH;
 
+    /** The requisition changed event. */
+    @Inject
+    private Event<LocaleChangedEvent> localeChangeEvent;
+
     @Produces
     @RequestScoped
     public Locale getLocale() {
@@ -40,6 +47,7 @@ public class LocaleBean implements Serializable {
     public void englishLocale() {
         this.currentLocale = Locale.ENGLISH;
         this.facesContext.getViewRoot().setLocale(Locale.ENGLISH);
+        this.localeChangeEvent.fire(new LocaleChangedEvent(this.currentLocale));
     }
 
     /**
@@ -49,6 +57,7 @@ public class LocaleBean implements Serializable {
         final UIViewRoot viewRoot = this.facesContext.getViewRoot();
         this.currentLocale = new Locale("pt");
         viewRoot.setLocale(this.currentLocale);
+        this.localeChangeEvent.fire(new LocaleChangedEvent(this.currentLocale));
     }
 
     /**
