@@ -152,10 +152,6 @@ public class RequisitionSaverBean implements Serializable {
         }
     }
 
-    // public List<Client> completeClient(final String clientName) {
-    // return this.requisitionService.searchClientByName(clientName);
-    // }
-
     /**
      * Handler Client selected on Dialod Box returns.
      * @param event
