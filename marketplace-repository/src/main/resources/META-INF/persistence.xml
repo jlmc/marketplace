@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    <persistence-unit name="marketplace-repository" transaction-type="RESOURCE_LOCAL">
-
+    <persistence-unit name="marketplace-repository-PU" transaction-type="RESOURCE_LOCAL">
+        <non-jta-data-source>java:comp/env/jdbc/marketplaceDataSource</non-jta-data-source>
+        
         <class>org.xine.marketplace.model.entities.User</class>
         <class>org.xine.marketplace.model.entities.Permission</class>
         <class>org.xine.marketplace.model.entities.Product</class>
@@ -12,10 +13,13 @@
         <class>org.xine.marketplace.model.entities.Requisition</class>
 
         <properties>
+           
+           <!-- 
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/marketplacerepository" />
             <property name="javax.persistence.jdbc.user" value="root" />
             <property name="javax.persistence.jdbc.password" value="password" />
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            -->
 
             <!--
                 values:
@@ -43,6 +47,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
 
             <!-- C3P0 pool connection configuration - use this in production -->
+          <!-- 
             <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
             <property name="hibernate.c3p0.max_size" value="20" />
             <property name="hibernate.c3p0.min_size" value="5" />
@@ -50,6 +55,7 @@
             <property name="hibernate.c3p0.idle_test_period" value="300" />
             <property name="hibernate.c3p0.max_statements" value="50" />
             <property name="hibernate.c3p0.timeout" value="300" />
+           -->
 
             <!-- Cache  2 level-->
             <property name="hibernate.cache.use_second_level_cache" value="true"/>
