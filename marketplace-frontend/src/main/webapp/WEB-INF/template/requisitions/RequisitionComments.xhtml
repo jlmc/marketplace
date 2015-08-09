@@ -10,11 +10,41 @@
 
 	<h:panelGroup layout="block" style="padding-right: 10px">
 		<p:outputLabel value="Comments" for="comments" />
-		<p:inputTextarea id="comments" rows="10" style="width: 100%"
-			counter="display" value="#{requisitionSaverBean.requisition.notes}"
-			maxlength="1024" counterTemplate="{0} characters remaining."
-			autoResize="false"
-			disabled="#{requisitionSaverBean.requisition.notEditable}" />
-		<h:outputText id="display" style="font-size:.8em"/>
+		
+		  <p:editor id="comments" styleClass="myeditor"
+		  			widgetVar="editorWidget" 
+		  			value="#{requisitionSaverBean.requisition.notes}" 
+		  			onchange="bindiframe()"
+		  			maxlength="1024"
+		  			style="width: 100%" />
+		  <h:outputText id="txt" value="" styleClass="myTxt"/>
+		   <script type="text/javascript">
+                var imax = 1024;
+                
+               
+                
+                function bindiframe(){
+                    $('.myeditor').find('iframe').contents().find("body").on('keyup', function(e) {
+                        ilength = $('.myeditor').find('iframe').contents().find("body").text().length;
+                        $('.myTxt').html('Remain:' + (imax - ilength));
+                    });
+                }
+                
+//                 $(document).ready(function() {
+//                 	bindiframe();
+//     			});
+            </script>
+		
+		
+		
+<!-- 		<p:inputTextarea id="comments" rows="10" style="width: 100%" -->
+<!-- 			counter="display" value="#{requisitionSaverBean.requisition.notes}" -->
+<!-- 			maxlength="1024" counterTemplate="{0} characters remaining." -->
+<!-- 			autoResize="false" -->
+<!-- 			disabled="#{requisitionSaverBean.requisition.notEditable}" /> -->
+			
+			
+			
+<!-- 		<h:outputText id="display" style="font-size:.8em"/> -->
 	</h:panelGroup>
 </ui:composition>
