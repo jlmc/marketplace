@@ -16,7 +16,7 @@ Map an Entity Bean object to an object DTO can be difficult when, for example is
   ```
 
 ## we can create a copy of the entity without any referency of Hibernate proxys
-´´´´
+  ```
 
 		MyEntity u = this.manager.find(MyEntity.class, 1L);
 		assertEquals("Abcd", u.getNane());
@@ -25,5 +25,5 @@ Map an Entity Bean object to an object DTO can be difficult when, for example is
 		MyEntity copy = copiador.hibernate2dto(u);
 		
 		assertNull(copy.getEndereco());
-```
+  ```
 	
