@@ -17,10 +17,12 @@ Map an Entity Bean object to an object DTO can be difficult when, for example is
 
 ## we can create a copy of the entity without any referency of Hibernate proxys
 ´´´´
-    MyEntity myentityCopy = entitymanager.find(MyEntity.class, 1L);
-
-		Hibernate3DtoCopier copiador = new Hibernate3DtoCopier();
-		//build a copy without the hibernate proxys...
-		MyEntity myentityCopy = copiador.hibernate2dto();
+		MyEntity u = this.manager.find(MyEntity.class, 1L);
+		assertEquals("Abcd", u.getNane());
+		
+		Hibernate3DtoCopier copier = new Hibernate3DtoCopier();
+		MyEntity copy = copiador.hibernate2dto(u);
+		
+		assertNull(copy.getEndereco());
 ```
 	
