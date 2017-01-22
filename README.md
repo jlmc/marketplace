@@ -13,7 +13,7 @@ You can use this project as a starting template for building a Web Application
 
 ## Using environment
 
-This project was developed and tested with Application Server Tomcat 8
+This project was developed and tested with the servlet container Apache Tomcat 8
 
 
 
